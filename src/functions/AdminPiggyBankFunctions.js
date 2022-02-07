@@ -1,4 +1,5 @@
 const Aux = require("./AuxiliaryFunctions.js");
+const BigNumber = require('bignumber.js');
 
 export var TransferTo = "";
 export var TransferAmount = "";
@@ -10,10 +11,10 @@ export async function RetrieveTransferInfo(contract){
     try{
       let response = await contract.methods.retrieveTransferInfo().call();
 
-      TransferTo = response[0];
-      TransferAmount = response[1];
-      TransferValidations = response[2];
-      TransferRejections = response[3];
+      TransferTo = response[0]._to;
+      TransferAmount = new BigNumber(response[0]._amount);
+      TransferValidations = new BigNumber(response[0]._validations);
+      TransferRejections = new BigNumber(response[0]._rejections);
 
     }
     catch(e){
