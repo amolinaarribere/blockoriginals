@@ -3,13 +3,12 @@ import { Container, Navbar, Nav } from 'react-bootstrap';
 
 /*import HomeComponent from './components/HomeComponent.js';
 import PublicComponent from './components/PublicComponent.js';
-import PrivateComponent from './components/PrivateComponent.js';
-import IssuerComponent from './components/IssuerComponent.js';
 import DividendsComponent from './components/DividendsComponent.js';
 import SettingsComponent from './components/SettingsComponent.js';
 import CurrentAddressComponent from './components/CurrentAddressComponent.js';
 import ConnectDisconnectComponent from './components/ConnectDisconnectComponent.js';
 import EventsComponent from './components/EventsComponent.js';
+import PiggyBankComponent from './components/PiggyBankComponent.js';
 import LoadingComponent from './components/subcomponents/LoadingComponent.js';
 
 
@@ -21,10 +20,9 @@ const AuxFunc = require("./functions/AuxiliaryFunctions.js");*/
 const Home = "Home";
 const Settings = "Settings";
 const Public = "Public";
-const Private = "Private";
-const Provider = "Provider";
 const Dividends = "Dividends";
 const Event = "Events";
+const PiggyBank = "PiggyBank";
 
 
 
@@ -75,10 +73,9 @@ class Demo extends React.Component {
               <Nav className="me-auto">
                 <Nav.Link onClick={() => this.toggleMenu(Settings)}>{Settings}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(Public)}>{Public}</Nav.Link>
-                <Nav.Link onClick={() => this.toggleMenu(Private)}>{Private}</Nav.Link>
-                <Nav.Link onClick={() => this.toggleMenu(Provider)}>{Provider}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(Dividends)}>{Dividends}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(Event)}>{Event}</Nav.Link>
+                <Nav.Link onClick={() => this.toggleMenu(PiggyBank)}>{PiggyBank}</Nav.Link>
               </Nav>
             </Container>
         </Navbar>
