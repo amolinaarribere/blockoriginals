@@ -38,10 +38,6 @@ class SettingsComponent extends React.Component {
               <br/>
               <PricePropositionComponent contract={Contracts.Treasury}/>
               <br/>
-              <PriceConverterAddressPropositionComponent contract={Contracts.PriceConverter} />
-              <br />
-              <ENSPropositionComponent contract={Contracts.ENS} />
-              <br />
             </div>
           :
             <div>

@@ -1,8 +1,6 @@
 // Owner
 const Aux = require("./AuxiliaryFunctions.js");
 const load = require("./LoadFunctions.js");
-const ENSFunc = require("./ENSFunctions.js");
-
 
 export var isOwner = false
 export var MinOwners = ""
@@ -46,7 +44,7 @@ export async function AddOwner(address, info, contract){
         TotalOwners = listOfOwners.length
 
         for (let i = 0; i < TotalOwners; i++) { 
-          Owners.push(await ENSFunc.ReverseResolution(Aux.Bytes32ToAddress(listOfOwners[i])))
+          Owners.push(Aux.Bytes32ToAddress(listOfOwners[i]))
         }
 
         pendingOwnersAdd = []
@@ -54,7 +52,7 @@ export async function AddOwner(address, info, contract){
         for (let i = 0; i < pendingOwnersAddAddresses.length; i++) {
           let Address = Aux.Bytes32ToAddress(pendingOwnersAddAddresses[i])
           let {0:Info} = await contract.methods.retrieveOwner(Address).call();
-          pendingOwnersAdd[i] = [await ENSFunc.ReverseResolution(Address), Info]
+          pendingOwnersAdd[i] = [Address, Info]
         }
   
         pendingOwnersRemove = []
@@ -62,7 +60,7 @@ export async function AddOwner(address, info, contract){
         for (let i = 0; i < pendingOwnersRemoveAddresses.length; i++) {
           let Address = Aux.Bytes32ToAddress(pendingOwnersRemoveAddresses[i])
           let {0:Info} = await contract.methods.retrieveOwner(Address).call();
-          pendingOwnersRemove[i] = [await ENSFunc.ReverseResolution(Address), Info]
+          pendingOwnersRemove[i] = [Address, Info]
         }
   
         PendingMinOwners = await contract.methods.retrievePendingMinOwners().call();

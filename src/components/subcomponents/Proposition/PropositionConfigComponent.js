@@ -3,7 +3,7 @@ import ListPendingPropositionComponent from '../Vote/ListPendingPropositionCompo
 import UpgradePropositionComponent from '../Vote/UpgradePropositionComponent.js';
 import ConfigurationComponent from '../Configuration/ConfigurationComponent.js';
 
-const certFunc = require("../../../functions/OriginalsFunctions.js");
+const originalsFunc = require("../../../functions/OriginalsFunctions.js");
 const LoadFunc = require('../../../functions/LoadFunctions.js');
 const Constants = require("../../../functions/Constants.js");
 const func = require("../../../functions/PropositionFunctions.js");
@@ -32,7 +32,7 @@ class PropositionConfigComponent extends React.Component{
   }
 
   async LoadPropStatus(){
-    if(certFunc.isOwner){
+    if(originalsFunc.isOwner){
       var Status = await VoteFunc.PropositionStatus(this.props.contract);
       var Votes = ((Status[0] != address_0)?
         await VoteFunc.PropositionRemainingVotes(this.props.contract)
@@ -50,7 +50,7 @@ class PropositionConfigComponent extends React.Component{
                   names={["Proposition Life Time", "Proposition Threshold", "Min To Propose"]}
                   values={[func.PropositionLifeTime,func.PropositionThreshold,func.MinToPropose]}/>
 
-          {certFunc.isOwner ? (
+          {originalsFunc.isOwner ? (
               <div>
                 <UpgradePropositionComponent contract={this.props.contract}
                   refresh={this.refresh}

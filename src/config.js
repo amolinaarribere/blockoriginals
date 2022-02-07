@@ -8,6 +8,10 @@ export const MANAGER_PROXY_ADDRESS = {
   "mumbai": ''
 }
 
+export const ETHDecimals = 18;
+export const ETHFactor = new BigNumber(10**ETHDecimals);
+
+
 
 export const AdminRights = true;
 

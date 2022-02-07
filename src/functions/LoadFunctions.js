@@ -106,7 +106,7 @@ export async function DisconnectAccount(){
 }
 
 async function ResetAccount(){
-  await LoadOriginalsFunc(Contracts.CertisToken)
+  await LoadOriginalsFunc(Contracts.OriginalsToken)
   await LoadTreasuryStateFunc(Contracts.Treasury);
 }
 
@@ -132,7 +132,7 @@ async function LoadContracts(){
 
   Contracts.setPublicPool(await new Aux.web3.eth.Contract(PUBLIC_ABI, ManagerFunc.publicPoolAddressProxy))
   Contracts.setTreasury(await new Aux.web3.eth.Contract(TREASURY_ABI, ManagerFunc.TreasuryAddressProxy))
-  Contracts.setOriginalsToken(await new Aux.web3.eth.Contract(ORIGINALS_ABI, ManagerFunc.CertisTokenAddressProxy))
+  Contracts.setOriginalsToken(await new Aux.web3.eth.Contract(ORIGINALS_ABI, ManagerFunc.OriginalsTokenAddressProxy))
   Contracts.setPropositionSettings(await new Aux.web3.eth.Contract(PROPOSITIONSETTINGS_ABI, ManagerFunc.PropositionSettingsAddressProxy))
   Contracts.setPiggyBank(await new Aux.web3.eth.Contract(ADMINPIGGYBANK_ABI, ManagerFunc.ENSAddressProxy))
 
@@ -147,10 +147,8 @@ export async function LoadBlockchain() {
     await LoadContracts();
     
     await LoadPropositionFunc(Contracts.PropositionSettings);
-    await LoadPriceConverterFunc(Contracts.PriceConverter);
     await LoadTreasuryConfigFunc(Contracts.Treasury)
-    await LoadOriginalsFunc(Contracts.CertisToken)
-    await LoadENSFunc(Contracts.ENS);
+    await LoadOriginalsFunc(Contracts.OriginalsToken)
     console.log("blockchain loaded")
 
   } catch (e) {
@@ -215,54 +213,12 @@ export async function LoadTreasuryPrices(contract) {
   console.log("Treasury Prices Loaded");
 }
 
-export async function LoadPriceConverterFunc(contract) {
-  console.log("loading Price Converter Contract State");
-
-  await Promise.all([PriceConverterFunc.RetrieveRegistryAddress(contract),
-    PriceConverterFunc.RetrievePendingRegistryAddress(contract)]);
-
-  console.log("Price Converter Contract State Loaded");
-}
-
-export async function LoadENSFunc(contract) {
-  console.log("loading ENS Contract State");
-
-  await Promise.all([ENSFunc.RetrieveENSConfig(contract),
-    ENSFunc.RetrievePendingENSConfig(contract)]);
-
-  console.log("ENS Contract State Loaded");
-}
-
-export async function LoadProviderPoolFunc(contractType, contract) {
-  console.log("loading Providers/Pools for contract " + contract._address);
-
-  await ProviderPoolFunc.RetrieveProviderPool(contractType, contract);
-
-  console.log("Providers/Pools for contract " + contract._address + " Loaded");
-}
-
 export async function LoadOwnersFunc(contract) {
   console.log("loading Owners for contract " + contract._address);
 
   await OwnersFunc.RetrieveOwners(contract);
 
   console.log("Owners for contract " + contract._address + " Loaded");
-}
-
-export async function LoadFactoriesFunc(contract, contractType) {
-  console.log("loading Factories for contract " + contract._address);
-
-  await FactoriesFunc.RetrieveFactories(contract, contractType);
-
-  console.log("Factories for contract " + contract._address + " Loaded");
-}
-
-export async function LoadCertificateFunc(contract) {
-  console.log("loading Pending Certificates for contract " + contract._address);
-
-  await CertificateFunc.RetrievePendingCertificates(contract);
-
-  console.log("Pending Certificates for contract " + contract._address + " Loaded");
 }
 
 

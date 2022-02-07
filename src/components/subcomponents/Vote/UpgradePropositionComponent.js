@@ -7,7 +7,6 @@ const aux = require("../../../functions/AuxiliaryFunctions.js");
 const Constants = require("../../../functions/Constants.js");
 const address_0 = "0x0000000000000000000000000000000000000000";
 const emptyBytes = "0x";
-const ENSFunc = require("../../../functions/ENSFunctions.js");
 
 
 class UpgradePropositionComponent extends React.Component{
@@ -55,7 +54,7 @@ class UpgradePropositionComponent extends React.Component{
          for(let i=0; i < this.state.values.length; i++){
           if(this.props.dataType[i] == Constants.addressDataType) {
             if(this.state.values[i].length > 0){
-              let Address = await ENSFunc.Resolution(this.state.values[i]);
+              let Address = this.state.values[i];
               FinalValues.push(aux.AddressToBytes32(Address));
             }
             else{FinalValues.push(aux.AddressToBytes32(address_0));}

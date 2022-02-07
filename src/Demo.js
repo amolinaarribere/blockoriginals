@@ -1,21 +1,21 @@
 import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 
-/*import HomeComponent from './components/HomeComponent.js';
-import PublicComponent from './components/PublicComponent.js';
-import DividendsComponent from './components/DividendsComponent.js';
+import HomeComponent from './components/HomeComponent.js';
+/*import PublicComponent from './components/PublicComponent.js';
+import DividendsComponent from './components/DividendsComponent.js';*/
 import SettingsComponent from './components/SettingsComponent.js';
 import CurrentAddressComponent from './components/CurrentAddressComponent.js';
 import ConnectDisconnectComponent from './components/ConnectDisconnectComponent.js';
-import EventsComponent from './components/EventsComponent.js';
-import PiggyBankComponent from './components/PiggyBankComponent.js';
+/*import EventsComponent from './components/EventsComponent.js';
+import PiggyBankComponent from './components/PiggyBankComponent.js';*/
 import LoadingComponent from './components/subcomponents/LoadingComponent.js';
 
 
-const certFunc = require("./functions/CertisFunctions.js");
+const originalsFunc = require("./functions/OriginalsFunctions.js");
 const LoadFunc = require("./functions/LoadFunctions.js");
 const BrowserStorageFunctions = require("./functions/BrowserStorageFunctions.js");
-const AuxFunc = require("./functions/AuxiliaryFunctions.js");*/
+const AuxFunc = require("./functions/AuxiliaryFunctions.js");
 
 const Home = "Home";
 const Settings = "Settings";
@@ -29,7 +29,7 @@ const PiggyBank = "PiggyBank";
 class Demo extends React.Component {
   async componentWillMount() {
     this.state.loading = true;
-    /*let currentTab = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.currentTabKey);
+    let currentTab = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.currentTabKey);
     if(currentTab){
       this.state.Component = currentTab
     }
@@ -42,7 +42,7 @@ class Demo extends React.Component {
       await LoadFunc.ConnectNewAccount(account)
     }
 
-    this.refresh = this.refresh.bind(this)*/
+    this.refresh = this.refresh.bind(this)
     this.state.loading = false;
  }
 
@@ -77,11 +77,45 @@ class Demo extends React.Component {
                 <Nav.Link onClick={() => this.toggleMenu(Event)}>{Event}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(PiggyBank)}>{PiggyBank}</Nav.Link>
               </Nav>
+              {
+                  (false == this.state.loading) ? <CurrentAddressComponent /> : <LoadingComponent />
+              }&nbsp;&nbsp;
+              {
+                  (false == this.state.loading) ? <ConnectDisconnectComponent refresh={this.refresh} /> : <LoadingComponent />
+              }
             </Container>
         </Navbar>
         <br />
         <div class="mx-auto w-75">
-      </div>
+          {(() => {
+                switch (this.state.Component) {
+                  case Settings:
+                      return (
+                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                      )
+                  case Public:
+                      return (
+                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                      )
+                  case Dividends:
+                      return (
+                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                      )
+                  case Event:
+                      return (
+                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                      )
+                 case PiggyBank:
+                      return (
+                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                      )
+                  default:
+                      return (
+                        <HomeComponent />
+                      )
+                }
+            })()}
+        </div>
         
       </div>
     );

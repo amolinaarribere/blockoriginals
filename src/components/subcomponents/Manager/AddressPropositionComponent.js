@@ -4,7 +4,7 @@ import UpgradePropositionComponent from '../Vote/UpgradePropositionComponent.js'
 import ConfigurationComponent from '../Configuration/ConfigurationComponent.js';
 
 const ManagerFunc = require("../../../functions/ManagerFunctions.js");
-const certFunc = require("../../../functions/OriginalsFunctions.js");
+const originalsFunc = require("../../../functions/OriginalsFunctions.js");
 const address_0 = "0x0000000000000000000000000000000000000000";
 const loadFunc = require("../../../functions/LoadFunctions.js");
 const Constants = require("../../../functions/Constants.js");
@@ -56,7 +56,7 @@ class AddressPropositionComponent extends React.Component {
   }
 
   async LoadPropStatus(){
-    if(certFunc.isOwner){
+    if(originalsFunc.isOwner){
       var Status = await VoteFunc.PropositionStatus(this.props.contract);
       var Votes = ((Status[0] != address_0)?
         await VoteFunc.PropositionRemainingVotes(this.props.contract)
@@ -121,7 +121,7 @@ class AddressPropositionComponent extends React.Component {
                     ManagerFunc.providerImplAddress
                     ]}/>
 
-          {certFunc.isOwner ? (
+          {originalsFunc.isOwner ? (
               <div>
                 <UpgradePropositionComponent contract={this.props.contract}
                   refresh={this.refresh}

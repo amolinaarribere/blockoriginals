@@ -1,22 +1,18 @@
 // auxiliary
 import Web3 from 'web3';
 
-const ENSFunc = require("./ENSFunctions.js");
 const BrowserStorageFunctions = require("./BrowserStorageFunctions.js");
 
 export var account = "";
-export var accountResolved = "";
 export var web3 = "";
 
 export async function setAccount(_value){
   account = _value;
-  accountResolved = await ENSFunc.ReverseResolution(account);
   BrowserStorageFunctions.WriteKey(BrowserStorageFunctions.accountConnectedKey, account);
 }
 
 export function removeAccount(){
   account = "";
-  accountResolved = "";
   BrowserStorageFunctions.WriteKey(BrowserStorageFunctions.accountConnectedKey, "");
 }
 

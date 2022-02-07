@@ -61,6 +61,10 @@ export async function withdrawOffer(contract, tokenId){
     await Aux.CallBackFrame(contract.methods.withdrawOffer(tokenId).send({from: Aux.account }));
 }
 
+export async function transferToken(contract, tokenId, from, to){
+    await Aux.CallBackFrame(contract.methods.safeTransferFrom(from, to, tokenId).send({from: Aux.account }));
+}
+
 export async function RetrieveIssuer(contract){
     try{
       let response = await contract.methods.retrieveIssuer().call();
