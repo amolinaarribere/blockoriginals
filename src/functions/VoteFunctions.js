@@ -1,6 +1,6 @@
 
 const Aux = require("./AuxiliaryFunctions.js");
-const certFunc = require("./OriginalsFunctions.js");
+const oriFunc = require("./OriginalsFunctions.js");
 
 
 export async function UpgradeProposition(NewPropositionBytesArray, contract){
@@ -20,7 +20,7 @@ export async function PropositionRemainingVotes(contract){
     let votes = "-"
     if(PropID > 0){
         votes = await contract.methods.retrieveVotesForVoter(PropID - 1, Aux.account).call();
-        return certFunc.TokensBalance - votes;
+        return oriFunc.TokensBalance - votes;
     }
     return 0;
 }

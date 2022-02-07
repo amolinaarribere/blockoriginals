@@ -1,28 +1,21 @@
-import { ADMIN_ABI, 
-  MANAGER_PROXY_ADDRESS, 
-  CERTIFICATE_POOL_MANAGER_ABI, 
-  PUBLIC_ABI, 
-  PRIVATEFACTORY_ABI, 
-  PROVIDERFACTORY_ABI, 
+import { MANAGER_PROXY_ADDRESS, 
+  MANAGER_ABI, 
+  PUBLIC_ABI,
   TREASURY_ABI, 
-  CERTIS_ABI, 
-  PRICECONVERTER_ABI, 
+  ORIGINALS_ABI, 
   PROPOSITIONSETTINGS_ABI,
-  ENS_ABI,
+  ADMINPIGGYBANK_ABI,
+  NFTMARKET_ABI,
   AdminRights,
   MumbaiNode } from '../config'
 
-const ProviderPoolFunc = require("./ProviderPoolFunctions.js");
 const OwnersFunc = require("./OwnerFunctions.js");
-const FactoriesFunc = require("./FactoriesFunctions.js");
 const TreasuryFunc = require("./TreasuryFunctions.js");
 const PropositionFunc = require("./PropositionFunctions.js");
-const CertisFunc = require("./OriginalsFunctions.js");
-const CertificateFunc = require("./CertificateFunctions.js");
+const OriginalsFunc = require("./OriginalsFunctions.js");
 const Contracts = require("./Contracts.js");
 const ManagerFunc = require("./ManagerFunctions.js");
-const PriceConverterFunc = require("./PriceConverterFunctions.js");
-const ENSFunc = require("./ENSFunctions.js");
+const PiggyBankFunc = require("./AdminPiggyBankFunctions.js");
 const BrowserStorageFunc = require("./BrowserStorageFunctions.js");
 
 
@@ -113,7 +106,7 @@ export async function DisconnectAccount(){
 }
 
 async function ResetAccount(){
-  await LoadCertisFunc(Contracts.CertisToken)
+  await LoadOriginalsFunc(Contracts.CertisToken)
   await LoadTreasuryStateFunc(Contracts.Treasury);
 }
 
@@ -121,13 +114,13 @@ async function LoadNetwork(){
   console.log("loading network")
   Network = await Aux.web3.eth.net.getNetworkType();
 
-  if("rinkeby" == Network) Contracts.setCertificatePoolManager(await new Aux.web3.eth.Contract(CERTIFICATE_POOL_MANAGER_ABI, MANAGER_PROXY_ADDRESS.rinkeby))
-  else if("ropsten" == Network) Contracts.setCertificatePoolManager(await new Aux.web3.eth.Contract(CERTIFICATE_POOL_MANAGER_ABI, MANAGER_PROXY_ADDRESS.ropsten))
-  else if("kovan" == Network) Contracts.setCertificatePoolManager(await new Aux.web3.eth.Contract(CERTIFICATE_POOL_MANAGER_ABI, MANAGER_PROXY_ADDRESS.kovan))
-  //else if("private" == Network) Contracts.setCertificatePoolManager(await new Aux.web3.eth.Contract(CERTIFICATE_POOL_MANAGER_ABI, MANAGER_PROXY_ADDRESS.ganache))
+  if("rinkeby" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.rinkeby))
+  else if("ropsten" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.ropsten))
+  else if("kovan" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.kovan))
+  else if("private" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.ganache))
   else{
       Network = "Mumbai";
-      Contracts.setCertificatePoolManager(await new Aux.web3.eth.Contract(CERTIFICATE_POOL_MANAGER_ABI, MANAGER_PROXY_ADDRESS.mumbai))
+      Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.mumbai))
   }
   console.log("network loaded : " + Network)
 }
@@ -135,16 +128,13 @@ async function LoadNetwork(){
 async function LoadContracts(){
   console.log("loading contracts")
 
-  await LoadManagerFunc(Contracts.certificatePoolManager);
+  await LoadManagerFunc(Contracts.Manager);
 
   Contracts.setPublicPool(await new Aux.web3.eth.Contract(PUBLIC_ABI, ManagerFunc.publicPoolAddressProxy))
-  Contracts.setPrivatePoolFactory(await new Aux.web3.eth.Contract(PRIVATEFACTORY_ABI, ManagerFunc.privatePoolFactoryAddressProxy))
-  Contracts.setProviderFactory(await new Aux.web3.eth.Contract(PROVIDERFACTORY_ABI, ManagerFunc.providerFactoryAddressProxy))
   Contracts.setTreasury(await new Aux.web3.eth.Contract(TREASURY_ABI, ManagerFunc.TreasuryAddressProxy))
-  Contracts.setCertisToken(await new Aux.web3.eth.Contract(CERTIS_ABI, ManagerFunc.CertisTokenAddressProxy))
-  Contracts.setPriceConverter(await new Aux.web3.eth.Contract(PRICECONVERTER_ABI, ManagerFunc.PriceConverterAddressProxy))
+  Contracts.setOriginalsToken(await new Aux.web3.eth.Contract(ORIGINALS_ABI, ManagerFunc.CertisTokenAddressProxy))
   Contracts.setPropositionSettings(await new Aux.web3.eth.Contract(PROPOSITIONSETTINGS_ABI, ManagerFunc.PropositionSettingsAddressProxy))
-  Contracts.setENS(await new Aux.web3.eth.Contract(ENS_ABI, ManagerFunc.ENSAddressProxy))
+  Contracts.setPiggyBank(await new Aux.web3.eth.Contract(ADMINPIGGYBANK_ABI, ManagerFunc.ENSAddressProxy))
 
   console.log("contracts loaded")
 }
@@ -159,7 +149,7 @@ export async function LoadBlockchain() {
     await LoadPropositionFunc(Contracts.PropositionSettings);
     await LoadPriceConverterFunc(Contracts.PriceConverter);
     await LoadTreasuryConfigFunc(Contracts.Treasury)
-    await LoadCertisFunc(Contracts.CertisToken)
+    await LoadOriginalsFunc(Contracts.CertisToken)
     await LoadENSFunc(Contracts.ENS);
     console.log("blockchain loaded")
 
@@ -178,12 +168,12 @@ export async function LoadManagerFunc(contract) {
   console.log("Manager Contract State Loaded");
 }
 
-export async function LoadCertisFunc(contract) {
+export async function LoadOriginalsFunc(contract) {
   console.log("loading Certis Contract State");
 
-  await Promise.all([CertisFunc.isTokenOwner(Aux.account, contract), 
-    CertisFunc.totalSupply(contract),
-    CertisFunc.balanceOf(Aux.account, contract)]);
+  await Promise.all([OriginalsFunc.isTokenOwner(Aux.account, contract), 
+    OriginalsFunc.totalSupply(contract),
+    OriginalsFunc.balanceOf(Aux.account, contract)]);
 
   console.log("Certis Contract State Loaded");
 }

@@ -1,5 +1,4 @@
-export const privatePoolKey = 'privatePool';
-export const providerKey = 'provider';
+export const nftmarketKey = 'nftmarket';
 export const accountConnectedKey = 'accountConnected';
 export const currentTabKey = 'currentTab';
 

@@ -1,49 +1,34 @@
 // Manager
 const Aux = require("./AuxiliaryFunctions.js");
 
-
 export var ProxyAdminAddress = ""
 export var ManagerAddress = ""
 export var ManagerAddressProxy = ""
 export var publicPoolAddress = ""
 export var publicPoolAddressProxy = ""
-export var privatePoolFactoryAddress = ""
-export var privatePoolFactoryAddressProxy = ""
-export var privatePoolImplAddress = "";
-export var providerFactoryAddress = ""
-export var providerFactoryAddressProxy = ""
-export var providerImplAddress = "";
+export var nftMarketImplAddress = "";
 export var TreasuryAddress = ""
 export var TreasuryAddressProxy = ""
-export var CertisTokenAddress = ""
-export var CertisTokenAddressProxy = ""
-export var PriceConverterAddress = ""
-export var PriceConverterAddressProxy = ""
+export var OriginalsTokenAddress = ""
+export var OriginalsTokenAddressProxy = ""
 export var PropositionSettingsAddress = ""
 export var PropositionSettingsAddressProxy = ""
-export var ENSAddress = ""
-export var ENSAddressProxy = ""
+export var PiggyBankAddress = ""
+export var PiggyBankAddressProxy = ""
 
 export var PendingManagerAddress = ""
 export var PendingManagerInit = ""
 export var PendingPublicPoolAddress = ""
 export var PendingPublicPoolInit = ""
-export var PendingPrivatePoolFactoryAddress = ""
-export var PendingPrivatePoolFactoryInit = ""
-export var PendingPrivatePoolImplAddress = "";
-export var PendingProviderFactoryAddress = ""
-export var PendingProviderFactoryInit = ""
-export var PendingProviderImplAddress = "";
+export var PendingnftMarketImplAddress = "";
 export var PendingTreasuryAddress = ""
 export var PendingTreasuryInit = ""
-export var PendingCertisTokenAddress = ""
-export var PendingCertisTokenInit = ""
-export var PendingPriceConverterAddress = ""
-export var PendingPriceConverterInit = ""
+export var PendingOriginalsTokenAddress = ""
+export var PendingOriginalsTokenInit = ""
 export var PendingPropositionSettingsAddress = ""
 export var PendingPropositionSettingsInit = ""
-export var PendingENSAddress = ""
-export var PendingENSInit = ""
+export var PendingPiggyBankAddress = ""
+export var PendingPiggyBankInit = ""
 
 
 
@@ -60,22 +45,15 @@ export async function RetrieveContractsAddresses(contract){
   publicPoolAddressProxy =  TransparentProxies[i++];
   TreasuryAddress = TransparentImpl[i];
   TreasuryAddressProxy = TransparentProxies[i++];
-  CertisTokenAddress = TransparentImpl[i];
-  CertisTokenAddressProxy = TransparentProxies[i++];
-  privatePoolFactoryAddress = TransparentImpl[i];
-  privatePoolFactoryAddressProxy = TransparentProxies[i++];
-  providerFactoryAddress = TransparentImpl[i];
-  providerFactoryAddressProxy = TransparentProxies[i++];
-  PriceConverterAddress = TransparentImpl[i];
-  PriceConverterAddressProxy = TransparentProxies[i++];
+  OriginalsTokenAddress = TransparentImpl[i];
+  OriginalsTokenAddressProxy = TransparentProxies[i++];
   PropositionSettingsAddress = TransparentImpl[i];
   PropositionSettingsAddressProxy = TransparentProxies[i++];
-  ENSAddress = TransparentImpl[i];
-  ENSAddressProxy = TransparentProxies[i++];
+  PiggyBankAddress = TransparentImpl[i];
+  PiggyBankAddressProxy = TransparentProxies[i++];
 
   let j=0;
-  privatePoolImplAddress = BeaconsImpl[j++];
-  providerImplAddress = BeaconsImpl[j++];
+  nftMarketImplAddress = BeaconsImpl[j++];
 }
   
   
@@ -85,47 +63,33 @@ export async function RetrieveContractsAddresses(contract){
       PendingManagerAddress = "-";
       PendingPublicPoolAddress = "-";
       PendingTreasuryAddress = "-";
-      PendingCertisTokenAddress = "-";
-      PendingPrivatePoolFactoryAddress = "-";
-      PendingProviderFactoryAddress = "-";
-      PendingPriceConverterAddress = "-";
+      PendingOriginalsTokenAddress = "-";
       PendingPropositionSettingsAddress = "-";
-      PendingENSAddress = "-";
-      PendingPrivatePoolImplAddress = "-";
-      PendingProviderImplAddress = "-";
+      PendingPiggyBankAddress = "-";
+      PendingnftMarketImplAddress = "-";
 
       PendingManagerInit = "-";
       PendingPublicPoolInit = "-";
       PendingTreasuryInit = "-";
-      PendingCertisTokenInit = "-";
-      PendingPrivatePoolFactoryInit = "-";
-      PendingProviderFactoryInit = "-";
-      PendingPriceConverterInit = "-";
+      PendingOriginalsTokenInit = "-";
       PendingPropositionSettingsInit = "-";
-      PendingENSInit = "-";
+      PendingPiggyBankInit = "-";
 
       let i=2;
       if(result[i] != undefined)PendingManagerAddress = Aux.Bytes32ToAddress(result[i++]);
       if(result[i] != undefined)PendingPublicPoolAddress = Aux.Bytes32ToAddress(result[i++]);
       if(result[i] != undefined)PendingTreasuryAddress = Aux.Bytes32ToAddress(result[i++]);
-      if(result[i] != undefined)PendingCertisTokenAddress = Aux.Bytes32ToAddress(result[i++]);
-      if(result[i] != undefined)PendingPrivatePoolFactoryAddress = Aux.Bytes32ToAddress(result[i++]);
-      if(result[i] != undefined)PendingProviderFactoryAddress = Aux.Bytes32ToAddress(result[i++]);
-      if(result[i] != undefined)PendingPriceConverterAddress = Aux.Bytes32ToAddress(result[i++]);
+      if(result[i] != undefined)PendingOriginalsTokenAddress = Aux.Bytes32ToAddress(result[i++]);
       if(result[i] != undefined)PendingPropositionSettingsAddress = Aux.Bytes32ToAddress(result[i++]);
-      if(result[i] != undefined)PendingENSAddress = Aux.Bytes32ToAddress(result[i++]);
-      if(result[i] != undefined)PendingPrivatePoolImplAddress = Aux.Bytes32ToAddress(result[i++]);
-      if(result[i] != undefined)PendingProviderImplAddress = Aux.Bytes32ToAddress(result[i++]);
+      if(result[i] != undefined)PendingPiggyBankAddress = Aux.Bytes32ToAddress(result[i++]);
+      if(result[i] != undefined)PendingnftMarketImplAddress = Aux.Bytes32ToAddress(result[i++]);
 
       if(result[i] != undefined)PendingManagerInit = result[i++];
       if(result[i] != undefined)PendingPublicPoolInit = result[i++];
       if(result[i] != undefined)PendingTreasuryInit = result[i++];
-      if(result[i] != undefined)PendingCertisTokenInit = result[i++];
-      if(result[i] != undefined)PendingPrivatePoolFactoryInit = result[i++];
-      if(result[i] != undefined)PendingProviderFactoryInit = result[i++];
-      if(result[i] != undefined)PendingPriceConverterInit = result[i++];
+      if(result[i] != undefined)PendingOriginalsTokenInit = result[i++];
       if(result[i] != undefined)PendingPropositionSettingsInit = result[i++];
-      if(result[i] != undefined)PendingENSInit = result[i++];
+      if(result[i] != undefined)PendingPiggyBankInit = result[i++];
 
     }
     catch(e){

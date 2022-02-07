@@ -1,62 +1,47 @@
   // Treasury
-import { USDFactor, ETHFactor } from '../config';
-
 const Aux = require("./AuxiliaryFunctions.js");
 const Manager = require("./ManagerFunctions.js");
-const PriceConverter = require("./PriceConverterFunctions.js");
-const Contracts = require("./Contracts.js");
 const BigNumber = require('bignumber.js');
 
 export var AccountBalanceWei = new BigNumber(0);
 export var TreasuryBalanceWei = new BigNumber(0);
 export var TreasuryAggregatedBalanceWei = new BigNumber(0);
 
-export var PublicPriceUSDCents = "";
-export var PrivatePriceUSDCents = "";
-export var CertificatePriceUSDCents = "";
-export var ProviderPriceUSDCents = "";
-export var OwnerRefundFeeUSDCents = "";
+export var NewIssuerFee = "";
+export var AdminNewIssuerFee = "";
+export var MintingFee = "";
+export var AdminMintingFee = "";
+export var TransferFeeAmount = "";
+export var TransferFeeDecimals = "";
+export var AdminTransferFeeAmount = "";
+export var AdminTransferFeeDecimals = "";
+export var OffersLifeTime = "";
 
-export var PublicPriceUSD = "";
-export var PrivatePriceUSD = "";
-export var CertificatePriceUSD = "";
-export var ProviderPriceUSD = "";
-export var OwnerRefundFeeUSD = "";
+export var PendingNewIssuerFee = "";
+export var PendingAdminNewIssuerFee = "";
+export var PendingMintingFee = "";
+export var PendingAdminMintingFee = "";
+export var PendingTransferFeeAmount = "";
+export var PendingTransferFeeDecimals = "";
+export var PendingAdminTransferFeeAmount = "";
+export var PendingAdminTransferFeeDecimals = "";
+export var PendingOffersLifeTime = "";
 
-export var PublicPriceWei = "";
-export var PrivatePriceWei = "";
-export var CertificatePriceWei = "";
-export var ProviderPriceWei = "";
-export var OwnerRefundFeeWei = "";
-
-export var PendingPublicPriceUSD = "";
-export var PendingPrivatePriceUSD = "";
-export var PendingCertificatePriceUSD = "";
-export var PendingProviderPriceUSD = "";
-export var PendingOwnerRefundFeeUSD = "";
 
   export async function RetrievePricesTreasury(contract){
     try{
       let response = await contract.methods.retrieveSettings().call();
 
-      PublicPriceUSDCents = new BigNumber(response[0]);
-      PrivatePriceUSDCents = new BigNumber(response[1]);
-      ProviderPriceUSDCents = new BigNumber(response[2]);
-      CertificatePriceUSDCents = new BigNumber(response[3]);
-      OwnerRefundFeeUSDCents = new BigNumber(response[4]);
+      NewIssuerFee = new BigNumber(response[0]);
+      AdminNewIssuerFee = new BigNumber(response[1]);
+      MintingFee = new BigNumber(response[2]);
+      AdminMintingFee = new BigNumber(response[3]);
+      TransferFeeAmount = new BigNumber(response[4]);
+      TransferFeeDecimals = new BigNumber(response[5]);
+      AdminTransferFeeAmount = new BigNumber(response[6]);
+      AdminTransferFeeDecimals = new BigNumber(response[7]);
+      OffersLifeTime = new BigNumber(response[8]);
 
-      PublicPriceUSD = PublicPriceUSDCents.dividedBy(USDFactor).dp(2,0).toString();
-      PrivatePriceUSD = PrivatePriceUSDCents.dividedBy(USDFactor).dp(2,0).toString();
-      ProviderPriceUSD = ProviderPriceUSDCents.dividedBy(USDFactor).dp(2,0).toString();
-      CertificatePriceUSD = CertificatePriceUSDCents.dividedBy(USDFactor).dp(2,0).toString();
-      OwnerRefundFeeUSD = OwnerRefundFeeUSDCents.dividedBy(USDFactor).dp(2,0).toString();
-
-      let exchangeRate = await PriceConverter.CentsToWeis(1, Contracts.PriceConverter);
-      PublicPriceWei = PublicPriceUSDCents.multipliedBy(exchangeRate).dp(0,1);
-      PrivatePriceWei = PrivatePriceUSDCents.multipliedBy(exchangeRate).dp(0,1);
-      ProviderPriceWei = ProviderPriceUSDCents.multipliedBy(exchangeRate).dp(0,1);
-      CertificatePriceWei = CertificatePriceUSDCents.multipliedBy(exchangeRate).dp(0,1);
-      OwnerRefundFeeWei = OwnerRefundFeeUSDCents.multipliedBy(exchangeRate).dp(0,1);
     }
     catch(e){
       window.alert("error retrieving the prices : " + JSON.stringify(e))
@@ -66,17 +51,26 @@ export var PendingOwnerRefundFeeUSD = "";
   export async function RetrievePendingPricesTreasury(contract){
     try{
       let response = await contract.methods.retrieveProposition().call();
-      PendingPublicPriceUSD = "-";
-      PendingPrivatePriceUSD = "-";
-      PendingProviderPriceUSD = "-";
-      PendingCertificatePriceUSD = "-";
-      PendingOwnerRefundFeeUSD = "-";
+      PendingNewIssuerFee = "-";
+      PendingAdminNewIssuerFee = "-";
+      PendingMintingFee = "-";
+      PendingAdminMintingFee = "-";
+      PendingTransferFeeAmount = "-";
+      PendingTransferFeeDecimals = "-";
+      PendingAdminTransferFeeAmount = "-";
+      PendingAdminTransferFeeDecimals = "-";
+      PendingOffersLifeTime = "-";
 
-      if(response[0] != undefined)PendingPublicPriceUSD = new BigNumber(response[0]).dividedBy(USDFactor).dp(2,0).toString();
-      if(response[1] != undefined)PendingPrivatePriceUSD = new BigNumber(response[1]).dividedBy(USDFactor).dp(2,0).toString();
-      if(response[2] != undefined)PendingProviderPriceUSD = new BigNumber(response[2]).dividedBy(USDFactor).dp(2,0).toString();
-      if(response[3] != undefined)PendingCertificatePriceUSD = new BigNumber(response[3]).dividedBy(USDFactor).dp(2,0).toString();
-      if(response[4] != undefined)PendingOwnerRefundFeeUSD = new BigNumber(response[4]).dividedBy(USDFactor).dp(2,0).toString();
+      if(response[0] != undefined)PendingNewIssuerFee = new BigNumber(response[0]).toString();
+      if(response[1] != undefined)PendingAdminNewIssuerFee = new BigNumber(response[1]).toString();
+      if(response[2] != undefined)PendingMintingFee = new BigNumber(response[2]).toString();
+      if(response[3] != undefined)PendingAdminMintingFee = new BigNumber(response[3]).toString();
+      if(response[4] != undefined)PendingTransferFeeAmount = new BigNumber(response[4]).toString();
+      if(response[5] != undefined)PendingTransferFeeDecimals = new BigNumber(response[5]).toString();
+      if(response[6] != undefined)PendingAdminTransferFeeAmount = new BigNumber(response[6]).toString();
+      if(response[7] != undefined)PendingAdminTransferFeeDecimals = new BigNumber(response[7]).toString();
+      if(response[8] != undefined)PendingOffersLifeTime = new BigNumber(response[8]).toString();
+
     }
     catch(e){
       window.alert("error retrieving the pending prices : " + JSON.stringify(e))

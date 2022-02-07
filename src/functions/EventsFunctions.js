@@ -4,34 +4,26 @@ const Contracts = require("./Contracts.js");
 
 export var eventlogs = [];
 export var eventNames = [];
-export const certificatePoolManagerId = 0
+export const ManagerId = 0
 export const publicPoolId = 1
-export const privatePoolFactoryId = 2
-export const providerFactoryId = 3
-export const TreasuryId = 4
-export const CertisTokenId = 5
-export const PriceConverterId = 6
-export const PropositionSettingsId = 7
-export const ENSId = 8
-export const privatePoolId = 9
-export const providerId = 10
+export const TreasuryId = 2
+export const OriginalsTokenId = 3
+export const PropositionSettingsId = 4
+export const AdminPiggyBankId = 5
+export const nftMarketId = 6
 
 export async function StartEvents(blockId){
     eventNames = [];
 
     // Contracts
 
-    const ListOfContracts = [Contracts.certificatePoolManager,
+    const ListOfContracts = [Contracts.Manager,
       Contracts.publicPool,
-      Contracts.privatePoolFactory,
-      Contracts.providerFactory,
       Contracts.Treasury,
-      Contracts.CertisToken,
-      Contracts.PriceConverter,
+      Contracts.OriginalsToken,
       Contracts.PropositionSettings,
-      Contracts.ENS,
-      Contracts.privatePool,
-      Contracts.provider]
+      Contracts.AdminPiggyBank,
+      Contracts.nftMarket]
 
     for(let i=0; i < ListOfContracts.length; i++){
       let contractABI = ListOfContracts[i]._jsonInterface;
