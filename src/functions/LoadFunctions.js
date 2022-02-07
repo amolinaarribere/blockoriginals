@@ -33,8 +33,7 @@ export async function LoadProvider(){
 
       window.ethereum.on('chainChanged', async function (chainId) {
         console.log("chain changed to : " + chainId)
-        BrowserStorageFunc.WriteKey(BrowserStorageFunc.privatePoolKey, "");
-        BrowserStorageFunc.WriteKey(BrowserStorageFunc.providerKey, "");
+        BrowserStorageFunc.WriteKey(BrowserStorageFunc.nftmarketKey, "");
         window.location.reload();
       });
       window.ethereum.on('accountsChanged', async function (accounts) {
@@ -134,7 +133,7 @@ async function LoadContracts(){
   Contracts.setTreasury(await new Aux.web3.eth.Contract(TREASURY_ABI, ManagerFunc.TreasuryAddressProxy))
   Contracts.setOriginalsToken(await new Aux.web3.eth.Contract(ORIGINALS_ABI, ManagerFunc.OriginalsTokenAddressProxy))
   Contracts.setPropositionSettings(await new Aux.web3.eth.Contract(PROPOSITIONSETTINGS_ABI, ManagerFunc.PropositionSettingsAddressProxy))
-  Contracts.setPiggyBank(await new Aux.web3.eth.Contract(ADMINPIGGYBANK_ABI, ManagerFunc.ENSAddressProxy))
+  Contracts.setPiggyBank(await new Aux.web3.eth.Contract(ADMINPIGGYBANK_ABI, ManagerFunc.PiggyBankAddressProxy))
 
   console.log("contracts loaded")
 }
@@ -167,13 +166,13 @@ export async function LoadManagerFunc(contract) {
 }
 
 export async function LoadOriginalsFunc(contract) {
-  console.log("loading Certis Contract State");
+  console.log("loading Originals Contract State");
 
   await Promise.all([OriginalsFunc.isTokenOwner(Aux.account, contract), 
     OriginalsFunc.totalSupply(contract),
     OriginalsFunc.balanceOf(Aux.account, contract)]);
 
-  console.log("Certis Contract State Loaded");
+  console.log("Originals Contract State Loaded");
 }
 
 export async function LoadPropositionFunc(contract) {

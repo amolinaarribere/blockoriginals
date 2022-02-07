@@ -36,7 +36,6 @@ class Demo extends React.Component {
     else this.state.Component = "Home"
     
     await LoadFunc.LoadBlockchain();
-
     let account = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.accountConnectedKey);
     if(account){
       await LoadFunc.ConnectNewAccount(account)
@@ -59,7 +58,7 @@ class Demo extends React.Component {
   }
 
   toggleMenu(newValue){
-    //BrowserStorageFunctions.WriteKey(BrowserStorageFunctions.currentTabKey, newValue);
+    BrowserStorageFunctions.WriteKey(BrowserStorageFunctions.currentTabKey, newValue);
     this.setState({Component: newValue});
   };
 

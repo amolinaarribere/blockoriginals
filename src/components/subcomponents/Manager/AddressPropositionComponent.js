@@ -18,21 +18,12 @@ const VarDataType=[Constants.intDataType,
   Constants.addressDataType,
   Constants.addressDataType,
   Constants.addressDataType,
-  Constants.addressDataType,
-  Constants.addressDataType,
-  Constants.addressDataType,
-  Constants.addressDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
-  Constants.bytesDataType,
-  Constants.bytesDataType,
-  Constants.bytesDataType,
-  Constants.bytesDataType,
-  Constants.stringDataType,
-  Constants.stringDataType]
+  Constants.bytesDataType]
 
 
 class AddressPropositionComponent extends React.Component {
@@ -75,23 +66,17 @@ class AddressPropositionComponent extends React.Component {
                     "Manager Address",
                     "Public Address", 
                     "Treasury Address", 
-                    "Certis Token Address",
-                    "Private Factory Address", 
-                    "Provider Factory Address",
-                    "Price Converter Address",
+                    "Originals Token Address",
                     "Proposition Settings Address", 
-                    "ENS Address"
+                    "Piggy Bank Address"
                    ]}
                   values={[ManagerFunc.ProxyAdminAddress,
                     ManagerFunc.ManagerAddressProxy,
                     ManagerFunc.publicPoolAddressProxy,
                     ManagerFunc.TreasuryAddressProxy,
-                    ManagerFunc.CertisTokenAddressProxy,
-                    ManagerFunc.privatePoolFactoryAddressProxy,
-                    ManagerFunc.providerFactoryAddressProxy,
-                    ManagerFunc.PriceConverterAddressProxy,
+                    ManagerFunc.OriginalsTokenAddressProxy,
                     ManagerFunc.PropositionSettingsAddressProxy,
-                    ManagerFunc.ENSAddressProxy
+                    ManagerFunc.PiggyBankAddressProxy
                    ]}/>
 
           <ConfigurationComponent refresh={this.refresh}
@@ -99,26 +84,18 @@ class AddressPropositionComponent extends React.Component {
                   names={["Manager Address",
                     "Public Address", 
                     "Treasury Address", 
-                    "Certis Token Address",
-                    "Private Factory Address", 
-                    "Provider Factory Address",
-                    "Price Converter Address",
+                    "Originals Token Address",
                     "Proposition Settings Address", 
-                    "ENS Address",
-                    "Private Address",
-                    "Provider Address",
+                    "Piggy Bank Address",
+                    "NFT Market Address"
                     ]}
                   values={[ManagerFunc.ManagerAddress,
                     ManagerFunc.publicPoolAddress,
                     ManagerFunc.TreasuryAddress,
-                    ManagerFunc.CertisTokenAddress,
-                    ManagerFunc.privatePoolFactoryAddress,
-                    ManagerFunc.providerFactoryAddress,
-                    ManagerFunc.PriceConverterAddress,
+                    ManagerFunc.OriginalsTokenAddress,
                     ManagerFunc.PropositionSettingsAddress,
-                    ManagerFunc.ENSAddress,
-                    ManagerFunc.privatePoolImplAddress,
-                    ManagerFunc.providerImplAddress
+                    ManagerFunc.PiggyBankAddress,
+                    ManagerFunc.nftMarketImplAddress
                     ]}/>
 
           {originalsFunc.isOwner ? (
@@ -132,32 +109,20 @@ class AddressPropositionComponent extends React.Component {
                    "NewManagerAddress", 
                    "NewPublicPoolAddress", 
                    "NewTreasuryAddress",               
-                   "NewCertisTokenAddress",
-                   "NewPrivatePoolFactoryAddress",
-                   "NewProviderFactoryAddress",
-                   "NewPriceConverterAddress",
+                   "NewOriginalsTokenAddress",
                    "NewPropositionSettingsAddress",
-                   "NewENSAddress",
-                   "NewPrivatePoolAddress",
-                   "NewProviderAddress",
+                   "NewPiggyBankAddress",
+                   "NewNFTMarketAddress",
                    "ManagerInit",
                    "PublicInit",
                    "TreasuryInit",
-                   "CertisInit",
-                   "PriceConverterInit",
+                   "OriginalsInit",
                    "PropositionInit",
-                   "ENSInit",
-                   "PrivatePoolFactoryInit",
-                   "ProviderFactoryInit",
-                   "NewPrivateContractName",
-                   "NewPrivateContractVersion"
-                   ]}
+                   "PiggyBankInit"
+                  ]}
                   types={["hidden", "hidden",
-                    "text", "text", "text", "text", "text", "text", "text", "text", "text",
-                   "text", "text", "text",
-                   "text", "text", "text", "text", "text", "text",
-                   "text", "text",
-                   "hidden", "hidden"]}
+                    "text", "text", "text", "text", "text", "text", "text",
+                   "text", "text", "text", "text", "text", "text"]}
                   dataType={VarDataType}/>
 
                   <br />
@@ -171,40 +136,26 @@ class AddressPropositionComponent extends React.Component {
                   "PublicInit",
                   "Pending Treasury Address",   
                   "TreasuryInit",            
-                  "Pending Certis Token Address",
-                  "CertisInit",
-                  "Pending Private Pool Factory Address",
-                  "PrivatePoolFactoryInit",
-                  "Pending Private Pool Address",
-                  "Pending Provider Factory Address",
-                  "ProviderFactoryInit",
-                  "Pending Provider Address",
-                  "Pending Price Converter Address",
-                  "PriceConverterInit",
+                  "Pending Originals Token Address",
+                  "OriginalsInit",
+                  "Pending NFT Market Address",
                   "Pending Proposition Settings Address",
                   "PropositionInit",
-                  "Pending ENS Address",
-                  "ENSInit"]}
+                  "Pending Piggy Bank Address",
+                  "PiggyBankInit"]}
                   values={[ManagerFunc.PendingManagerAddress, 
                     ManagerFunc.PendingManagerInit,
                     ManagerFunc.PendingPublicPoolAddress, 
                     ManagerFunc.PendingPublicPoolInit,
                     ManagerFunc.PendingTreasuryAddress, 
                     ManagerFunc.PendingTreasuryInit,
-                    ManagerFunc.PendingCertisTokenAddress,
-                    ManagerFunc.PendingCertisTokenInit,
-                    ManagerFunc.PendingPrivatePoolFactoryAddress,
-                    ManagerFunc.PendingPrivatePoolFactoryInit,
-                    ManagerFunc.PendingPrivatePoolImplAddress,
-                    ManagerFunc.PendingProviderFactoryAddress,
-                    ManagerFunc.PendingProviderFactoryInit,
-                    ManagerFunc.PendingProviderImplAddress,
-                    ManagerFunc.PendingPriceConverterAddress,
-                    ManagerFunc.PendingPriceConverterInit,
+                    ManagerFunc.PendingOriginalsTokenAddress,
+                    ManagerFunc.PendingOriginalsTokenInit,
+                    ManagerFunc.PendingnftMarketImplAddress,
                     ManagerFunc.PendingPropositionSettingsAddress,
                     ManagerFunc.PendingPropositionSettingsInit,
-                    ManagerFunc.PendingENSAddress,
-                    ManagerFunc.PendingENSInit
+                    ManagerFunc.PendingPiggyBankAddress,
+                    ManagerFunc.PendingPiggyBankInit
                 ]}
                   PropStatus={this.state.PropStatus}
                   RemainingVotes={this.state.RemainingVotes}

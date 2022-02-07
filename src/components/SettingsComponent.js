@@ -23,7 +23,7 @@ class SettingsComponent extends React.Component {
     
     async refresh() {
       this.setState({loading: true})
-      await LoadFunc.LoadManagerFunc(Contracts.certificatePoolManager);
+      await LoadFunc.LoadManagerFunc(Contracts.Manager);
       this.setState({loading: false})
     }
   
@@ -32,7 +32,7 @@ class SettingsComponent extends React.Component {
         <div>
           {(false == this.state.loading)? 
             <div>
-              <ManagerAddressPropositionComponent contract={Contracts.certificatePoolManager}/>
+              <ManagerAddressPropositionComponent contract={Contracts.Manager}/>
               <br />
               <PropositionConfigComponent contract={Contracts.PropositionSettings}/>
               <br/>
