@@ -10,8 +10,8 @@ export var Owners = []
 export var pendingOwnersAdd = []
 export var pendingOwnersRemove = []
 
-export async function AddOwner(address, info, contract){
-    await Aux.CallBackFrame(contract.methods.addOwner(address, info).send({from: Aux.account }));
+export async function AddOwner(address, contract){
+    await Aux.CallBackFrame(contract.methods.addOwner(address).send({from: Aux.account }));
   }
   
   export async function RemoveOwner(address, contract){
@@ -42,35 +42,23 @@ export async function AddOwner(address, info, contract){
         Owners = []
         let listOfOwners = await contract.methods.retrieveAllOwners().call()
         TotalOwners = listOfOwners.length
+        isOwner = false;
 
         for (let i = 0; i < TotalOwners; i++) { 
-          Owners.push(Aux.Bytes32ToAddress(listOfOwners[i]))
+          Owners.push(listOfOwners[i]);
+          if(load.Admin && (Aux.account.toString().toUpperCase() == listOfOwners[i].toString().toUpperCase())){
+            isOwner = true;
+          }
         }
 
-        pendingOwnersAdd = []
-        let pendingOwnersAddAddresses = await contract.methods.retrievePendingOwners(true).call();
-        for (let i = 0; i < pendingOwnersAddAddresses.length; i++) {
-          let Address = Aux.Bytes32ToAddress(pendingOwnersAddAddresses[i])
-          let {0:Info} = await contract.methods.retrieveOwner(Address).call();
-          pendingOwnersAdd[i] = [Address, Info]
-        }
+        if(!load.Admin) isOwner = true;
+
+        pendingOwnersAdd = await contract.methods.retrievePendingOwners(true).call();
   
-        pendingOwnersRemove = []
-        let pendingOwnersRemoveAddresses = await contract.methods.retrievePendingOwners(false).call();
-        for (let i = 0; i < pendingOwnersRemoveAddresses.length; i++) {
-          let Address = Aux.Bytes32ToAddress(pendingOwnersRemoveAddresses[i])
-          let {0:Info} = await contract.methods.retrieveOwner(Address).call();
-          pendingOwnersRemove[i] = [Address, Info]
-        }
+        pendingOwnersRemove = await contract.methods.retrievePendingOwners(false).call();
   
         PendingMinOwners = await contract.methods.retrievePendingMinOwners().call();
-
-        if(load.Admin && Aux.account){
-          let result = await contract.methods.retrieveOwner(Aux.account).call();
-          isOwner = result[1];
-        }
-        else if(!Aux.account) isOwner = false;
-        else isOwner = true;
+        
     }
     catch(e){
       window.alert("error retrieving the owners : " + JSON.stringify(e))
