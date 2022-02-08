@@ -2,13 +2,13 @@ import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 
 import HomeComponent from './components/HomeComponent.js';
-/*import PublicComponent from './components/PublicComponent.js';
-import DividendsComponent from './components/DividendsComponent.js';*/
+import PublicComponent from './components/PublicComponent.js';
+import DividendsComponent from './components/DividendsComponent.js';
 import SettingsComponent from './components/SettingsComponent.js';
 import CurrentAddressComponent from './components/CurrentAddressComponent.js';
 import ConnectDisconnectComponent from './components/ConnectDisconnectComponent.js';
-/*import EventsComponent from './components/EventsComponent.js';
-import PiggyBankComponent from './components/PiggyBankComponent.js';*/
+import EventsComponent from './components/EventsComponent.js';
+import PiggyBankComponent from './components/PiggyBankComponent.js';
 import LoadingComponent from './components/subcomponents/LoadingComponent.js';
 
 
@@ -94,19 +94,19 @@ class Demo extends React.Component {
                       )
                   case Public:
                       return (
-                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                        ((false == this.state.loading) ? <PublicComponent /> : <LoadingComponent />)
                       )
                   case Dividends:
                       return (
-                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                        ((false == this.state.loading) ? <DividendsComponent /> : <LoadingComponent />)
                       )
                   case Event:
                       return (
-                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                        ((false == this.state.loading) ? <EventsComponent /> : <LoadingComponent />)
                       )
                  case PiggyBank:
                       return (
-                        ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
+                        ((false == this.state.loading) ? <PiggyBankComponent /> : <LoadingComponent />)
                       )
                   default:
                       return (

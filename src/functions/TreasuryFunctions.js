@@ -32,15 +32,16 @@ export var PendingOffersLifeTime = "";
     try{
       let response = await contract.methods.retrieveSettings().call();
 
-      NewIssuerFee = new BigNumber(response[0]);
-      AdminNewIssuerFee = new BigNumber(response[1]);
-      MintingFee = new BigNumber(response[2]);
-      AdminMintingFee = new BigNumber(response[3]);
-      TransferFeeAmount = new BigNumber(response[4]);
-      TransferFeeDecimals = new BigNumber(response[5]);
-      AdminTransferFeeAmount = new BigNumber(response[6]);
-      AdminTransferFeeDecimals = new BigNumber(response[7]);
-      OffersLifeTime = new BigNumber(response[8]);
+      NewIssuerFee = new BigNumber(response[0]).toString();
+      AdminNewIssuerFee = new BigNumber(response[1]).toString();
+      MintingFee = new BigNumber(response[2]).toString();
+      AdminMintingFee = new BigNumber(response[3]).toString();
+      TransferFeeAmount = new BigNumber(response[4]).toString();
+      TransferFeeDecimals = new BigNumber(response[5]).toString();
+      AdminTransferFeeAmount = new BigNumber(response[6]).toString();
+      AdminTransferFeeDecimals = new BigNumber(response[7]).toString();
+      OffersLifeTime = new BigNumber(response[8]).toString();
+
 
     }
     catch(e){

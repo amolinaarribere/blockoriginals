@@ -56,26 +56,26 @@ class PricePropositionComponent extends React.Component {
       return (
         <div>
            <ConfigurationComponent refresh={this.refresh}
-                  text="Prices (USD)"
-                  names={["New Issuer Fee",
-                   "New Issuer Fee (Admin)",
-                   "Minting Fee",
-                   "Minting Fee (Admin)",
-                   "Transfer Fee Amount",
-                   "Transfer Fee Decimals",
-                   "Transfer Fee Amount (Admin)",
-                   "Transfer Fee Decimals (Admin)",
-                   "Offers Life Time"]}
-                  values={[func.NewIssuerFee,
-                    func.AdminNewIssuerFee,
-                    func.MintingFee,
-                    func.AdminMintingFee,
-                    func.TransferFeeAmount,
-                    func.TransferFeeDecimals,
-                    func.AdminTransferFeeAmount,
-                    func.AdminTransferFeeDecimals,
-                    func.OffersLifeTime
-                    ]}/>
+                text="Fees"
+                names={["New Issuer Fee",
+                  "New Issuer Fee (Admin)",
+                  "Minting Fee",
+                  "Minting Fee (Admin)",
+                  "Transfer Fee Amount",
+                  "Transfer Fee Decimals",
+                  "Transfer Fee Amount (Admin)",
+                  "Transfer Fee Decimals (Admin)",
+                  "Offers Life Time"]}
+                values={[func.NewIssuerFee,
+                   func.AdminNewIssuerFee,
+                   func.MintingFee,
+                   func.AdminMintingFee,
+                   func.TransferFeeAmount,
+                   func.TransferFeeDecimals,
+                   func.AdminTransferFeeAmount,
+                   func.AdminTransferFeeDecimals,
+                   func.OffersLifeTime
+                ]}/>
 
           {originalsFunc.isOwner ? (
               <div>
