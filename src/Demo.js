@@ -72,7 +72,7 @@ class Demo extends React.Component {
               <Nav className="me-auto">
                 <Nav.Link onClick={() => this.toggleMenu(Settings)}>{Settings}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(Public)}>{Public}</Nav.Link>
-                <Nav.Link onClick={() => this.toggleMenu(Dividends)}>{Dividends}</Nav.Link>
+                {originalsFunc.isOwner ? (<Nav.Link onClick={() => this.toggleMenu(Dividends)}>{Dividends}</Nav.Link>):null}
                 <Nav.Link onClick={() => this.toggleMenu(Event)}>{Event}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(PiggyBank)}>{PiggyBank}</Nav.Link>
               </Nav>

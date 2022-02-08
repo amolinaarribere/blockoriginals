@@ -220,5 +220,12 @@ export async function LoadOwnersFunc(contract) {
   console.log("Owners for contract " + contract._address + " Loaded");
 }
 
+export async function LoadPiggyBankFunc(contract) {
+  console.log("loading Piggy Bank  Contract State");
+
+  await PiggyBankFunc.RetrieveTransferInfo(contract);
+
+  console.log("Piggy Bank Contract State Loaded");
+}
 
   

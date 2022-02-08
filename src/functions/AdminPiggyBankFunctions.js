@@ -12,10 +12,9 @@ export async function RetrieveTransferInfo(contract){
       let response = await contract.methods.retrieveTransferInfo().call();
 
       TransferTo = response[0]._to;
-      TransferAmount = new BigNumber(response[0]._amount);
-      TransferValidations = new BigNumber(response[0]._validations);
-      TransferRejections = new BigNumber(response[0]._rejections);
-
+      TransferAmount = ((response[0]._amount) ? new BigNumber(response[0]._amount).toString() : response[0]._amount);
+      TransferValidations = ((response[0]._validations) ? new BigNumber(response[0]._validations).toString() : response[0]._validations);
+      TransferRejections = ((response[0]._rejections) ? new BigNumber(response[0]._rejections).toString() : response[0]._rejections);
     }
     catch(e){
       window.alert("error retrieving the transfer info : " + JSON.stringify(e))
