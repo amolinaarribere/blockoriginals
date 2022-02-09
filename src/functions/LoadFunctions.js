@@ -221,9 +221,10 @@ export async function LoadOwnersFunc(contract) {
 }
 
 export async function LoadPiggyBankFunc(contract) {
-  console.log("loading Piggy Bank  Contract State");
+  console.log("loading Piggy Bank Contract State");
 
-  await PiggyBankFunc.RetrieveTransferInfo(contract);
+  await Promise.all([PiggyBankFunc.RetrieveTransferInfo(contract), 
+    PiggyBankFunc.RetrievePiggyBankBalance()]);
 
   console.log("Piggy Bank Contract State Loaded");
 }

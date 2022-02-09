@@ -1,5 +1,8 @@
 const Aux = require("./AuxiliaryFunctions.js");
+const Manager = require("./ManagerFunctions.js");
 const BigNumber = require('bignumber.js');
+
+export var PiggyBankBalanceWei = new BigNumber(0);
 
 export var TransferTo = "";
 export var TransferAmount = "";
@@ -31,4 +34,13 @@ export async function ApproveTransfer(contract){
 
 export async function RejectTransfer(contract){
     await Aux.CallBackFrame(contract.methods.reject().send({from: Aux.account }));
+}
+
+export async function RetrievePiggyBankBalance(){
+  try{
+    PiggyBankBalanceWei = new BigNumber(await Aux.web3.eth.getBalance(Manager.PiggyBankAddressProxy));
+  }
+  catch(e){
+    window.alert("error retrieving the piggy bank balance : " + JSON.stringify(e))
+  }
 }

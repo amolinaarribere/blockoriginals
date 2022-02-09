@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 
 const func = require("../../../functions/AdminPiggyBankFunctions.js");
 
@@ -20,6 +20,12 @@ class PiggyBankTransferComponent extends React.Component {
     render(){
       return (
         <div class="border border-0">
+              <Container style={{margin: '10px 50px 50px 50px' }}>
+                  <Row>
+                    <Col><b>Balance (ETH) :</b></Col> 
+                    <Col>{func.PiggyBankBalanceWei.toString()}</Col>
+                  </Row>
+                </Container>
                 <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>
                   <Form.Group  className="mb-3">
                     <Form.Control type="integer" name="Amount" placeholder="amount" 
