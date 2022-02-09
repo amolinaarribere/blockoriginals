@@ -19,7 +19,7 @@ const AuxFunc = require("./functions/AuxiliaryFunctions.js");
 
 const Home = "Home";
 const Settings = "Settings";
-const Public = "Public";
+const NFTMarkets = "NFT Markets";
 const Dividends = "Dividends";
 const Event = "Events";
 const PiggyBank = "PiggyBank";
@@ -71,10 +71,10 @@ class Demo extends React.Component {
               <Navbar.Brand onClick={() => this.toggleMenu(Home)}>Blockoriginals <i>(test)</i></Navbar.Brand>
               <Nav className="me-auto">
                 <Nav.Link onClick={() => this.toggleMenu(Settings)}>{Settings}</Nav.Link>
-                <Nav.Link onClick={() => this.toggleMenu(Public)}>{Public}</Nav.Link>
+                <Nav.Link onClick={() => this.toggleMenu(NFTMarkets)}>{NFTMarkets}</Nav.Link>
                 {originalsFunc.isOwner ? (<Nav.Link onClick={() => this.toggleMenu(Dividends)}>{Dividends}</Nav.Link>):null}
-                <Nav.Link onClick={() => this.toggleMenu(Event)}>{Event}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(PiggyBank)}>{PiggyBank}</Nav.Link>
+                <Nav.Link onClick={() => this.toggleMenu(Event)}>{Event}</Nav.Link>
               </Nav>
               {
                   (false == this.state.loading) ? <CurrentAddressComponent /> : <LoadingComponent />
@@ -92,7 +92,7 @@ class Demo extends React.Component {
                       return (
                         ((false == this.state.loading) ? <SettingsComponent /> : <LoadingComponent />)
                       )
-                  case Public:
+                  case NFTMarkets:
                       return (
                         ((false == this.state.loading) ? <PublicComponent /> : <LoadingComponent />)
                       )
@@ -100,13 +100,13 @@ class Demo extends React.Component {
                       return (
                         ((false == this.state.loading) ? <DividendsComponent /> : <LoadingComponent />)
                       )
-                  case Event:
-                      return (
-                        ((false == this.state.loading) ? <EventsComponent /> : <LoadingComponent />)
-                      )
                  case PiggyBank:
                       return (
                         ((false == this.state.loading) ? <PiggyBankComponent /> : <LoadingComponent />)
+                      )
+                  case Event:
+                      return (
+                        ((false == this.state.loading) ? <EventsComponent /> : <LoadingComponent />)
                       )
                   default:
                       return (
