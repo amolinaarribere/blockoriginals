@@ -66,15 +66,15 @@ class PricePropositionComponent extends React.Component {
                   "Transfer Fee Amount (Admin)",
                   "Transfer Fee Decimals (Admin)",
                   "Offers Life Time"]}
-                values={[func.NewIssuerFee,
-                   func.AdminNewIssuerFee,
-                   func.MintingFee,
-                   func.AdminMintingFee,
-                   func.TransferFeeAmount,
-                   func.TransferFeeDecimals,
-                   func.AdminTransferFeeAmount,
-                   func.AdminTransferFeeDecimals,
-                   func.OffersLifeTime
+                values={[func.NewIssuerFee.toString(),
+                   func.AdminNewIssuerFee.toString(),
+                   func.MintingFee.toString(),
+                   func.AdminMintingFee.toString(),
+                   func.TransferFeeAmount.toString(),
+                   func.TransferFeeDecimals.toString(),
+                   func.AdminTransferFeeAmount.toString(),
+                   func.AdminTransferFeeDecimals.toString(),
+                   func.OffersLifeTime.toString()
                 ]}/>
 
           {originalsFunc.isOwner ? (
@@ -109,15 +109,15 @@ class PricePropositionComponent extends React.Component {
                     "Pending Transfer Fee Amount (Admin)",
                     "Pending Transfer Fee Decimals (Admin)",
                     "Pending Offers Life Time"]}
-                  values={[func.PendingNewIssuerFee,
-                    func.PendingAdminNewIssuerFee,
-                    func.PendingMintingFee,
-                    func.PendingAdminMintingFee,
-                    func.PendingTransferFeeAmount,
-                    func.PendingTransferFeeDecimals ,
-                    func.PendingAdminTransferFeeAmount ,
-                    func.PendingAdminTransferFeeDecimals,
-                    func.PendingOffersLifeTime]}
+                  values={[func.PendingNewIssuerFee.toString(),
+                    func.PendingAdminNewIssuerFee.toString(),
+                    func.PendingMintingFee.toString(),
+                    func.PendingAdminMintingFee.toString(),
+                    func.PendingTransferFeeAmount.toString(),
+                    func.PendingTransferFeeDecimals.toString() ,
+                    func.PendingAdminTransferFeeAmount.toString() ,
+                    func.PendingAdminTransferFeeDecimals.toString(),
+                    func.PendingOffersLifeTime.toString()]}
                   PropStatus={this.state.PropStatus}
                   RemainingVotes={this.state.RemainingVotes}
                   dataType={VarDataType}/>

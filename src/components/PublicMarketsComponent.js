@@ -1,14 +1,15 @@
 import React from 'react';
 import OwnerComponent from './subcomponents/Owners/OwnerComponent.js';
 import LoadingComponent from './subcomponents/LoadingComponent.js';
+import PublicComponent from './subcomponents/Public/PublicComponent.js';
+
 
 const Ownerfunc = require("../functions/OwnerFunctions.js");
 const Contracts = require("../functions/Contracts.js");
 const LoadFunc = require("../functions/LoadFunctions.js");
-const AuxFunc = require("../functions/AuxiliaryFunctions.js");
 
 
-class PublicComponent extends React.Component {
+class PublicMarketsComponent extends React.Component {
     async componentWillMount() {
         await this.refresh(); 
      }
@@ -33,6 +34,9 @@ class PublicComponent extends React.Component {
             <div>
               {(false == this.state.loading)? 
                 <div>
+                    <PublicComponent contract={Contracts.publicPool} 
+                      isOwner={Ownerfunc.isOwner}
+                      refresh={this.refresh}/>
                     <OwnerComponent contract={Contracts.publicPool} 
                       isOwner={Ownerfunc.isOwner}
                       refresh={this.refresh}/>
@@ -49,4 +53,4 @@ class PublicComponent extends React.Component {
     }
 }
   
-export default PublicComponent;
+export default PublicMarketsComponent;

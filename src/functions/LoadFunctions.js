@@ -16,6 +16,8 @@ const OriginalsFunc = require("./OriginalsFunctions.js");
 const Contracts = require("./Contracts.js");
 const ManagerFunc = require("./ManagerFunctions.js");
 const PiggyBankFunc = require("./AdminPiggyBankFunctions.js");
+const PublicFunc = require("./PublicFunctions.js");
+
 const BrowserStorageFunc = require("./BrowserStorageFunctions.js");
 
 
@@ -227,6 +229,15 @@ export async function LoadPiggyBankFunc(contract) {
     PiggyBankFunc.RetrievePiggyBankBalance()]);
 
   console.log("Piggy Bank Contract State Loaded");
+}
+
+export async function LoadPublicFunc(contract) {
+  console.log("loading Public Contract State");
+
+  await Promise.all([PublicFunc.RetrieveMarkets(contract), 
+    PublicFunc.RetrieveCredit(contract)]);
+
+  console.log("Public Contract State Loaded");
 }
 
   

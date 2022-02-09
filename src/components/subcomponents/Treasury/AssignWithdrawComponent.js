@@ -10,7 +10,7 @@ class AssignWithdrawComponent extends React.Component {
         amount : ""
       };
     
-      handleWithdrawAll = async (event) => {
+    handleWithdrawAll = async (event) => {
         event.preventDefault();
       await func.WithdrawAll(this.props.contract);
       this.props.refresh();

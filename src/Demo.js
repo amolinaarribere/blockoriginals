@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 
 import HomeComponent from './components/HomeComponent.js';
-import PublicComponent from './components/PublicComponent.js';
+import PublicMarketsComponent from './components/PublicMarketsComponent.js';
 import DividendsComponent from './components/DividendsComponent.js';
 import SettingsComponent from './components/SettingsComponent.js';
 import CurrentAddressComponent from './components/CurrentAddressComponent.js';
@@ -94,7 +94,7 @@ class Demo extends React.Component {
                       )
                   case NFTMarkets:
                       return (
-                        ((false == this.state.loading) ? <PublicComponent /> : <LoadingComponent />)
+                        ((false == this.state.loading) ? <PublicMarketsComponent /> : <LoadingComponent />)
                       )
                   case Dividends:
                       return (

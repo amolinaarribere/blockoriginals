@@ -1,7 +1,10 @@
-  // Treasury
+// Treasury
+import { ETHFactor } from '../config'
+
 const Aux = require("./AuxiliaryFunctions.js");
 const Manager = require("./ManagerFunctions.js");
 const BigNumber = require('bignumber.js');
+
 
 export var AccountBalanceWei = new BigNumber(0);
 export var TreasuryBalanceWei = new BigNumber(0);
@@ -32,15 +35,15 @@ export var PendingOffersLifeTime = "";
     try{
       let response = await contract.methods.retrieveSettings().call();
 
-      NewIssuerFee = new BigNumber(response[0]).toString();
-      AdminNewIssuerFee = new BigNumber(response[1]).toString();
-      MintingFee = new BigNumber(response[2]).toString();
-      AdminMintingFee = new BigNumber(response[3]).toString();
-      TransferFeeAmount = new BigNumber(response[4]).toString();
-      TransferFeeDecimals = new BigNumber(response[5]).toString();
-      AdminTransferFeeAmount = new BigNumber(response[6]).toString();
-      AdminTransferFeeDecimals = new BigNumber(response[7]).toString();
-      OffersLifeTime = new BigNumber(response[8]).toString();
+      NewIssuerFee = new BigNumber(response[0]).dividedBy(ETHFactor);
+      AdminNewIssuerFee = new BigNumber(response[1]).dividedBy(ETHFactor);
+      MintingFee = new BigNumber(response[2]).dividedBy(ETHFactor);
+      AdminMintingFee = new BigNumber(response[3]).dividedBy(ETHFactor);
+      TransferFeeAmount = new BigNumber(response[4]);
+      TransferFeeDecimals = new BigNumber(response[5]);
+      AdminTransferFeeAmount = new BigNumber(response[6]);
+      AdminTransferFeeDecimals = new BigNumber(response[7]);
+      OffersLifeTime = new BigNumber(response[8]);
 
 
     }
@@ -62,15 +65,15 @@ export var PendingOffersLifeTime = "";
       PendingAdminTransferFeeDecimals = "-";
       PendingOffersLifeTime = "-";
 
-      if(response[0] != undefined)PendingNewIssuerFee = new BigNumber(response[0]).toString();
-      if(response[1] != undefined)PendingAdminNewIssuerFee = new BigNumber(response[1]).toString();
-      if(response[2] != undefined)PendingMintingFee = new BigNumber(response[2]).toString();
-      if(response[3] != undefined)PendingAdminMintingFee = new BigNumber(response[3]).toString();
-      if(response[4] != undefined)PendingTransferFeeAmount = new BigNumber(response[4]).toString();
-      if(response[5] != undefined)PendingTransferFeeDecimals = new BigNumber(response[5]).toString();
-      if(response[6] != undefined)PendingAdminTransferFeeAmount = new BigNumber(response[6]).toString();
-      if(response[7] != undefined)PendingAdminTransferFeeDecimals = new BigNumber(response[7]).toString();
-      if(response[8] != undefined)PendingOffersLifeTime = new BigNumber(response[8]).toString();
+      if(response[0] != undefined)PendingNewIssuerFee = new BigNumber(response[0]).dividedBy(ETHFactor);
+      if(response[1] != undefined)PendingAdminNewIssuerFee = new BigNumber(response[1]).dividedBy(ETHFactor);
+      if(response[2] != undefined)PendingMintingFee = new BigNumber(response[2]).dividedBy(ETHFactor);
+      if(response[3] != undefined)PendingAdminMintingFee = new BigNumber(response[3]).dividedBy(ETHFactor);
+      if(response[4] != undefined)PendingTransferFeeAmount = new BigNumber(response[4]);
+      if(response[5] != undefined)PendingTransferFeeDecimals = new BigNumber(response[5]);
+      if(response[6] != undefined)PendingAdminTransferFeeAmount = new BigNumber(response[6]);
+      if(response[7] != undefined)PendingAdminTransferFeeDecimals = new BigNumber(response[7]);
+      if(response[8] != undefined)PendingOffersLifeTime = new BigNumber(response[8]);
 
     }
     catch(e){
