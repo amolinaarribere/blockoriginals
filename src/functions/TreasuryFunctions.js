@@ -6,9 +6,9 @@ const Manager = require("./ManagerFunctions.js");
 const BigNumber = require('bignumber.js');
 
 
-export var AccountBalanceWei = new BigNumber(0);
-export var TreasuryBalanceWei = new BigNumber(0);
-export var TreasuryAggregatedBalanceWei = new BigNumber(0);
+export var AccountBalance = new BigNumber(0);
+export var TreasuryBalance = new BigNumber(0);
+export var TreasuryAggregatedBalance = new BigNumber(0);
 
 export var NewIssuerFee = "";
 export var AdminNewIssuerFee = "";
@@ -84,8 +84,8 @@ export var PendingOffersLifeTime = "";
 
   export async function RetrieveBalance(address, contract){
     try{
-      AccountBalanceWei = new BigNumber(0);
-      if(address)AccountBalanceWei = new BigNumber(await contract.methods.retrieveFullBalance(address).call());
+      AccountBalance = new BigNumber(0);
+      if(address)AccountBalance = new BigNumber(await contract.methods.retrieveFullBalance(address).call()).dividedBy(ETHFactor);
     }
     catch(e){
       window.alert("error retrieving the account's balance : " + JSON.stringify(e))
@@ -94,8 +94,8 @@ export var PendingOffersLifeTime = "";
 
   export async function RetrieveTreasuryBalance(contract){
     try{
-      TreasuryBalanceWei = new BigNumber(await Aux.web3.eth.getBalance(Manager.TreasuryAddressProxy));
-      TreasuryAggregatedBalanceWei = new BigNumber(await contract.methods.retrieveAggregatedAmount().call());
+      TreasuryBalance = new BigNumber(await Aux.web3.eth.getBalance(Manager.TreasuryAddressProxy)).dividedBy(ETHFactor);
+      TreasuryAggregatedBalance = new BigNumber(await contract.methods.retrieveAggregatedAmount().call()).dividedBy(ETHFactor);
     }
     catch(e){
       window.alert("error retrieving the treasury balance : " + JSON.stringify(e))

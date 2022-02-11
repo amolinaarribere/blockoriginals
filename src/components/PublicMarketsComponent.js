@@ -2,6 +2,7 @@ import React from 'react';
 import OwnerComponent from './subcomponents/Owners/OwnerComponent.js';
 import LoadingComponent from './subcomponents/LoadingComponent.js';
 import PublicComponent from './subcomponents/Public/PublicComponent.js';
+import NFTMarketComponent from './subcomponents/NFTMarkets/NFTMarketComponent.js';
 
 
 const Ownerfunc = require("../functions/OwnerFunctions.js");
@@ -37,9 +38,16 @@ class PublicMarketsComponent extends React.Component {
                     <PublicComponent contract={Contracts.publicPool} 
                       isOwner={Ownerfunc.isOwner}
                       refresh={this.refresh}/>
-                    <OwnerComponent contract={Contracts.publicPool} 
-                      isOwner={Ownerfunc.isOwner}
+                    <NFTMarketComponent
                       refresh={this.refresh}/>
+                    {(true == Ownerfunc.isOwner)?
+                      <div>
+                        <OwnerComponent contract={Contracts.publicPool} 
+                          isOwner={Ownerfunc.isOwner}
+                          refresh={this.refresh}/>
+                      </div>
+                    :
+                    null}
                     <br/>
                 </div>
               :

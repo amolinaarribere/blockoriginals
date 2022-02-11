@@ -34,7 +34,7 @@ class SendNewProposalComponent extends React.Component {
     render(){
       return (
         <div>
-         <h3>New Markets</h3>
+         <h3>New Market Request</h3>
          <Form onSubmit={this.handleNewProposal} style={{margin: '50px 50px 50px 50px' }}>
             <Form.Group  className="mb-3">
                <Form.Control type="text" name="owner" placeholder="address"
@@ -56,7 +56,7 @@ class SendNewProposalComponent extends React.Component {
                     value={this.state.PaymentPlan}
                     onChange={event => this.setState({ PaymentPlan: event.target.value })}/>    
             </Form.Group>
-            <button class="btn btn-primary">Submit Market Proposal</button> 
+            <button class="btn btn-primary">Submit Market Request</button> 
           </Form>
         </div>
       );

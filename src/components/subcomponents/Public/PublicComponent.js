@@ -2,11 +2,14 @@ import React from 'react';
 import SendNewProposalComponent from './SendNewProposalComponent.js';
 import ManageMarketsComponent from './ManageMarketsComponent.js';
 import ListPendingMarketsComponent from './ListPendingMarketsComponent.js';
+import ListMarketsComponent from './ListMarketsComponent.js';
 import CreditComponent from './CreditComponent.js';
 import LoadingComponent from '../LoadingComponent.js';
 
 const LoadFunc = require("../../../functions/LoadFunctions.js");
 const Treasury = require("../../../functions/TreasuryFunctions.js");
+const Aux = require("../../../functions/AuxiliaryFunctions.js");
+
 
 
 class PublicComponent extends React.Component {
@@ -36,27 +39,39 @@ class PublicComponent extends React.Component {
     render(){
         return (
           <div>
-            {(false == this.state.loading)? 
+            {(false == this.state.loading)?             
                 <div>
-                    <SendNewProposalComponent contract={this.props.contract} 
-                      price={Treasury.NewIssuerFee.plus(Treasury.AdminNewIssuerFee)}
-                      refresh={this.refresh}/>
-                    <br/>
+                    {(Aux.account)?
+                      <div>
+                         <SendNewProposalComponent contract={this.props.contract} 
+                            price={Treasury.NewIssuerFee.plus(Treasury.AdminNewIssuerFee)}
+                            refresh={this.refresh}/>
+                          {
+                          (! this.props.isOwner)?
+                            <hr class="bg-secondary"/>
+                            :<br/>
+                          }
+                      </div>
+                      :null}
                     {
-                      (this.props.isOwner)?(
+                      (this.props.isOwner)?
                         <div>
                             <ManageMarketsComponent contract={this.props.contract}
                               refresh={this.refresh}/>
                             <br/>
                             <ListPendingMarketsComponent contract={this.props.contract} />
-                            <br/>
+                            <hr class="bg-secondary"/>
                         </div>
-                        ):null}
+                        :null}
+                    {(Aux.account)?
+                      <div>
+                          <CreditComponent contract={this.props.contract} 
+                            refresh={this.refresh}/>
+                          <hr class="bg-secondary"/>
+                      </div>
+                      :null}
+                    <ListMarketsComponent contract={this.props.contract} />
                     <hr class="bg-secondary"/>
-                    <CreditComponent contract={this.props.contract} 
-                      refresh={this.refresh}/>
-                    <hr class="bg-secondary"/>
-
                 </div>
               :
               <div>

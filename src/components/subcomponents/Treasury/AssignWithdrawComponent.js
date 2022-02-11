@@ -31,15 +31,15 @@ class AssignWithdrawComponent extends React.Component {
             <Container style={{margin: '10px 50px 50px 50px' }}>
               <Row>
                 <Col><b>Aggregated Balance (ETH) :</b></Col> 
-                <Col>{func.TreasuryAggregatedBalanceWei.toString()}</Col>
+                <Col>{func.TreasuryAggregatedBalance.toString()}</Col>
               </Row>
               <Row>
                 <Col><b>Contract Balance (ETH) :</b></Col> 
-                <Col>{func.TreasuryBalanceWei.toString()}</Col>
+                <Col>{func.TreasuryBalance.toString()}</Col>
               </Row>
               <Row>
                 <Col><b>Your current Balance (ETH) :</b></Col> 
-                <Col>{func.AccountBalanceWei.toString()}</Col>
+                <Col>{func.AccountBalance.toString()}</Col>
               </Row>
               <br />
               <button type="button" class="btn btn-primary" onClick={this.handleWithdrawAll}>Withdraw All</button>

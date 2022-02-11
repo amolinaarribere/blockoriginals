@@ -61,11 +61,11 @@ class PricePropositionComponent extends React.Component {
                   "New Issuer Fee (Admin)",
                   "Minting Fee",
                   "Minting Fee (Admin)",
-                  "Transfer Fee Amount",
+                  "Transfer Fee Amount Percentage",
                   "Transfer Fee Decimals",
-                  "Transfer Fee Amount (Admin)",
+                  "Transfer Fee Amount (Admin) Percentage",
                   "Transfer Fee Decimals (Admin)",
-                  "Offers Life Time"]}
+                  "Offers Life Time Seconds"]}
                 values={[func.NewIssuerFee.toString(),
                    func.AdminNewIssuerFee.toString(),
                    func.MintingFee.toString(),
@@ -87,11 +87,11 @@ class PricePropositionComponent extends React.Component {
                    "NewIsserFee(Admin)",
                    "NewMintingFee",
                    "NewMintingFee(Admin)",
-                   "NewTransferFeeAmount",
+                   "NewTransferFeeAmountPercentage",
                    "NewTransferFeeDecimals",
-                   "NewTransferFeeAmount(Admin)",
+                   "NewTransferFeeAmountPercentage(Admin)",
                    "NewTransferFeeDecimals(Admin)",
-                   "NewOfferLifeTime"]}
+                   "NewOfferLifeTimeSeconds"]}
                   types={["number", "number", "number", "number", "number", "number", "number", "number", "number"]}
                   dataType={VarDataType}/>
 
@@ -104,11 +104,11 @@ class PricePropositionComponent extends React.Component {
                    "Pending New Issuer Fee (Admin)",
                    "Pending Minting Fee",
                    "Pending Minting Fee (Admin)",
-                   "Pending Transfer Fee Amount",
+                   "Pending Transfer Fee Amount Percentage",
                     "Pending Transfer Fee Decimals",
-                    "Pending Transfer Fee Amount (Admin)",
+                    "Pending Transfer Fee Amount Percentage (Admin)",
                     "Pending Transfer Fee Decimals (Admin)",
-                    "Pending Offers Life Time"]}
+                    "Pending Offers Life Time Seconds"]}
                   values={[func.PendingNewIssuerFee.toString(),
                     func.PendingAdminNewIssuerFee.toString(),
                     func.PendingMintingFee.toString(),
