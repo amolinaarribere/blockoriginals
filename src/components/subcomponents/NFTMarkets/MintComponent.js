@@ -41,7 +41,7 @@ class MintComponent extends React.Component {
                             value={this.state.price}
                             onChange={event => this.setState({ price: event.target.value })}/>
                     </Form.Group>
-                    <button type="submit" class="btn btn-secondary">Mint Token</button>
+                    <button type="submit" class="btn btn-primary">Mint Token</button>
                 </Form>
             </div>
             

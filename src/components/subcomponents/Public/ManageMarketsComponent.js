@@ -41,14 +41,14 @@ class ManageMarketsComponent extends React.Component{
             
             {this.state.isManageMarketsShown ? (
                         <div class="border border-primary border-5">
-                          <Form onSubmit={this.handleValidateProviderPool} style={{margin: '50px 50px 50px 50px' }}>
+                          <Form onSubmit={this.handleValidateMarket} style={{margin: '50px 50px 50px 50px' }}>
                             <Form.Group  className="mb-3">
                                       <Form.Control type="text" name="MarketId" placeholder="market id" 
                                           value={this.state.MarketId}
                                           onChange={event => this.setState({ MarketId: event.target.value })}/>  
                               </Form.Group>
                             <button type="submit" class="btn btn-success">Validate Market</button> &nbsp;&nbsp;
-                            <button type="button" class="btn btn-danger" onClick={this.handleRejectProviderPool}>Reject Market</button>
+                            <button type="button" class="btn btn-danger" onClick={this.handleRejecMarket}>Reject Market</button>
                         </Form>
                         <br/>
                         </div>) : null}
