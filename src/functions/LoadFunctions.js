@@ -5,7 +5,6 @@ import { MANAGER_PROXY_ADDRESS,
   ORIGINALS_ABI, 
   PROPOSITIONSETTINGS_ABI,
   ADMINPIGGYBANK_ABI,
-  NFTMARKET_ABI,
   AdminRights,
   MumbaiNode } from '../config'
 
