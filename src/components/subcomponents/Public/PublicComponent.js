@@ -5,6 +5,7 @@ import ListPendingMarketsComponent from './ListPendingMarketsComponent.js';
 import ListMarketsComponent from './ListMarketsComponent.js';
 import CreditComponent from './CreditComponent.js';
 import LoadingComponent from '../LoadingComponent.js';
+import NFTMarketComponent from '../NFTMarkets/NFTMarketComponent.js';
 
 const LoadFunc = require("../../../functions/LoadFunctions.js");
 const Treasury = require("../../../functions/TreasuryFunctions.js");
@@ -71,6 +72,13 @@ class PublicComponent extends React.Component {
                       </div>
                       :null}
                     <ListMarketsComponent contract={this.props.contract} />
+                    {(Aux.account)?
+                      <div>
+                          <br/>
+                          <NFTMarketComponent contract={this.props.contract} 
+                            refresh={this.refresh}/>
+                      </div>
+                      :null}
                     <hr class="bg-secondary"/>
                 </div>
               :

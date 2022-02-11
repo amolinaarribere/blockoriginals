@@ -1,9 +1,8 @@
 import React from 'react';
-import SubmitCancelOfferComponent from './SubmitCancelOfferComponent.js';
-import ReplyOfferComponent from './ReplyOfferComponent.js';
-import MintComponent from './MintComponent.js';
-import DisplayTokenComponent from './DisplayTokenComponent.js';
-
+import ChangeLifeTimeComponent from './ChangeLifeTimeComponent.js';
+import ChangeOwnerComponent from './ChangeOwnerComponent.js';
+import ChangePaymentPlanComponent from './ChangePaymentPlanComponent.js';
+import ChangeTransferFeeComponent from './ChangeTransferFeeComponent.js';
 
 
 const Aux = require("../../../functions/AuxiliaryFunctions.js");
@@ -22,18 +21,16 @@ class NFTMarketComponent extends React.Component {
     render(){
         return (
             <div>
-                <h3>Tokens</h3>
-                <br />
-                <DisplayTokenComponent contract={this.props.contract} />
                {(Aux.account)?
                     <div>
-                        <SubmitCancelOfferComponent contract={this.props.contract} 
+                        <ChangeLifeTimeComponent contract={this.props.contract} 
                             refresh={this.refresh}/>
-                        <ReplyOfferComponent contract={this.props.contract} 
+                        <ChangeOwnerComponent contract={this.props.contract} 
                             refresh={this.refresh}/>
-                        <MintComponent contract={this.props.contract} 
+                        <ChangePaymentPlanComponent contract={this.props.contract} 
                             refresh={this.refresh}/>
-                        <hr class="bg-secondary"/>
+                        <ChangeTransferFeeComponent contract={this.props.contract} 
+                            refresh={this.refresh}/>
                     </div>
                     :null}
             </div>

@@ -26,21 +26,39 @@ export var OfferBidder = "-";
 export var OfferDeadline = "-";
 
 
+export async function changeOwner(contract, marketId, newOwner){
+  let marketContract = await RetrieveNFTMarket(contract, marketId);
+  await changeOwnerForMarket(marketContract, newOwner);
+}
 
-
-export async function changeOwner(contract, newOwner){
+async function changeOwnerForMarket(contract, newOwner){
     await Aux.CallBackFrame(contract.methods.changeOwner(newOwner).send({from: Aux.account }));
 }
 
-export async function changePaymentPlan(contract, newPaymentPlan){
+export async function changePaymentPlan(contract, marketId, newPaymentPlan){
+  let marketContract = await RetrieveNFTMarket(contract, marketId);
+  await changePaymentPlanForMarket(marketContract, newPaymentPlan);
+}
+
+async function changePaymentPlanForMarket(contract, newPaymentPlan){
     await Aux.CallBackFrame(contract.methods.changePaymentPlan(newPaymentPlan).send({from: Aux.account }));
 }
 
-export async function changeOffersLifeTime(contract, newLifeTime){
+export async function changeOffersLifeTime(contract, marketId, newLifeTime){
+  let marketContract = await RetrieveNFTMarket(contract, marketId);
+  await changeOffersLifeTimeForMarket(marketContract, newLifeTime);
+}
+
+async function changeOffersLifeTimeForMarket(contract, newLifeTime){
     await Aux.CallBackFrame(contract.methods.changeOffersLifeTime(newLifeTime).send({from: Aux.account }));
 }
 
-export async function changeOwnerTransferFees(contract, newAmount, newDecimals){
+export async function changeOwnerTransferFees(contract, marketId, newAmount, newDecimals){
+  let marketContract = await RetrieveNFTMarket(contract, marketId);
+  await changeOwnerTransferFeesForMarket(marketContract, newAmount, newDecimals);
+}
+
+async function changeOwnerTransferFeesForMarket(contract, newAmount, newDecimals){
     await Aux.CallBackFrame(contract.methods.changeOwnerTransferFees(newAmount, newDecimals).send({from: Aux.account }));
 }
 
@@ -67,8 +85,14 @@ async function PaymentPlanForMarket(contract){
   }
 }
 
-export async function setTokenPrice(contract, tokenId, price){
-    await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, price).send({from: Aux.account }));
+export async function setTokenPrice(contract, marketId, tokenId, newPrice){
+  let marketContract = await RetrieveNFTMarket(contract, marketId);
+  await setTokenPriceForMarket(marketContract, tokenId, newPrice);
+}
+
+async function setTokenPriceForMarket(contract, tokenId, newPrice){
+    let newPriceWei = newPrice.multipliedBy(ETHFactor);
+    await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, newPriceWei).send({from: Aux.account }));
 }
 
 export async function replyOffer(contract, marketId, tokenId, validateOrReject){
