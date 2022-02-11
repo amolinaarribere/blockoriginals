@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { ETHFactor } from '../../../config';
 
 const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
@@ -16,8 +15,10 @@ class MintComponent extends React.Component {
 
     handleMint = async (event) => {
         event.preventDefault();
-        let Price = new BigNumber(this.state.price).multipliedBy(ETHFactor);
-        await func.mintToken(this.props.contract, this.state.marketId, this.state.tokenId, this.state.receiver, Price);
+        let MarketId = new BigNumber(this.state.marketId);
+        let TokenId = new BigNumber(this.state.tokenId);
+        let Price = new BigNumber(this.state.price);
+        await func.mintToken(this.props.contract, MarketId, TokenId, this.state.receiver, Price);
         this.setState({marketId: "", tokenId : "", receiver: "", price: ""});
         this.props.refresh();
     };

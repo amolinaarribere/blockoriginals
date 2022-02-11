@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
 
 const func = require("../../../functions/NFTMarketFunctions.js");
+const BigNumber = require('bignumber.js');
 
 
 
@@ -14,9 +15,10 @@ class DisplayTokenComponent extends React.Component {
 
     handleSearch = async (event) => {
         event.preventDefault();
-        await func.RetrieveToken(this.props.contract, this.state.marketId, this.state.tokenId);
+        let MarketId = new BigNumber(this.state.marketId);
+        let TokenId = new BigNumber(this.state.tokenId);
+        await func.RetrieveToken(this.props.contract, MarketId, TokenId);
         this.setState({marketId: "", tokenId : "", displayToken: true});
-        this.props.refresh();
     };
 
     render(){
@@ -34,7 +36,7 @@ class DisplayTokenComponent extends React.Component {
                     </Form.Group>
                     <button type="submit" class="btn btn-secondary">Display Token</button>
                 </Form>
-                {(this.state.displayOffer)? 
+                {(this.state.displayToken)? 
                     <Container style={{margin: '10px 50px 50px 50px' }}>
                         <Row>
                             <Col><b>Market :</b></Col> 

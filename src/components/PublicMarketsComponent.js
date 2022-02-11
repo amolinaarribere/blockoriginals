@@ -38,7 +38,7 @@ class PublicMarketsComponent extends React.Component {
                     <PublicComponent contract={Contracts.publicPool} 
                       isOwner={Ownerfunc.isOwner}
                       refresh={this.refresh}/>
-                    <NFTMarketComponent
+                    <NFTMarketComponent contract={Contracts.publicPool} 
                       refresh={this.refresh}/>
                     {(true == Ownerfunc.isOwner)?
                       <div>

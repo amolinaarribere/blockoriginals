@@ -1,8 +1,10 @@
-import { NFTMARKET_ABI, ETHFactor } from '../config'
+import { NFTMARKET_ABI, ETHFactor, PaymentPlansMinting, PaymentPlansTransferFee } from '../config'
 
 
 const Aux = require("./AuxiliaryFunctions.js");
 const BigNumber = require('bignumber.js');
+const TreasuryFunc = require("./TreasuryFunctions.js");
+
 
 export var IssuerOwner = "";
 export var IssuerName = "";
@@ -48,7 +50,21 @@ export async function mintToken(contract, marketId, tokenId, receiver, price){
 }
 
 async function mintTokenForMarket(contract, tokenId, receiver, price){
-    await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, price).send({from: Aux.account }));
+    let priceWei = price.multipliedBy(ETHFactor);
+    let paymentplan = await PaymentPlanForMarket(contract);
+    let payment = new BigNumber(0);
+    if(paymentplan == PaymentPlansMinting) payment = TreasuryFunc.MintingFee.plus(TreasuryFunc.AdminMintingFee).multipliedBy(ETHFactor);
+    await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, priceWei).send({from: Aux.account, value: payment }));
+}
+
+async function PaymentPlanForMarket(contract){
+  try{
+    let response = await contract.methods.retrieveIssuer().call();
+    return response[0]._paymentPlan;
+  }
+  catch(e){
+    window.alert("error retrieving the payment plan for market : " + JSON.stringify(e))
+  }
 }
 
 export async function setTokenPrice(contract, tokenId, price){
@@ -75,7 +91,10 @@ export async function submitOffer(contract, marketId, tokenId, bidder, offer, Fr
 }
 
 async function submitOfferForMarket(contract, tokenId, bidder, offer, FromCredit){
-    await Aux.CallBackFrame(contract.methods.submitOffer(tokenId, bidder, offer, FromCredit).send({from: Aux.account }));
+    let offerValue = new BigNumber(0);
+    let offerSent = new BigNumber(offer).multipliedBy(ETHFactor);
+    if (! FromCredit) offerValue = offerSent;
+    await Aux.CallBackFrame(contract.methods.submitOffer(tokenId, bidder, offerSent, FromCredit).send({from: Aux.account, value: offerValue }));
 }
 
 export async function withdrawOffer(contract, marketId, tokenId){
@@ -111,7 +130,7 @@ export async function RetrieveIssuer(contract){
 
 export async function RetrieveToken(contract, marketId, tokenId){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
-  TokenID = tokenId;
+  TokenID = tokenId.toString();
   await RetrieveTokenForMarket(marketContract, tokenId);
 }
 
@@ -120,7 +139,7 @@ async function RetrieveTokenForMarket(contract, tokenId){
       let response = await contract.methods.retrieveToken(tokenId).call();
 
       TokenPaymentPlan = response[0]._paymentPlan;
-      TokenPrice = new BigNumber(response[0]._price);
+      TokenPrice = new BigNumber(response[0]._price).dividedBy(ETHFactor);
       TokenOwner = response[1];
       
     }
@@ -131,21 +150,19 @@ async function RetrieveTokenForMarket(contract, tokenId){
 
 export async function RetrieveOffer(contract, marketId, tokenId){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
-  TokenID = tokenId;
+  TokenID = tokenId.toString();
   await RetrieveOfferForMarket(marketContract, tokenId);
 }
 
 async function RetrieveOfferForMarket(contract, tokenId){
     try{
       let response = await contract.methods.retrieveOffer(tokenId).call();
-
-      OfferOffer = new BigNumber(response[0]._offer);
-      OfferSender = response[0]._sender;
-      OfferBidder = response[0]._bidder;
-      let deadline = new BigNumber(response[0]._deadline);
+      OfferOffer = new BigNumber(response._offer).dividedBy(ETHFactor);
+      OfferSender = response._sender;
+      OfferBidder = response._bidder;
+      let deadline = response._deadline;
       var t = new Date(1970, 0, 1); // Epoch
       OfferDeadline = t.setSeconds(deadline);
-      
     }
     catch(e){
       window.alert("error retrieving the offer info : " + JSON.stringify(e))
@@ -156,7 +173,7 @@ async function RetrieveNFTMarket(contract, marketId){
   try{
     let marketAddress = await contract.methods.retrieveNFTMarketForIssuer(marketId).call();
     let marketContract = await new Aux.web3.eth.Contract(NFTMARKET_ABI, marketAddress);
-    MarketID = marketId;
+    MarketID = marketId.toString();
     return marketContract;
   }
   catch(e){

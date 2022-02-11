@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form} from 'react-bootstrap';
-import { ETHFactor } from '../../../config';
 
 const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
@@ -17,14 +16,18 @@ class SubmitCancelOfferComponent extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        let Offer = new BigNumber(this.state.offer).multipliedBy(ETHFactor);
-        await func.submitOffer(this.props.contract, this.state.marketId, this.state.tokenId, this.state.bidder, Offer, this.state.FromCredit);
+        let Offer = new BigNumber(this.state.offer);
+        let MarketId = new BigNumber(this.state.marketId);
+        let TokenId = new BigNumber(this.state.tokenId);
+        await func.submitOffer(this.props.contract, MarketId, TokenId, this.state.bidder, Offer, this.state.FromCredit);
         await this.reset();
     };
 
     handleWithdraw = async (event) => {
         event.preventDefault();
-        await func.withdrawOffer(this.props.contract, this.state.marketId, this.state.tokenId);
+        let MarketId = new BigNumber(this.state.marketId);
+        let TokenId = new BigNumber(this.state.tokenId);
+        await func.withdrawOffer(this.props.contract, MarketId, TokenId);
         await this.reset();
     };
 
