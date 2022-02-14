@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Container, Row, Col } from 'react-bootstrap';
+import { Form, Container, Row, Col, Table } from 'react-bootstrap';
 
 const EventsFunc = require("../../../functions/EventsFunctions.js");
 
@@ -49,29 +49,45 @@ class ListBaseEventsComponentTemplate extends React.Component {
                                         <Row>
                                           <Col><h2>{eventname}</h2></Col>
                                         </Row>
-                                        {(this.state.Events[index] != null) ? (
+                                        <br />
+                                        {(this.state.Events[index] != null && this.state.Events[index][0] != null) ? (
                                             <div>
-                                                {(this.state.Events[index]).map(
-                                                   EventLog => (
-                                                    <div>
-                                                      {(EventLog != null) ? (
-                                                              <div>
-                                                                <b>Block Number : </b>{EventLog.blockNumber} <b>Transaction Number : </b>{EventLog.transactionIndex}
+                                              <Table responsive striped bordered hover size="sm" style={{margin: '0px 50px 50px 50px' }}>
+                                                <thead>
+                                                    <tr>
+                                                      <th><b>Block Number</b></th>
+                                                      <th><b>Transaction Number</b></th>
+                                                      {(this.state.Events[index][0] != null) ? (
+                                                          (Object.keys(this.state.Events[index][0].returnValues).map(
+                                                            (key, i) => (
+                                                              (i >= Object.keys(this.state.Events[index][0].returnValues).length / 2)? 
+                                                                <th><b>{key}</b></th>: null
+                                                            )
+                                                          ))
+
+                                                      ) : null}                         
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                        {(this.state.Events[index]).map(
+                                                          EventLog => (
+                                                            (EventLog != null) ? (
+                                                              <tr>
+                                                                <td>{EventLog.blockNumber}</td>
+                                                                <td>{EventLog.transactionIndex}</td>
                                                                 {(Object.keys(EventLog.returnValues).map(
-                                                                   (key, i) => (
-                                                                     (i >= Object.keys(EventLog.returnValues).length / 2) ? (
-                                                                            <div>
-                                                                              <b>{key} </b>{EventLog.returnValues[key]} &nbsp;
-                                                                            </div>)
-                                                                            : null
-                                                                )))}
-                                                                <br />
-                                                              </div>
-                                                      ):null}     
-                                                    </div>
-                                                ))}
+                                                                  (key, i) => (
+                                                                    (i >= Object.keys(EventLog.returnValues).length / 2)?
+                                                                              (<td>{EventLog.returnValues[key]}</td>) : null
+                                                                            
+                                                              )))}
+                                                            </tr>
+                                                            ) : null))}                        
+                                                </tbody>
+                                              </Table>
                                             </div>
                                         ):null}
+
 
                                         <br />  
                                         <hr class="bg-secondary"/>
