@@ -62,6 +62,15 @@ async function changeOwnerTransferFeesForMarket(contract, newAmount, newDecimals
     await Aux.CallBackFrame(contract.methods.changeOwnerTransferFees(newAmount, newDecimals).send({from: Aux.account }));
 }
 
+export async function transferToken(contract, marketId, tokenId, previousOwner, newOwner){
+  let marketContract = await RetrieveNFTMarket(contract, marketId);
+  await transferTokenForMarket(marketContract, tokenId, previousOwner, newOwner);
+}
+
+async function transferTokenForMarket(contract, tokenId, previousOwner, newOwner){
+    await Aux.CallBackFrame(contract.methods.safeTransferFrom(previousOwner, newOwner, tokenId).send({from: Aux.account }));
+}
+
 export async function mintToken(contract, marketId, tokenId, receiver, price){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
   await mintTokenForMarket(marketContract, tokenId, receiver, price);
@@ -130,10 +139,6 @@ async function withdrawOfferForMarket(contract, tokenId){
     await Aux.CallBackFrame(contract.methods.withdrawOffer(tokenId).send({from: Aux.account }));
 }
 
-export async function transferToken(contract, tokenId, from, to){
-    await Aux.CallBackFrame(contract.methods.safeTransferFrom(from, to, tokenId).send({from: Aux.account }));
-}
-
 export async function RetrieveIssuer(contract){
     try{
       let response = await contract.methods.retrieveIssuer().call();
@@ -160,6 +165,10 @@ export async function RetrieveToken(contract, marketId, tokenId){
 
 async function RetrieveTokenForMarket(contract, tokenId){
     try{
+      TokenPaymentPlan = "-"
+      TokenPrice = "-"
+      TokenOwner = "-"
+
       let response = await contract.methods.retrieveToken(tokenId).call();
 
       TokenPaymentPlan = response[0]._paymentPlan;
@@ -180,6 +189,11 @@ export async function RetrieveOffer(contract, marketId, tokenId){
 
 async function RetrieveOfferForMarket(contract, tokenId){
     try{
+      OfferOffer = "-";
+      OfferSender = "-";
+      OfferBidder = "-";
+      OfferDeadline = "-";
+
       let response = await contract.methods.retrieveOffer(tokenId).call();
       OfferOffer = new BigNumber(response._offer).dividedBy(ETHFactor);
       OfferSender = response._sender;

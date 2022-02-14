@@ -4,6 +4,7 @@ import ReplyOfferComponent from './ReplyOfferComponent.js';
 import MintComponent from './MintComponent.js';
 import DisplayTokenComponent from './DisplayTokenComponent.js';
 import SetTokenPriceComponent from './SetTokenPriceComponent.js';
+import TransferComponent from './TransferComponent.js';
 
 
 const Aux = require("../../../functions/AuxiliaryFunctions.js");
@@ -27,6 +28,8 @@ class NFTMarketTokensComponent extends React.Component {
                 <DisplayTokenComponent contract={this.props.contract} />
                {(Aux.account)?
                     <div>
+                        <TransferComponent contract={this.props.contract} 
+                            refresh={this.refresh}/>
                         <SubmitCancelOfferComponent contract={this.props.contract} 
                             refresh={this.refresh}/>
                         <ReplyOfferComponent contract={this.props.contract} 
