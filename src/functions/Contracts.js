@@ -5,6 +5,7 @@ export var Treasury = "";
 export var OriginalsToken = "";
 export var PropositionSettings = "";
 export var AdminPiggyBank = "";
+export var Payments = "";
 
 
 export function setManager(_value){
@@ -33,4 +34,8 @@ export function setPropositionSettings(_value){
 
 export function setPiggyBank(_value){
     AdminPiggyBank = _value;
+}
+
+export function setPayments(_value){
+    Payments = _value;
 }
