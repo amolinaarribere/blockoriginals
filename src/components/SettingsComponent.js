@@ -2,6 +2,7 @@ import React from 'react';
 import ManagerAddressPropositionComponent from './subcomponents/Manager/AddressPropositionComponent.js';
 import PropositionConfigComponent from './subcomponents/Proposition/PropositionConfigComponent.js';
 import PricePropositionComponent from './subcomponents/Treasury/PricePropositionComponent.js';
+import PaymentsConfigComponent from './subcomponents/Payments/PaymentsConfigComponent.js';
 import LoadingComponent from './subcomponents/LoadingComponent.js';
 
 const Contracts = require("../functions/Contracts.js");
@@ -37,6 +38,8 @@ class SettingsComponent extends React.Component {
               <PropositionConfigComponent contract={Contracts.PropositionSettings}/>
               <br/>
               <PricePropositionComponent contract={Contracts.Treasury}/>
+              <br/>
+              <PaymentsConfigComponent contract={Contracts.Payments}/>
               <br/>
             </div>
           :

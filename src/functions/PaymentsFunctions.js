@@ -6,7 +6,7 @@ export var PendingTokenAddress = "";
 
 export async function RetrieveTokenAddress(contract){
     try{
-      RegistryAddress = await contract.methods.retrieveSettings().call();
+      TokenAddress = await contract.methods.retrieveSettings().call();
     }
     catch(e) { 
       window.alert("error retrieving the token address : " + JSON.stringify(e)); 
