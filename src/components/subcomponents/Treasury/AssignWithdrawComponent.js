@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
-import { ETHFactor } from '../../../config';
 
 const BigNumber = require('bignumber.js');
 const func = require("../../../functions/TreasuryFunctions.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
+
 
 class AssignWithdrawComponent extends React.Component {
     state = {
@@ -18,7 +19,7 @@ class AssignWithdrawComponent extends React.Component {
 
     handleWithdraw = async (event) => {
       event.preventDefault();
-      await func.WithdrawAmount((new BigNumber(this.state.amount).multipliedBy(ETHFactor)).dp(0, 1).toString(), this.props.contract);
+      await func.WithdrawAmount((new BigNumber(this.state.amount).multipliedBy(PaymentsFunc.TokenDecimalsFactor)).dp(0, 1).toString(), this.props.contract);
       this.setState({amount: ""});
       this.props.refresh();
     };
@@ -30,15 +31,15 @@ class AssignWithdrawComponent extends React.Component {
             <h3>Treasury Balances</h3>
             <Container style={{margin: '10px 50px 50px 50px' }}>
               <Row>
-                <Col><b>Aggregated Balance (ETH) :</b></Col> 
+                <Col><b>Aggregated Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
                 <Col>{func.TreasuryAggregatedBalance.toString()}</Col>
               </Row>
               <Row>
-                <Col><b>Contract Balance (ETH) :</b></Col> 
+                <Col><b>Contract Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
                 <Col>{func.TreasuryBalance.toString()}</Col>
               </Row>
               <Row>
-                <Col><b>Your current Balance (ETH) :</b></Col> 
+                <Col><b>Your current Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
                 <Col>{func.AccountBalance.toString()}</Col>
               </Row>
               <br />
@@ -48,7 +49,7 @@ class AssignWithdrawComponent extends React.Component {
           <div class="border border border-0">
             <Form onSubmit={this.handleWithdraw} style={{margin: '50px 50px 50px 50px' }}>
               <Form.Group  className="mb-3">
-                <Form.Control type="string" name="Amount" placeholder="Amount in ETH" 
+                <Form.Control type="string" name="Amount" placeholder="Amount in Token" 
                   value={this.state.amount}
                   onChange={event => this.setState({ amount: event.target.value })}/>
               </Form.Group>

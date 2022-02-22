@@ -1,9 +1,8 @@
 // Treasury
-import { ETHFactor } from '../config'
-
 const Aux = require("./AuxiliaryFunctions.js");
 const Manager = require("./ManagerFunctions.js");
 const BigNumber = require('bignumber.js');
+const PaymentsFunc = require("./PaymentsFunctions.js");
 
 
 export var AccountBalance = new BigNumber(0);
@@ -35,17 +34,15 @@ export var PendingOffersLifeTime = "";
     try{
       let response = await contract.methods.retrieveSettings().call();
 
-      NewIssuerFee = new BigNumber(response[0]).dividedBy(ETHFactor);
-      AdminNewIssuerFee = new BigNumber(response[1]).dividedBy(ETHFactor);
-      MintingFee = new BigNumber(response[2]).dividedBy(ETHFactor);
-      AdminMintingFee = new BigNumber(response[3]).dividedBy(ETHFactor);
+      NewIssuerFee = new BigNumber(response[0]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      AdminNewIssuerFee = new BigNumber(response[1]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      MintingFee = new BigNumber(response[2]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      AdminMintingFee = new BigNumber(response[3]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
       TransferFeeAmount = new BigNumber(response[4]);
       TransferFeeDecimals = new BigNumber(response[5]);
       AdminTransferFeeAmount = new BigNumber(response[6]);
       AdminTransferFeeDecimals = new BigNumber(response[7]);
       OffersLifeTime = new BigNumber(response[8]);
-
-
     }
     catch(e){
       window.alert("error retrieving the prices : " + JSON.stringify(e))
@@ -65,10 +62,10 @@ export var PendingOffersLifeTime = "";
       PendingAdminTransferFeeDecimals = "-";
       PendingOffersLifeTime = "-";
 
-      if(response[0] != undefined)PendingNewIssuerFee = new BigNumber(response[0]).dividedBy(ETHFactor);
-      if(response[1] != undefined)PendingAdminNewIssuerFee = new BigNumber(response[1]).dividedBy(ETHFactor);
-      if(response[2] != undefined)PendingMintingFee = new BigNumber(response[2]).dividedBy(ETHFactor);
-      if(response[3] != undefined)PendingAdminMintingFee = new BigNumber(response[3]).dividedBy(ETHFactor);
+      if(response[0] != undefined)PendingNewIssuerFee = new BigNumber(response[0]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      if(response[1] != undefined)PendingAdminNewIssuerFee = new BigNumber(response[1]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      if(response[2] != undefined)PendingMintingFee = new BigNumber(response[2]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      if(response[3] != undefined)PendingAdminMintingFee = new BigNumber(response[3]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
       if(response[4] != undefined)PendingTransferFeeAmount = new BigNumber(response[4]);
       if(response[5] != undefined)PendingTransferFeeDecimals = new BigNumber(response[5]);
       if(response[6] != undefined)PendingAdminTransferFeeAmount = new BigNumber(response[6]);
@@ -85,7 +82,7 @@ export var PendingOffersLifeTime = "";
   export async function RetrieveBalance(address, contract){
     try{
       AccountBalance = new BigNumber(0);
-      if(address)AccountBalance = new BigNumber(await contract.methods.retrieveFullBalance(address).call()).dividedBy(ETHFactor);
+      if(address)AccountBalance = new BigNumber(await contract.methods.retrieveFullBalance(address).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor);
     }
     catch(e){
       window.alert("error retrieving the account's balance : " + JSON.stringify(e))
@@ -94,8 +91,8 @@ export var PendingOffersLifeTime = "";
 
   export async function RetrieveTreasuryBalance(contract){
     try{
-      TreasuryBalance = new BigNumber(await Aux.web3.eth.getBalance(Manager.TreasuryAddressProxy)).dividedBy(ETHFactor);
-      TreasuryAggregatedBalance = new BigNumber(await contract.methods.retrieveAggregatedAmount().call()).dividedBy(ETHFactor);
+      TreasuryBalance = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.TreasuryAddressProxy)).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      TreasuryAggregatedBalance = new BigNumber(await contract.methods.retrieveAggregatedAmount().call()).dividedBy(PaymentsFunc.TokenDecimalsFactor);
     }
     catch(e){
       window.alert("error retrieving the treasury balance : " + JSON.stringify(e))

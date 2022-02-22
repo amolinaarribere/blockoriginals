@@ -1,11 +1,11 @@
-import { ETHFactor } from '../config'
-
 const Aux = require("./AuxiliaryFunctions.js");
 const Manager = require("./ManagerFunctions.js");
+const PaymentsFunc = require("./PaymentsFunctions.js");
+
 const BigNumber = require('bignumber.js');
 
 
-export var PiggyBankBalanceWei = new BigNumber(0);
+export var PiggyBankBalance = new BigNumber(0);
 
 export var TransferTo = "";
 export var TransferAmount = "";
@@ -41,7 +41,7 @@ export async function RejectTransfer(contract){
 
 export async function RetrievePiggyBankBalance(){
   try{
-    PiggyBankBalanceWei = new BigNumber(await Aux.web3.eth.getBalance(Manager.PiggyBankAddressProxy)).dividedBy(ETHFactor);
+    PiggyBankBalance = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.PiggyBankAddressProxy)).dividedBy(PaymentsFunc.TokenDecimalsFactor);
   }
   catch(e){
     window.alert("error retrieving the piggy bank balance : " + JSON.stringify(e))

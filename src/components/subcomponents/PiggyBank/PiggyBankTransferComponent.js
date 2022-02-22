@@ -2,6 +2,8 @@ import React from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 
 const func = require("../../../functions/AdminPiggyBankFunctions.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
+
 
 class PiggyBankTransferComponent extends React.Component {
     state = {
@@ -22,8 +24,8 @@ class PiggyBankTransferComponent extends React.Component {
         <div class="border border-0">
               <Container style={{margin: '10px 50px 50px 50px' }}>
                   <Row>
-                    <Col><b>Balance (ETH) :</b></Col> 
-                    <Col>{func.PiggyBankBalanceWei.toString()}</Col>
+                    <Col><b>Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
+                    <Col>{func.PiggyBankBalance.toString()}</Col>
                   </Row>
                 </Container>
                 <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>

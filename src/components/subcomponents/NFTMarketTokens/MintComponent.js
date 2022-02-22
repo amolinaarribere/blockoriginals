@@ -38,7 +38,7 @@ class MintComponent extends React.Component {
                         <Form.Control type="text" name="Receiver" placeholder="receiver address" 
                             value={this.state.receiver}
                             onChange={event => this.setState({ receiver: event.target.value })}/>
-                        <Form.Control type="text" name="Price" placeholder="price in ETH" 
+                        <Form.Control type="text" name="Price" placeholder="price" 
                             value={this.state.price}
                             onChange={event => this.setState({ price: event.target.value })}/>
                     </Form.Group>

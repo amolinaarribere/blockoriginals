@@ -1,9 +1,10 @@
 import React from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
-import { ETHFactor } from '../../../config';
 
 const BigNumber = require('bignumber.js');
 const func = require("../../../functions/PublicFunctions.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
+
 
 
 class CreditComponent extends React.Component {   
@@ -25,7 +26,7 @@ class CreditComponent extends React.Component {
 
     handleWithdraw = async (event) => {
         event.preventDefault();
-        await func.WithdrawCredit((new BigNumber(this.state.withdrawAmount).multipliedBy(ETHFactor)).dp(0, 1).toString(), this.props.contract);
+        await func.WithdrawCredit((new BigNumber(this.state.withdrawAmount).multipliedBy(PaymentsFunc.TokenDecimalsFactor)).dp(0, 1).toString(), this.props.contract);
         this.setState({withdrawAmount: ""});
         this.props.refresh();
     };
@@ -38,7 +39,7 @@ class CreditComponent extends React.Component {
 
     sendCredit = async (event) => {
         event.preventDefault();
-        await func.SendCredit(this.state.receiver, (new BigNumber(this.state.amount).multipliedBy(ETHFactor)).dp(0, 1).toString(), this.props.contract);
+        await func.SendCredit(this.state.receiver, new BigNumber(this.state.amount), this.props.contract);
         this.setState({amount: "", receiver : ""});
         this.props.refresh();
     };
@@ -49,7 +50,7 @@ class CreditComponent extends React.Component {
             <h3>Markets Credit</h3>
             <Container style={{margin: '10px 50px 50px 50px' }}>
                 <Row>
-                    <Col><b>Your Current Credit (ETH) :</b></Col> 
+                    <Col><b>Your Current Credit ({PaymentsFunc.TokenSymbol}) :</b></Col> 
                     <Col>{func.Credit.toString()}</Col>
                 </Row>
                 <br />
@@ -57,7 +58,7 @@ class CreditComponent extends React.Component {
             </Container>
             <Form onSubmit={this.handleWithdraw} style={{margin: '50px 50px 50px 50px' }}>
               <Form.Group  className="mb-3">
-                <Form.Control type="integer" name="Amount" placeholder="Amount in ETH" 
+                <Form.Control type="integer" name="Amount" placeholder="Amount"
                   value={this.state.withdrawAmount}
                   onChange={event => this.setState({ withdrawAmount: event.target.value })}/>
               </Form.Group>
@@ -68,7 +69,7 @@ class CreditComponent extends React.Component {
                 <Form.Control type="text" name="Receiver" placeholder="receiver address" 
                   value={this.state.receiver}
                   onChange={event => this.setState({ receiver: event.target.value })}/>
-                <Form.Control type="integer" name="Amount" placeholder="Amount in ETH" 
+                <Form.Control type="integer" name="Amount" placeholder="Amount" 
                   value={this.state.amount}
                   onChange={event => this.setState({ amount: event.target.value })}/>
               </Form.Group>

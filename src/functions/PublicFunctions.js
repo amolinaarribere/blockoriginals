@@ -1,14 +1,18 @@
-import { NFTMARKET_ABI, ETHFactor } from '../config'
+import { NFTMARKET_ABI } from '../config'
 
 const BigNumber = require('bignumber.js');
 const Aux = require("./AuxiliaryFunctions.js");
+const PaymentsFunc = require("./PaymentsFunctions.js");
+const ContractsFunc = require("./Contracts.js");
+
 
 export var Markets = ""
 export var pendingMarkets = ""
 export var Credit = ""
 
 export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, payment, price, contract){
-    await Aux.CallBackFrame(contract.methods.requestIssuer(owner, name, symbol, feeAmount, feeDecimals, payment).send({from: Aux.account, value: price.multipliedBy(ETHFactor)}));
+    await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price);
+    await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, payment)).send({from: Aux.account}));
  }
   
 export async function ValidateMarket(marketid, contract){
@@ -20,7 +24,8 @@ export async function RejectMarket(marketid, contract){
 }
 
 export async function SendCredit(receiver, amount, contract){
-    await Aux.CallBackFrame(contract.methods.sendCredit(receiver).send({from: Aux.account, value: amount }));
+    await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, amount);
+    await Aux.CallBackFrame(contract.methods.sendCredit(receiver, amount.multipliedBy(PaymentsFunc.TokenDecimalsFactor)).send({from: Aux.account }));
 }
   
 export async function WithdrawCredit(amount, contract){
@@ -60,7 +65,7 @@ export async function RetrieveMarkets(contract){
 export async function RetrieveCredit(contract){
     try{
         if(Aux.account){
-            Credit = new BigNumber(await contract.methods.retrieveCredit(Aux.account).call()).dividedBy(ETHFactor);
+            Credit = new BigNumber(await contract.methods.retrieveCredit(Aux.account).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor);
         }
         
     }

@@ -51,7 +51,7 @@ class SubmitCancelOfferComponent extends React.Component {
                         <Form.Control type="text" name="Bidder" placeholder="bidder address" 
                             value={this.state.bidder}
                             onChange={event => this.setState({ bidder: event.target.value })}/>
-                        <Form.Control type="text" name="Offer" placeholder="offer in ETH" 
+                        <Form.Control type="text" name="Offer" placeholder="offer" 
                             value={this.state.offer}
                             onChange={event => this.setState({ offer: event.target.value })}/>
                         <Form.Check type="checkbox" name="FromCredit" label="Use Credit"

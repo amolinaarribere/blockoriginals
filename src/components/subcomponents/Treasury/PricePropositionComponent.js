@@ -9,15 +9,18 @@ const originalsFunc = require("../../../functions/OriginalsFunctions.js");
 const address_0 = "0x0000000000000000000000000000000000000000"
 const VoteFunc = require("../../../functions/VoteFunctions.js");
 const Constants = require("../../../functions/Constants.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
+
+
 const VarDataType=[Constants.numberDataType,
   Constants.numberDataType,
   Constants.numberDataType,
   Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType]
+  Constants.intDataType,
+  Constants.intDataType,
+  Constants.intDataType,
+  Constants.intDataType,
+  Constants.intDataType]
 
 
 
@@ -57,15 +60,15 @@ class PricePropositionComponent extends React.Component {
         <div>
            <ConfigurationComponent refresh={this.refresh}
                 text="Fees"
-                names={["New Issuer Fee",
-                  "New Issuer Fee (Admin)",
-                  "Minting Fee",
-                  "Minting Fee (Admin)",
-                  "Transfer Fee Amount Percentage",
+                names={["New Issuer Fee - " + PaymentsFunc.TokenSymbol,
+                  "New Issuer Fee (Admin) - " + PaymentsFunc.TokenSymbol,
+                  "Minting Fee - " + PaymentsFunc.TokenSymbol,
+                  "Minting Fee (Admin) - " + PaymentsFunc.TokenSymbol,
+                  "Transfer Fee Amount - Percentage",
                   "Transfer Fee Decimals",
-                  "Transfer Fee Amount (Admin) Percentage",
+                  "Transfer Fee Amount (Admin) - Percentage",
                   "Transfer Fee Decimals (Admin)",
-                  "Offers Life Time Seconds"]}
+                  "Offers Life Time - Seconds"]}
                 values={[func.NewIssuerFee.toString(),
                    func.AdminNewIssuerFee.toString(),
                    func.MintingFee.toString(),

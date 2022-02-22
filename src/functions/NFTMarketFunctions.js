@@ -1,9 +1,11 @@
-import { NFTMARKET_ABI, ETHFactor, PaymentPlansMinting, PaymentPlansTransferFee } from '../config'
+import { NFTMARKET_ABI, PaymentPlansMinting, PaymentPlansTransferFee } from '../config'
 
 
 const Aux = require("./AuxiliaryFunctions.js");
 const BigNumber = require('bignumber.js');
 const TreasuryFunc = require("./TreasuryFunctions.js");
+const PaymentsFunc = require("./PaymentsFunctions.js");
+const ContractsFunc = require("./Contracts.js");
 
 
 export var IssuerOwner = "";
@@ -77,11 +79,12 @@ export async function mintToken(contract, marketId, tokenId, receiver, price){
 }
 
 async function mintTokenForMarket(contract, tokenId, receiver, price){
-    let priceWei = price.multipliedBy(ETHFactor);
+    let ActualPrice = price.multipliedBy(PaymentsFunc.TokenDecimalsFactor);
     let paymentplan = await PaymentPlanForMarket(contract);
     let payment = new BigNumber(0);
-    if(paymentplan == PaymentPlansMinting) payment = TreasuryFunc.MintingFee.plus(TreasuryFunc.AdminMintingFee).multipliedBy(ETHFactor);
-    await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, priceWei).send({from: Aux.account, value: payment }));
+    if(paymentplan == PaymentPlansMinting) payment = TreasuryFunc.MintingFee.plus(TreasuryFunc.AdminMintingFee).multipliedBy(PaymentsFunc.TokenDecimalsFactor);
+    await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment);
+    await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, ActualPrice).send({from: Aux.account}));
 }
 
 async function PaymentPlanForMarket(contract){
@@ -100,7 +103,7 @@ export async function setTokenPrice(contract, marketId, tokenId, newPrice){
 }
 
 async function setTokenPriceForMarket(contract, tokenId, newPrice){
-    let newPriceWei = newPrice.multipliedBy(ETHFactor);
+    let newPriceWei = newPrice.multipliedBy(PaymentsFunc.TokenDecimalsFactor);
     await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, newPriceWei).send({from: Aux.account }));
 }
 
@@ -124,10 +127,11 @@ export async function submitOffer(contract, marketId, tokenId, bidder, offer, Fr
 }
 
 async function submitOfferForMarket(contract, tokenId, bidder, offer, FromCredit){
-    let offerValue = new BigNumber(0);
-    let offerSent = new BigNumber(offer).multipliedBy(ETHFactor);
-    if (! FromCredit) offerValue = offerSent;
-    await Aux.CallBackFrame(contract.methods.submitOffer(tokenId, bidder, offerSent, FromCredit).send({from: Aux.account, value: offerValue }));
+    let offerSent = new BigNumber(offer).multipliedBy(PaymentsFunc.TokenDecimalsFactor);
+    if (! FromCredit){
+      await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, offerSent);
+    }
+    await Aux.CallBackFrame(contract.methods.submitOffer(tokenId, bidder, offerSent, FromCredit).send({from: Aux.account }));
 }
 
 export async function withdrawOffer(contract, marketId, tokenId){
@@ -172,7 +176,7 @@ async function RetrieveTokenForMarket(contract, tokenId){
       let response = await contract.methods.retrieveToken(tokenId).call();
 
       TokenPaymentPlan = response[0]._paymentPlan;
-      TokenPrice = new BigNumber(response[0]._price).dividedBy(ETHFactor);
+      TokenPrice = new BigNumber(response[0]._price).dividedBy(PaymentsFunc.TokenDecimalsFactor);
       TokenOwner = response[1];
       
     }
@@ -195,7 +199,7 @@ async function RetrieveOfferForMarket(contract, tokenId){
       OfferDeadline = "-";
 
       let response = await contract.methods.retrieveOffer(tokenId).call();
-      OfferOffer = new BigNumber(response._offer).dividedBy(ETHFactor);
+      OfferOffer = new BigNumber(response._offer).dividedBy(PaymentsFunc.TokenDecimalsFactor);
       OfferSender = response._sender;
       OfferBidder = response._bidder;
       let deadline = response._deadline;

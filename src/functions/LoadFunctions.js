@@ -149,10 +149,10 @@ export async function LoadBlockchain() {
     await LoadNetwork();
     await LoadContracts();
     
+    await LoadPaymentsFunc(Contracts.Payments)
     await LoadPropositionFunc(Contracts.PropositionSettings);
     await LoadTreasuryConfigFunc(Contracts.Treasury)
     await LoadOriginalsFunc(Contracts.OriginalsToken)
-    await LoadPaymentsFunc(Contracts.Payments)
     console.log("blockchain loaded")
 
   } catch (e) {
