@@ -18,6 +18,8 @@ const VarDataType=[Constants.intDataType,
   Constants.addressDataType,
   Constants.addressDataType,
   Constants.addressDataType,
+  Constants.addressDataType,
+  Constants.bytesDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
@@ -68,7 +70,8 @@ class AddressPropositionComponent extends React.Component {
                     "Treasury Address", 
                     "Originals Token Address",
                     "Proposition Settings Address", 
-                    "Piggy Bank Address"
+                    "Piggy Bank Address",
+                    "Payments Address"
                    ]}
                   values={[ManagerFunc.ProxyAdminAddress,
                     ManagerFunc.ManagerAddressProxy,
@@ -76,7 +79,8 @@ class AddressPropositionComponent extends React.Component {
                     ManagerFunc.TreasuryAddressProxy,
                     ManagerFunc.OriginalsTokenAddressProxy,
                     ManagerFunc.PropositionSettingsAddressProxy,
-                    ManagerFunc.PiggyBankAddressProxy
+                    ManagerFunc.PiggyBankAddressProxy,
+                    ManagerFunc.PaymentsAddressProxy
                    ]}/>
 
           <ConfigurationComponent refresh={this.refresh}
@@ -87,6 +91,7 @@ class AddressPropositionComponent extends React.Component {
                     "Originals Token Address",
                     "Proposition Settings Address", 
                     "Piggy Bank Address",
+                    "Payments Address",
                     "NFT Market Address"
                     ]}
                   values={[ManagerFunc.ManagerAddress,
@@ -95,6 +100,7 @@ class AddressPropositionComponent extends React.Component {
                     ManagerFunc.OriginalsTokenAddress,
                     ManagerFunc.PropositionSettingsAddress,
                     ManagerFunc.PiggyBankAddress,
+                    ManagerFunc.PaymentsAddress,
                     ManagerFunc.nftMarketImplAddress
                     ]}/>
 
@@ -112,17 +118,19 @@ class AddressPropositionComponent extends React.Component {
                    "NewOriginalsTokenAddress",
                    "NewPropositionSettingsAddress",
                    "NewPiggyBankAddress",
+                   "NewPaymentsAddress",
                    "NewNFTMarketAddress",
                    "ManagerInit",
                    "PublicInit",
                    "TreasuryInit",
                    "OriginalsInit",
                    "PropositionInit",
-                   "PiggyBankInit"
+                   "PiggyBankInit",
+                   "PaymentsInit"
                   ]}
                   types={["hidden", "hidden",
                     "text", "text", "text", "text", "text", "text", "text",
-                   "text", "text", "text", "text", "text", "text"]}
+                   "text", "text", "text", "text", "text", "text", "text", "text"]}
                   dataType={VarDataType}/>
 
                   <br />
@@ -142,7 +150,9 @@ class AddressPropositionComponent extends React.Component {
                   "Pending Proposition Settings Address",
                   "PropositionInit",
                   "Pending Piggy Bank Address",
-                  "PiggyBankInit"]}
+                  "PiggyBankInit",
+                  "Pending Payments Address",
+                  "PaymentsInit"]}
                   values={[ManagerFunc.PendingManagerAddress, 
                     ManagerFunc.PendingManagerInit,
                     ManagerFunc.PendingPublicPoolAddress, 
@@ -155,7 +165,9 @@ class AddressPropositionComponent extends React.Component {
                     ManagerFunc.PendingPropositionSettingsAddress,
                     ManagerFunc.PendingPropositionSettingsInit,
                     ManagerFunc.PendingPiggyBankAddress,
-                    ManagerFunc.PendingPiggyBankInit
+                    ManagerFunc.PendingPiggyBankInit,
+                    ManagerFunc.PendingPaymentsAddress,
+                    ManagerFunc.PendingPaymentsInit
                 ]}
                   PropStatus={this.state.PropStatus}
                   RemainingVotes={this.state.RemainingVotes}

@@ -2,6 +2,7 @@
 import Web3 from 'web3';
 
 const BrowserStorageFunctions = require("./BrowserStorageFunctions.js");
+const BigNumber = require('bignumber.js');
 
 export var account = "";
 export var web3 = "";
@@ -48,7 +49,7 @@ export function Bytes32ToInt(bytes){
 
 export function IntToBytes32(value){
   let returnValue = "0x";
-  let valueHex = parseInt(value).toString(16);
+  let valueHex = new BigNumber(value).toString(16);
   for(let i=0; i < 64 - valueHex.length; i++){
       returnValue = returnValue + "0";
   }
@@ -62,6 +63,17 @@ export function StringToBytes(str) {
 
 export function BytesToString(bytes) {
   return web3.utils.hexToAscii(bytes);
+}
+
+export function returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, paymentPlan){
+  return {
+      "_owner": owner,
+      "_name": name,
+      "_symbol": symbol,
+      "_feeAmount": feeAmount,
+      "_feeDecimals": feeDecimals,
+      "_paymentPlan": paymentPlan
+  };  
 }
 
 

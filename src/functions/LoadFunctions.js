@@ -5,7 +5,7 @@ import { MANAGER_PROXY_ADDRESS,
   ORIGINALS_ABI, 
   PROPOSITIONSETTINGS_ABI,
   ADMINPIGGYBANK_ABI,
-  NFTMARKET_ABI,
+  PAYMENTS_ABI,
   AdminRights,
   MumbaiNode } from '../config'
 
@@ -16,6 +16,9 @@ const OriginalsFunc = require("./OriginalsFunctions.js");
 const Contracts = require("./Contracts.js");
 const ManagerFunc = require("./ManagerFunctions.js");
 const PiggyBankFunc = require("./AdminPiggyBankFunctions.js");
+const PublicFunc = require("./PublicFunctions.js");
+const PaymentsFunc = require("./PaymentsFunctions.js");
+
 const BrowserStorageFunc = require("./BrowserStorageFunctions.js");
 
 
@@ -134,6 +137,7 @@ async function LoadContracts(){
   Contracts.setOriginalsToken(await new Aux.web3.eth.Contract(ORIGINALS_ABI, ManagerFunc.OriginalsTokenAddressProxy))
   Contracts.setPropositionSettings(await new Aux.web3.eth.Contract(PROPOSITIONSETTINGS_ABI, ManagerFunc.PropositionSettingsAddressProxy))
   Contracts.setPiggyBank(await new Aux.web3.eth.Contract(ADMINPIGGYBANK_ABI, ManagerFunc.PiggyBankAddressProxy))
+  Contracts.setPayments(await new Aux.web3.eth.Contract(PAYMENTS_ABI, ManagerFunc.PaymentsAddressProxy))
 
   console.log("contracts loaded")
 }
@@ -145,6 +149,7 @@ export async function LoadBlockchain() {
     await LoadNetwork();
     await LoadContracts();
     
+    await LoadPaymentsFunc(Contracts.Payments)
     await LoadPropositionFunc(Contracts.PropositionSettings);
     await LoadTreasuryConfigFunc(Contracts.Treasury)
     await LoadOriginalsFunc(Contracts.OriginalsToken)
@@ -220,5 +225,31 @@ export async function LoadOwnersFunc(contract) {
   console.log("Owners for contract " + contract._address + " Loaded");
 }
 
+export async function LoadPiggyBankFunc(contract) {
+  console.log("loading Piggy Bank Contract State");
+
+  await Promise.all([PiggyBankFunc.RetrieveTransferInfo(contract), 
+    PiggyBankFunc.RetrievePiggyBankBalance()]);
+
+  console.log("Piggy Bank Contract State Loaded");
+}
+
+export async function LoadPublicFunc(contract) {
+  console.log("loading Public Contract State");
+
+  await Promise.all([PublicFunc.RetrieveMarkets(contract), 
+    PublicFunc.RetrieveCredit(contract)]);
+
+  console.log("Public Contract State Loaded");
+}
+
+export async function LoadPaymentsFunc(contract) {
+  console.log("loading Payments Contract State");
+
+  await Promise.all([PaymentsFunc.RetrieveTokenAddress(contract),
+    PaymentsFunc.RetrievePendingTokenAddress(contract)]);
+
+  console.log("Payments Contract State Loaded");
+}
 
   

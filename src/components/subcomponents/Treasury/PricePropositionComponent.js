@@ -9,15 +9,18 @@ const originalsFunc = require("../../../functions/OriginalsFunctions.js");
 const address_0 = "0x0000000000000000000000000000000000000000"
 const VoteFunc = require("../../../functions/VoteFunctions.js");
 const Constants = require("../../../functions/Constants.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
+
+
 const VarDataType=[Constants.numberDataType,
   Constants.numberDataType,
   Constants.numberDataType,
   Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType,
-  Constants.numberDataType]
+  Constants.intDataType,
+  Constants.intDataType,
+  Constants.intDataType,
+  Constants.intDataType,
+  Constants.intDataType]
 
 
 
@@ -57,24 +60,24 @@ class PricePropositionComponent extends React.Component {
         <div>
            <ConfigurationComponent refresh={this.refresh}
                 text="Fees"
-                names={["New Issuer Fee",
-                  "New Issuer Fee (Admin)",
-                  "Minting Fee",
-                  "Minting Fee (Admin)",
-                  "Transfer Fee Amount",
+                names={["New Issuer Fee - " + PaymentsFunc.TokenSymbol,
+                  "New Issuer Fee (Admin) - " + PaymentsFunc.TokenSymbol,
+                  "Minting Fee - " + PaymentsFunc.TokenSymbol,
+                  "Minting Fee (Admin) - " + PaymentsFunc.TokenSymbol,
+                  "Transfer Fee Amount - Percentage",
                   "Transfer Fee Decimals",
-                  "Transfer Fee Amount (Admin)",
+                  "Transfer Fee Amount (Admin) - Percentage",
                   "Transfer Fee Decimals (Admin)",
-                  "Offers Life Time"]}
-                values={[func.NewIssuerFee,
-                   func.AdminNewIssuerFee,
-                   func.MintingFee,
-                   func.AdminMintingFee,
-                   func.TransferFeeAmount,
-                   func.TransferFeeDecimals,
-                   func.AdminTransferFeeAmount,
-                   func.AdminTransferFeeDecimals,
-                   func.OffersLifeTime
+                  "Offers Life Time - Seconds"]}
+                values={[func.NewIssuerFee.toString(),
+                   func.AdminNewIssuerFee.toString(),
+                   func.MintingFee.toString(),
+                   func.AdminMintingFee.toString(),
+                   func.TransferFeeAmount.toString(),
+                   func.TransferFeeDecimals.toString(),
+                   func.AdminTransferFeeAmount.toString(),
+                   func.AdminTransferFeeDecimals.toString(),
+                   func.OffersLifeTime.toString()
                 ]}/>
 
           {originalsFunc.isOwner ? (
@@ -87,11 +90,11 @@ class PricePropositionComponent extends React.Component {
                    "NewIsserFee(Admin)",
                    "NewMintingFee",
                    "NewMintingFee(Admin)",
-                   "NewTransferFeeAmount",
+                   "NewTransferFeeAmountPercentage",
                    "NewTransferFeeDecimals",
-                   "NewTransferFeeAmount(Admin)",
+                   "NewTransferFeeAmountPercentage(Admin)",
                    "NewTransferFeeDecimals(Admin)",
-                   "NewOfferLifeTime"]}
+                   "NewOfferLifeTimeSeconds"]}
                   types={["number", "number", "number", "number", "number", "number", "number", "number", "number"]}
                   dataType={VarDataType}/>
 
@@ -104,20 +107,20 @@ class PricePropositionComponent extends React.Component {
                    "Pending New Issuer Fee (Admin)",
                    "Pending Minting Fee",
                    "Pending Minting Fee (Admin)",
-                   "Pending Transfer Fee Amount",
+                   "Pending Transfer Fee Amount Percentage",
                     "Pending Transfer Fee Decimals",
-                    "Pending Transfer Fee Amount (Admin)",
+                    "Pending Transfer Fee Amount Percentage (Admin)",
                     "Pending Transfer Fee Decimals (Admin)",
-                    "Pending Offers Life Time"]}
-                  values={[func.PendingNewIssuerFee,
-                    func.PendingAdminNewIssuerFee,
-                    func.PendingMintingFee,
-                    func.PendingAdminMintingFee,
-                    func.PendingTransferFeeAmount,
-                    func.PendingTransferFeeDecimals ,
-                    func.PendingAdminTransferFeeAmount ,
-                    func.PendingAdminTransferFeeDecimals,
-                    func.PendingOffersLifeTime]}
+                    "Pending Offers Life Time Seconds"]}
+                  values={[func.PendingNewIssuerFee.toString(),
+                    func.PendingAdminNewIssuerFee.toString(),
+                    func.PendingMintingFee.toString(),
+                    func.PendingAdminMintingFee.toString(),
+                    func.PendingTransferFeeAmount.toString(),
+                    func.PendingTransferFeeDecimals.toString() ,
+                    func.PendingAdminTransferFeeAmount.toString() ,
+                    func.PendingAdminTransferFeeDecimals.toString(),
+                    func.PendingOffersLifeTime.toString()]}
                   PropStatus={this.state.PropStatus}
                   RemainingVotes={this.state.RemainingVotes}
                   dataType={VarDataType}/>

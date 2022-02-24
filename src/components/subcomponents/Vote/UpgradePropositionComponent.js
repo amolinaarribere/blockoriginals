@@ -5,8 +5,11 @@ const func = require("../../../functions/VoteFunctions.js");
 const loadFunc = require("../../../functions/LoadFunctions.js");
 const aux = require("../../../functions/AuxiliaryFunctions.js");
 const Constants = require("../../../functions/Constants.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 const address_0 = "0x0000000000000000000000000000000000000000";
 const emptyBytes = "0x";
+const BigNumber = require('bignumber.js');
+
 
 
 class UpgradePropositionComponent extends React.Component{
@@ -69,7 +72,7 @@ class UpgradePropositionComponent extends React.Component{
 
           else if(this.props.dataType[i] == Constants.numberDataType){
             if(this.state.values[i].length > 0){
-              FinalValues.push(aux.IntToBytes32(100 * this.state.values[i]));
+              FinalValues.push(aux.IntToBytes32(new BigNumber(this.state.values[i]).multipliedBy(PaymentsFunc.TokenDecimalsFactor)));
             }
             else{FinalValues.push(aux.IntToBytes32(0));}
           }
