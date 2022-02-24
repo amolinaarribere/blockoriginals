@@ -16,7 +16,8 @@ class SendNewProposalComponent extends React.Component {
       Symbol : "",
       FeeAmount : "",
       FeeDecimals : "",
-      PaymentPlan : ""
+      PaymentPlan : "",
+      FromCredit : false
     };
 
     async refresh() {
@@ -26,8 +27,8 @@ class SendNewProposalComponent extends React.Component {
     handleNewProposal = async (event) => {
       event.preventDefault();
       
-      await func.AddMarket(this.state.Owner, this.state.Name, this.state.Symbol, this.state.FeeAmount, this.state.FeeDecimals, this.state.PaymentPlan, this.props.price, this.props.contract)
-      this.setState({ Owner: "", Name : "", Symbol : "", FeeAmount : "", FeeDecimals : "", PaymentPlan : ""})
+      await func.AddMarket(this.state.Owner, this.state.Name, this.state.Symbol, this.state.FeeAmount, this.state.FeeDecimals, this.state.PaymentPlan, this.props.price, this.state.FromCredit, this.props.contract)
+      this.setState({ Owner: "", Name : "", Symbol : "", FeeAmount : "", FeeDecimals : "", PaymentPlan : "", FromCredit : false})
       await this.refresh();
     };
 
@@ -54,7 +55,10 @@ class SendNewProposalComponent extends React.Component {
                     onChange={event => this.setState({ FeeDecimals: event.target.value })}/> 
                 <Form.Control type="integer" name="payment" placeholder="Payment Plan" 
                     value={this.state.PaymentPlan}
-                    onChange={event => this.setState({ PaymentPlan: event.target.value })}/>    
+                    onChange={event => this.setState({ PaymentPlan: event.target.value })}/>  
+                <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
+                    checked={this.state.FromCredit}
+                    onChange={event => this.setState({ FromCredit: event.target.checked })} />  
             </Form.Group>
             <button class="btn btn-primary">Submit Market Request</button> 
           </Form>

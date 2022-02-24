@@ -10,9 +10,9 @@ export var Markets = ""
 export var pendingMarkets = ""
 export var Credit = ""
 
-export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, payment, price, contract){
-    await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price);
-    await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, payment)).send({from: Aux.account}));
+export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, payment, price, FromCredit, contract){
+    if(!FromCredit)await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price);
+    await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, payment), FromCredit).send({from: Aux.account}));
  }
   
 export async function ValidateMarket(marketid, contract){

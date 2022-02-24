@@ -686,6 +686,37 @@ export const PUBLIC_ABI = [
       },
       {
         "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      }
+    ],
+    "name": "_CreditSpent",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
         "internalType": "uint256",
         "name": "tokenID",
         "type": "uint256"
@@ -1045,7 +1076,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -1058,7 +1090,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -1071,7 +1104,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -1084,7 +1118,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -1107,7 +1142,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1126,7 +1162,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -1209,6 +1246,11 @@ export const PUBLIC_ABI = [
         "internalType": "struct ItemsLibrary._issuerStruct",
         "name": "requestedIssuer",
         "type": "tuple"
+      },
+      {
+        "internalType": "bool",
+        "name": "FromCredit",
+        "type": "bool"
       }
     ],
     "name": "requestIssuer",
@@ -1253,7 +1295,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1272,7 +1315,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -1285,7 +1329,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1363,7 +1408,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -1448,6 +1494,34 @@ export const PUBLIC_ABI = [
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      }
+    ],
+    "name": "spendCredit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
       }
@@ -1504,7 +1578,8 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ]
 
@@ -3753,7 +3828,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -3772,7 +3848,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -3796,7 +3873,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -3809,7 +3887,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -3828,7 +3907,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -3841,7 +3921,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -3929,7 +4010,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -3942,7 +4024,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -3961,7 +4044,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -4112,6 +4196,11 @@ export const NFTMARKET_ABI = [
         "internalType": "uint256",
         "name": "price",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "FromCredit",
+        "type": "bool"
       }
     ],
     "name": "mintToken",
@@ -4252,7 +4341,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -4288,7 +4378,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -4329,7 +4420,8 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   }
 ]
 

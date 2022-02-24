@@ -73,18 +73,18 @@ async function transferTokenForMarket(contract, tokenId, previousOwner, newOwner
     await Aux.CallBackFrame(contract.methods.safeTransferFrom(previousOwner, newOwner, tokenId).send({from: Aux.account }));
 }
 
-export async function mintToken(contract, marketId, tokenId, receiver, price){
+export async function mintToken(contract, marketId, tokenId, receiver, price, FromCredit){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
-  await mintTokenForMarket(marketContract, tokenId, receiver, price);
+  await mintTokenForMarket(marketContract, tokenId, receiver, price, FromCredit);
 }
 
-async function mintTokenForMarket(contract, tokenId, receiver, price){
+async function mintTokenForMarket(contract, tokenId, receiver, price, FromCredit){
     let ActualPrice = price.multipliedBy(PaymentsFunc.TokenDecimalsFactor);
     let paymentplan = await PaymentPlanForMarket(contract);
     let payment = new BigNumber(0);
-    if(paymentplan == PaymentPlansMinting) payment = TreasuryFunc.MintingFee.plus(TreasuryFunc.AdminMintingFee).multipliedBy(PaymentsFunc.TokenDecimalsFactor);
-    await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment);
-    await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, ActualPrice).send({from: Aux.account}));
+    if(paymentplan == PaymentPlansMinting) payment = TreasuryFunc.MintingFee.plus(TreasuryFunc.AdminMintingFee);
+    if(!FromCredit) await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment);
+    await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, ActualPrice, FromCredit).send({from: Aux.account}));
 }
 
 async function PaymentPlanForMarket(contract){

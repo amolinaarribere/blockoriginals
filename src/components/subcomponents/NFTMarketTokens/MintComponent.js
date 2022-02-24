@@ -10,7 +10,8 @@ class MintComponent extends React.Component {
         marketId : "",
         tokenId : "",
         receiver : "",
-        price : ""
+        price : "",
+        FromCredit : false
     };
 
     handleMint = async (event) => {
@@ -18,8 +19,8 @@ class MintComponent extends React.Component {
         let MarketId = new BigNumber(this.state.marketId);
         let TokenId = new BigNumber(this.state.tokenId);
         let Price = new BigNumber(this.state.price);
-        await func.mintToken(this.props.contract, MarketId, TokenId, this.state.receiver, Price);
-        this.setState({marketId: "", tokenId : "", receiver: "", price: ""});
+        await func.mintToken(this.props.contract, MarketId, TokenId, this.state.receiver, Price, this.state.FromCredit);
+        this.setState({marketId: "", tokenId : "", receiver: "", price: "", FromCredit : false});
         this.props.refresh();
     };
 
@@ -41,6 +42,9 @@ class MintComponent extends React.Component {
                         <Form.Control type="text" name="Price" placeholder="price" 
                             value={this.state.price}
                             onChange={event => this.setState({ price: event.target.value })}/>
+                        <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
+                            checked={this.state.FromCredit}
+                            onChange={event => this.setState({ FromCredit: event.target.checked })} />
                     </Form.Group>
                     <button type="submit" class="btn btn-primary">Mint Token</button>
                 </Form>
