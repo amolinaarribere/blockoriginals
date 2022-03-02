@@ -3,34 +3,42 @@ import { ERC20_ABI } from '../config'
 const Aux = require("./AuxiliaryFunctions.js");
 const BigNumber = require('bignumber.js');
 
-export var TokenAddress = "";
-export var PendingTokenAddress = "";
-export var TokenContract = "";
-export var TokenSymbol = "";
-var TokenDecimals = "";
-export var TokenDecimalsFactor = "";
+export var TokenAddresses = "";
+export var PendingTokenAddresses = "";
+export var TokenSymbols = "";
+export var TokenDecimalsFactors = "";
+var TokenContracts = ""
 
-
-export async function RetrieveTokenAddress(contract){
+export async function RetrieveTokenAddresses(contract){
     try{
-      TokenAddress = await contract.methods.retrieveSettings().call();
+      TokenAddresses = await contract.methods.retrieveSettings().call();
+      TokenContracts = [];
+      TokenSymbols = [];
+      TokenDecimalsFactors = [];
 
-      TokenContract = await new Aux.web3.eth.Contract(ERC20_ABI, TokenAddress);
-
-      await GetTokenFeatures();
+      for(let i=0; i < TokenAddresses.length; i++){
+        TokenContracts[i] = await GetTokenContract(i);
+        let TokenFeatures = await GetTokenFeatures(i);
+        TokenSymbols[i] = TokenFeatures[0];
+        TokenDecimalsFactors[i] = TokenFeatures[1];
+      }
     }
     catch(e) { 
-      window.alert("error retrieving the token address : " + JSON.stringify(e)); 
+      window.alert("error retrieving the token addresses : " + JSON.stringify(e)); 
     }
     
   }
 
-  export async function RetrievePendingTokenAddress(contract){
+  export async function RetrievePendingTokenAddresses(contract){
     try{
       let result = await contract.methods.retrieveProposition().call();
-      PendingTokenAddress = "-"
+      PendingTokenAddresses = []
       
-      if(result[0] != undefined)PendingTokenAddress = Aux.Bytes32ToAddress(result[0])
+      if(result != undefined){
+        for(let i=0; i < result.length; i++){
+          PendingTokenAddress[i] = Aux.Bytes32ToAddress(result[i]);
+        }
+      }
     }
     catch(e) { 
       window.alert("error retrieving the pending token address : " + JSON.stringify(e)); 
@@ -38,48 +46,61 @@ export async function RetrieveTokenAddress(contract){
     
   }
 
-  export async function SetApprove(spender, amount){
-    await Aux.CallBackFrame(TokenContract.methods.approve(spender, amount).send({from: Aux.account }));
+  export async function SetApprove(spender, amount, TokenID){
+    if(TokenID < TokenContract.length) await Aux.CallBackFrame(TokenContract[TokenID].methods.approve(spender, amount).send({from: Aux.account }));
+    else window.alert("TokenID provided is not available in the system");
   }
 
-  export async function GetAllowance(owner, spender){
+  export async function GetAllowance(owner, spender, TokenID){
     try{
-      return await TokenContract.methods.allowance(owner, spender).call();
+      if(TokenID < TokenContract.length) return await TokenContract[TokenID].methods.allowance(owner, spender).call();
+      else 0;
     }
     catch(e) { 
       window.alert("error returning the token allowance : " + JSON.stringify(e)); 
     }
   }
 
-  export async function GetBalanceOf(account){
+  export async function GetBalanceOf(account, TokenID){
     try{
-      return await TokenContract.methods.balanceOf(account).call();
+      if(TokenID < TokenContract.length) return await TokenContract[TokenID].methods.balanceOf(account).call();
+      else 0;
     }
     catch(e) { 
       window.alert("error returning the token balance Of : " + JSON.stringify(e)); 
     }
   }
 
-  export async function GetTokenFeatures(){
+  async function GetTokenFeatures(TokenID){
     try{
-      TokenSymbol = "-";
-      TokenDecimals = 0;
-      TokenDecimalsFactor = new BigNumber(1);
-      TokenSymbol = await TokenContract.methods.symbol().call();
-      TokenDecimals = await TokenContract.methods.decimals().call();
-      TokenDecimalsFactor = new BigNumber(10**TokenDecimals);
+      let TokenSymbol = "-";
+      let TokenDecimals = 0;
+      let TokenDecimalsFactor = new BigNumber(1);
+
+      if(TokenID < TokenContract.length){
+        TokenSymbol = await TokenContract[TokenID].methods.symbol().call();
+        TokenDecimals = await TokenContract[TokenID].methods.decimals().call();
+        TokenDecimalsFactor = new BigNumber(10**TokenDecimals);
+      }
+      
+      return[TokenSymbol, TokenDecimalsFactor];
     }
     catch(e) { 
       window.alert("error retrieving the token features : " + JSON.stringify(e)); 
     }
   }
 
-  export async function CheckAllowance(owner, spender, amount){
-    let allowance = new BigNumber(await GetAllowance(owner, spender));
-    let ActualAmount = amount.multipliedBy(TokenDecimalsFactor);
+  export async function CheckAllowance(owner, spender, amount, TokenID){
+    let allowance = new BigNumber(await GetAllowance(owner, spender, TokenID));
+    let ActualAmount = amount.multipliedBy(TokenDecimalsFactor[TokenID]);
     if(allowance.isLessThan(ActualAmount)){
         window.alert("You first need to allow Blockoriginals to spend at least " + amount.toString() + " " + TokenSymbol + " on your behalf" );
         await SetApprove(spender, ActualAmount);
     }
+  }
+
+  async function GetTokenContract(TokenID){
+    let TokenContract = await new Aux.web3.eth.Contract(ERC20_ABI, TokenAddresses[TokenID].TokenContract);
+    return TokenContract;
   }
     

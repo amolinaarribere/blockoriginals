@@ -1,5 +1,6 @@
 // Proposition
 const Aux = require("./AuxiliaryFunctions.js");
+const BigNumber = require('bignumber.js');
 
 export var CurrentPropositionID = ""
 
@@ -39,9 +40,9 @@ export async function UpgradeProposition(NewPropositionLifeTime, NewPropositionT
       PendingPropositionThreshold = "-";
       PendingMinToPropose = "-";
 
-      if(response[0] != undefined)PendingPropositionLifeTime = Number(response[0]);
-      if(response[1] != undefined)PendingPropositionThreshold = Number(response[1]);
-      if(response[2] != undefined)PendingMinToPropose = Number(response[2]);
+      if(response[0] != undefined)PendingPropositionLifeTime = new BigNumber(response[0]);
+      if(response[1] != undefined)PendingPropositionThreshold = new BigNumber(response[1]);
+      if(response[2] != undefined)PendingMinToPropose = new BigNumber(response[2]);
     }
     catch(e) { 
       window.alert("error retrieving the pending propositions : " + JSON.stringify(e)); 

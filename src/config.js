@@ -8,8 +8,8 @@ export const MANAGER_PROXY_ADDRESS = {
   "mumbai": ''
 }
 
-export const ETHDecimals = 18;
-export const ETHFactor = new BigNumber(10**ETHDecimals);
+/*export const ETHDecimals = 18;
+export const ETHFactor = new BigNumber(10**ETHDecimals);*/
 
 export const PaymentPlansMinting = 0;
 export const PaymentPlansTransferFee = 1;
@@ -614,6 +614,12 @@ export const PUBLIC_ABI = [
         "internalType": "uint256",
         "name": "factor",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_CreditAssigned",
@@ -639,6 +645,12 @@ export const PUBLIC_ABI = [
         "internalType": "address",
         "name": "sender",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_CreditReceived",
@@ -669,6 +681,12 @@ export const PUBLIC_ABI = [
         "indexed": false,
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
         "type": "uint256"
       }
     ],
@@ -701,6 +719,12 @@ export const PUBLIC_ABI = [
         "internalType": "address",
         "name": "to",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_CreditSpent",
@@ -726,6 +750,12 @@ export const PUBLIC_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_CreditUnAssignedReceived",
@@ -744,6 +774,12 @@ export const PUBLIC_ABI = [
         "indexed": false,
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
         "type": "uint256"
       }
     ],
@@ -770,6 +806,12 @@ export const PUBLIC_ABI = [
         "internalType": "address",
         "name": "sender",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_CreditWithdrawnFor",
@@ -859,6 +901,12 @@ export const PUBLIC_ABI = [
         "internalType": "string",
         "name": "symbol",
         "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_NewIssuerRequest",
@@ -978,6 +1026,11 @@ export const PUBLIC_ABI = [
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      },
+      {
         "internalType": "bytes",
         "name": "data",
         "type": "bytes"
@@ -1076,8 +1129,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -1090,8 +1142,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -1104,8 +1155,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -1118,8 +1168,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -1142,8 +1191,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -1162,8 +1210,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -1251,6 +1298,11 @@ export const PUBLIC_ABI = [
         "internalType": "bool",
         "name": "FromCredit",
         "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "requestIssuer",
@@ -1295,8 +1347,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -1315,8 +1366,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -1329,8 +1379,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -1408,8 +1457,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -1421,6 +1469,11 @@ export const PUBLIC_ABI = [
       {
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
         "type": "uint256"
       }
     ],
@@ -1483,6 +1536,11 @@ export const PUBLIC_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "reuseCredit",
@@ -1511,6 +1569,11 @@ export const PUBLIC_ABI = [
         "internalType": "address",
         "name": "to",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "spendCredit",
@@ -1524,6 +1587,11 @@ export const PUBLIC_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "withdraw",
@@ -1532,7 +1600,13 @@ export const PUBLIC_ABI = [
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
     "name": "withdrawAll",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -1551,6 +1625,11 @@ export const PUBLIC_ABI = [
         "type": "address"
       },
       {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      },
+      {
         "internalType": "bytes",
         "name": "data",
         "type": "bytes"
@@ -1567,6 +1646,11 @@ export const PUBLIC_ABI = [
         "internalType": "address",
         "name": "addr",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "retrieveCredit",
@@ -1578,8 +1662,7 @@ export const PUBLIC_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   }
 ]
 
@@ -1635,6 +1718,12 @@ export const TREASURY_ABI = [
         "internalType": "uint256",
         "name": "TotalSupply",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenContractId",
+        "type": "uint256"
       }
     ],
     "name": "_AssignDividend",
@@ -1664,12 +1753,12 @@ export const TREASURY_ABI = [
     "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256[]",
+        "internalType": "uint256[][]",
         "name": "Prices",
-        "type": "uint256[]"
+        "type": "uint256[][]"
       }
     ],
-    "name": "_NewPrices",
+    "name": "_NewFees",
     "type": "event"
   },
   {
@@ -1691,6 +1780,12 @@ export const TREASURY_ABI = [
         "indexed": false,
         "internalType": "uint256",
         "name": "AggregatedAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenContractId",
         "type": "uint256"
       }
     ],
@@ -1835,6 +1930,12 @@ export const TREASURY_ABI = [
         "internalType": "uint256",
         "name": "Amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenContractId",
+        "type": "uint256"
       }
     ],
     "name": "_Withdraw",
@@ -1850,6 +1951,11 @@ export const TREASURY_ABI = [
       {
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
         "type": "uint256"
       },
       {
@@ -2049,8 +2155,18 @@ export const TREASURY_ABI = [
   {
     "inputs": [
       {
+        "internalType": "uint256[][]",
+        "name": "Fees",
+        "type": "uint256[][]"
+      },
+      {
         "internalType": "uint256[]",
-        "name": "Prices",
+        "name": "TransferFees",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "OfferSettings",
         "type": "uint256[]"
       },
       {
@@ -2075,6 +2191,11 @@ export const TREASURY_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "withdraw",
@@ -2083,7 +2204,13 @@ export const TREASURY_ABI = [
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
     "name": "withdrawAll",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -2095,6 +2222,11 @@ export const TREASURY_ABI = [
         "internalType": "address",
         "name": "addr",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "retrieveLastAssigned",
@@ -2114,6 +2246,11 @@ export const TREASURY_ABI = [
         "internalType": "address",
         "name": "addr",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "retrieveFullBalance",
@@ -2132,6 +2269,16 @@ export const TREASURY_ABI = [
     "name": "retrieveSettings",
     "outputs": [
       {
+        "internalType": "uint256[][]",
+        "name": "",
+        "type": "uint256[][]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
         "internalType": "uint256[]",
         "name": "",
         "type": "uint256[]"
@@ -2141,7 +2288,13 @@ export const TREASURY_ABI = [
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
     "name": "retrieveAggregatedAmount",
     "outputs": [
       {
@@ -2987,6 +3140,12 @@ export const ADMINPIGGYBANK_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_Pay",
@@ -3032,6 +3191,12 @@ export const ADMINPIGGYBANK_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_TransferCreated",
@@ -3051,6 +3216,12 @@ export const ADMINPIGGYBANK_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_TransferRejected",
@@ -3069,6 +3240,12 @@ export const ADMINPIGGYBANK_ABI = [
         "indexed": false,
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
         "type": "uint256"
       }
     ],
@@ -3141,6 +3318,12 @@ export const ADMINPIGGYBANK_ABI = [
         "type": "uint256"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "voter",
@@ -3166,6 +3349,11 @@ export const ADMINPIGGYBANK_ABI = [
       {
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
         "type": "uint256"
       },
       {
@@ -3404,6 +3592,11 @@ export const ADMINPIGGYBANK_ABI = [
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "transfer",
@@ -3439,6 +3632,11 @@ export const ADMINPIGGYBANK_ABI = [
           {
             "internalType": "uint256",
             "name": "_amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_paymentTokenID",
             "type": "uint256"
           },
           {
@@ -3569,6 +3767,12 @@ export const NFTMARKET_ABI = [
         "internalType": "uint256",
         "name": "offer",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_AcceptOffer",
@@ -3591,9 +3795,9 @@ export const NFTMARKET_ABI = [
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "prices",
+        "type": "uint256[]"
       },
       {
         "indexed": false,
@@ -3728,16 +3932,16 @@ export const NFTMARKET_ABI = [
         "type": "uint256"
       },
       {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "formerPrice",
-        "type": "uint256"
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "formerPrices",
+        "type": "uint256[]"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "newPrice",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "newPrices",
+        "type": "uint256[]"
       }
     ],
     "name": "_SetTokenPrice",
@@ -3775,6 +3979,12 @@ export const NFTMARKET_ABI = [
         "internalType": "bool",
         "name": "FromCredit",
         "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "_SubmitOffer",
@@ -3828,8 +4038,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -3848,8 +4057,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -3873,8 +4081,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -3887,8 +4094,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -3907,8 +4113,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -3921,8 +4126,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -4010,8 +4214,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -4024,8 +4227,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -4044,8 +4246,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -4193,14 +4394,19 @@ export const NFTMARKET_ABI = [
         "type": "address"
       },
       {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "prices",
+        "type": "uint256[]"
       },
       {
         "internalType": "bool",
         "name": "FromCredit",
         "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "mintToken",
@@ -4216,9 +4422,9 @@ export const NFTMARKET_ABI = [
         "type": "uint256"
       },
       {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
+        "internalType": "uint256[]",
+        "name": "prices",
+        "type": "uint256[]"
       }
     ],
     "name": "setTokenPrice",
@@ -4273,6 +4479,11 @@ export const NFTMARKET_ABI = [
         "internalType": "bool",
         "name": "FromCredit",
         "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
       }
     ],
     "name": "submitOffer",
@@ -4341,8 +4552,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -4362,9 +4572,9 @@ export const NFTMARKET_ABI = [
             "type": "uint8"
           },
           {
-            "internalType": "uint256",
-            "name": "_price",
-            "type": "uint256"
+            "internalType": "uint256[]",
+            "name": "_prices",
+            "type": "uint256[]"
           }
         ],
         "internalType": "struct INFTMarket._tokenStruct",
@@ -4378,8 +4588,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -4396,6 +4605,11 @@ export const NFTMARKET_ABI = [
           {
             "internalType": "uint256",
             "name": "_offer",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_paymentTokenID",
             "type": "uint256"
           },
           {
@@ -4420,8 +4634,7 @@ export const NFTMARKET_ABI = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   }
 ]
 
@@ -4481,12 +4694,12 @@ export const PAYMENTS_ABI = [
     "inputs": [
       {
         "indexed": false,
-        "internalType": "address",
-        "name": "TokenAddress",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "TokenAddresses",
+        "type": "address[]"
       }
     ],
-    "name": "_NewAddress",
+    "name": "_NewAddresses",
     "type": "event"
   },
   {
@@ -4809,9 +5022,9 @@ export const PAYMENTS_ABI = [
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "tokenAddress",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "tokenAddresses",
+        "type": "address[]"
       }
     ],
     "name": "Payments_init",
@@ -4845,6 +5058,11 @@ export const PAYMENTS_ABI = [
         "internalType": "bytes",
         "name": "data",
         "type": "bytes"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
       }
     ],
     "name": "TransferFrom",
@@ -4858,6 +5076,11 @@ export const PAYMENTS_ABI = [
         "internalType": "address",
         "name": "account",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
       }
     ],
     "name": "BalanceOf",
@@ -4876,9 +5099,21 @@ export const PAYMENTS_ABI = [
     "name": "retrieveSettings",
     "outputs": [
       {
-        "internalType": "address",
+        "components": [
+          {
+            "internalType": "contract IERC20",
+            "name": "TokenContract",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "active",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct Library.PaymentTokenStruct[]",
         "name": "",
-        "type": "address"
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",

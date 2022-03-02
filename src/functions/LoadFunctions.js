@@ -246,8 +246,8 @@ export async function LoadPublicFunc(contract) {
 export async function LoadPaymentsFunc(contract) {
   console.log("loading Payments Contract State");
 
-  await Promise.all([PaymentsFunc.RetrieveTokenAddress(contract),
-    PaymentsFunc.RetrievePendingTokenAddress(contract)]);
+  await Promise.all([PaymentsFunc.RetrieveTokenAddresses(contract),
+    PaymentsFunc.RetrievePendingTokenAddresses(contract)]);
 
   console.log("Payments Contract State Loaded");
 }

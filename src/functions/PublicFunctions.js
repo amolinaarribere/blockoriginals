@@ -10,9 +10,9 @@ export var Markets = ""
 export var pendingMarkets = ""
 export var Credit = ""
 
-export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, payment, price, FromCredit, contract){
-    if(!FromCredit)await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price);
-    await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, payment), FromCredit).send({from: Aux.account}));
+export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, payment, price, FromCredit, contract, paymentTokenID){
+    if(!FromCredit)await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price, paymentTokenID);
+    await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, payment), FromCredit, paymentTokenID).send({from: Aux.account}));
  }
   
 export async function ValidateMarket(marketid, contract){
@@ -23,17 +23,17 @@ export async function RejectMarket(marketid, contract){
     await Aux.CallBackFrame(contract.methods.rejectIssuer(marketid).send({from: Aux.account }));
 }
 
-export async function SendCredit(receiver, amount, contract){
-    await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, amount);
-    await Aux.CallBackFrame(contract.methods.sendCredit(receiver, amount.multipliedBy(PaymentsFunc.TokenDecimalsFactor)).send({from: Aux.account }));
+export async function SendCredit(receiver, amount, contract, paymentTokenID){
+    await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, amount, paymentTokenID);
+    await Aux.CallBackFrame(contract.methods.sendCredit(receiver, amount.multipliedBy(PaymentsFunc.TokenDecimalsFactor[paymentTokenID]), paymentTokenID).send({from: Aux.account }));
 }
   
-export async function WithdrawCredit(amount, contract){
-    await Aux.CallBackFrame(contract.methods.withdraw(amount).send({from: Aux.account }));
+export async function WithdrawCredit(amount, contract, paymentTokenID){
+    await Aux.CallBackFrame(contract.methods.withdraw(amount, paymentTokenID).send({from: Aux.account }));
 }
 
-export async function WithdrawAllCredit(contract){
-    await Aux.CallBackFrame(contract.methods.withdrawAll().send({from: Aux.account }));
+export async function WithdrawAllCredit(contract, paymentTokenID){
+    await Aux.CallBackFrame(contract.methods.withdrawAll(paymentTokenID).send({from: Aux.account }));
 }
 
 export async function RetrieveMarkets(contract){
@@ -64,10 +64,12 @@ export async function RetrieveMarkets(contract){
 
 export async function RetrieveCredit(contract){
     try{
+        Credit = [];
         if(Aux.account){
-            Credit = new BigNumber(await contract.methods.retrieveCredit(Aux.account).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+            for(let i=0; i < PaymentsFunc.TokenDecimalsFactor.length; i++){
+                Credit[i] = new BigNumber(await contract.methods.retrieveCredit(Aux.account, i).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+            }
         }
-        
     }
     catch(e){
       window.alert("error retrieving the credit : " + JSON.stringify(e))

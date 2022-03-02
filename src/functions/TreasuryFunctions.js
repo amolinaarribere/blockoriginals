@@ -5,9 +5,9 @@ const BigNumber = require('bignumber.js');
 const PaymentsFunc = require("./PaymentsFunctions.js");
 
 
-export var AccountBalance = new BigNumber(0);
-export var TreasuryBalance = new BigNumber(0);
-export var TreasuryAggregatedBalance = new BigNumber(0);
+export var AccountBalance = "";
+export var TreasuryBalance = "";
+export var TreasuryAggregatedBalance = "";
 
 export var NewIssuerFee = "";
 export var AdminNewIssuerFee = "";
@@ -33,16 +33,23 @@ export var PendingOffersLifeTime = "";
   export async function RetrievePricesTreasury(contract){
     try{
       let response = await contract.methods.retrieveSettings().call();
+      NewIssuerFee = []
+      AdminNewIssuerFee = []
+      MintingFee = []
+      AdminMintingFee = []
 
-      NewIssuerFee = new BigNumber(response[0]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      AdminNewIssuerFee = new BigNumber(response[1]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      MintingFee = new BigNumber(response[2]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      AdminMintingFee = new BigNumber(response[3]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      TransferFeeAmount = new BigNumber(response[4]);
-      TransferFeeDecimals = new BigNumber(response[5]);
-      AdminTransferFeeAmount = new BigNumber(response[6]);
-      AdminTransferFeeDecimals = new BigNumber(response[7]);
-      OffersLifeTime = new BigNumber(response[8]);
+      for(let i=0; i < response[0].length; i++){
+        NewIssuerFee[i] = new BigNumber(response[0][i][1]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+        AdminNewIssuerFee[i] = new BigNumber(response[0][i][2]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+        MintingFee[i] = new BigNumber(response[0][i][3]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+        AdminMintingFee[i] = new BigNumber(response[0][i][4]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+      }
+
+      TransferFeeAmount = new BigNumber(response[1][0]);
+      TransferFeeDecimals = new BigNumber(response[1][1]);
+      AdminTransferFeeAmount = new BigNumber(response[1][2]);
+      AdminTransferFeeDecimals = new BigNumber(response[1][3]);
+      OffersLifeTime = new BigNumber(response[2][0]);
     }
     catch(e){
       window.alert("error retrieving the prices : " + JSON.stringify(e))
@@ -52,25 +59,39 @@ export var PendingOffersLifeTime = "";
   export async function RetrievePendingPricesTreasury(contract){
     try{
       let response = await contract.methods.retrieveProposition().call();
-      PendingNewIssuerFee = "-";
-      PendingAdminNewIssuerFee = "-";
-      PendingMintingFee = "-";
-      PendingAdminMintingFee = "-";
+
+      PendingNewIssuerFee = [];
+      PendingAdminNewIssuerFee = [];
+      PendingMintingFee = [];
+      PendingAdminMintingFee = [];
       PendingTransferFeeAmount = "-";
       PendingTransferFeeDecimals = "-";
       PendingAdminTransferFeeAmount = "-";
       PendingAdminTransferFeeDecimals = "-";
       PendingOffersLifeTime = "-";
 
-      if(response[0] != undefined)PendingNewIssuerFee = new BigNumber(response[0]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      if(response[1] != undefined)PendingAdminNewIssuerFee = new BigNumber(response[1]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      if(response[2] != undefined)PendingMintingFee = new BigNumber(response[2]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      if(response[3] != undefined)PendingAdminMintingFee = new BigNumber(response[3]).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      if(response[4] != undefined)PendingTransferFeeAmount = new BigNumber(response[4]);
-      if(response[5] != undefined)PendingTransferFeeDecimals = new BigNumber(response[5]);
-      if(response[6] != undefined)PendingAdminTransferFeeAmount = new BigNumber(response[6]);
-      if(response[7] != undefined)PendingAdminTransferFeeDecimals = new BigNumber(response[7]);
-      if(response[8] != undefined)PendingOffersLifeTime = new BigNumber(response[8]);
+      let numberOfTokens = 0;
+      let FeesPerToken = 0;
+      let numberOfTransferFees = 0;
+
+      let count = 0;
+
+      if(response[count] != undefined)numberOfTokens = new BigNumber(response[count++]);
+      if(response[count] != undefined)FeesPerToken = new BigNumber(response[count++]);
+      if(response[count] != undefined)numberOfTransferFees = new BigNumber(response[count++]);
+
+     for(let i=0; i < numberOfTokens; i++){
+      PendingNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+      PendingAdminNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+      PendingMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+      PendingAdminMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+    }
+
+     PendingTransferFeeAmount = new BigNumber(response[count++]);
+     PendingTransferFeeDecimals = new BigNumber(response[count++]);
+     PendingAdminTransferFeeAmount = new BigNumber(response[count++]);
+     PendingAdminTransferFeeDecimals = new BigNumber(response[count++]);
+     PendingOffersLifeTime = new BigNumber(response[count++]);
 
     }
     catch(e){
@@ -81,8 +102,12 @@ export var PendingOffersLifeTime = "";
 
   export async function RetrieveBalance(address, contract){
     try{
-      AccountBalance = new BigNumber(0);
-      if(address)AccountBalance = new BigNumber(await contract.methods.retrieveFullBalance(address).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      AccountBalance = [];
+      if(address){
+        for(let i=0; i < PaymentsFunc.TokenDecimalsFactor.length; i++){
+          AccountBalance[i] = new BigNumber(await contract.methods.retrieveFullBalance(address, i).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+        }
+      }
     }
     catch(e){
       window.alert("error retrieving the account's balance : " + JSON.stringify(e))
@@ -91,22 +116,22 @@ export var PendingOffersLifeTime = "";
 
   export async function RetrieveTreasuryBalance(contract){
     try{
-      TreasuryBalance = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.TreasuryAddressProxy)).dividedBy(PaymentsFunc.TokenDecimalsFactor);
-      TreasuryAggregatedBalance = new BigNumber(await contract.methods.retrieveAggregatedAmount().call()).dividedBy(PaymentsFunc.TokenDecimalsFactor);
+      TreasuryBalance = []
+      TreasuryAggregatedBalance = []
+      for(let i=0; i < PaymentsFunc.TokenDecimalsFactor.length; i++){
+        TreasuryBalance[i] = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.TreasuryAddressProxy, i)).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+        TreasuryAggregatedBalance[i] = new BigNumber(await contract.methods.retrieveAggregatedAmount(i).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+      }
     }
     catch(e){
       window.alert("error retrieving the treasury balance : " + JSON.stringify(e))
     }
   }
 
-  export async function AssignDividends(contract){
-    await Aux.CallBackFrame(contract.methods.AssignDividends().send({from: Aux.account }));
+  export async function WithdrawAmount(amount, contract, TokenID){
+    await Aux.CallBackFrame(contract.methods.withdraw(amount, TokenID).send({from: Aux.account }));
   }
 
-  export async function WithdrawAmount(amount, contract){
-    await Aux.CallBackFrame(contract.methods.withdraw(amount).send({from: Aux.account }));
-  }
-
-  export async function WithdrawAll(contract){
-    await Aux.CallBackFrame(contract.methods.withdrawAll().send({from: Aux.account }));
+  export async function WithdrawAll(contract, TokenID){
+    await Aux.CallBackFrame(contract.methods.withdrawAll(TokenID).send({from: Aux.account }));
   }
