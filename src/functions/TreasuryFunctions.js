@@ -39,10 +39,10 @@ export var PendingOffersLifeTime = "";
       AdminMintingFee = []
 
       for(let i=0; i < response[0].length; i++){
-        NewIssuerFee[i] = new BigNumber(response[0][i][1]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
-        AdminNewIssuerFee[i] = new BigNumber(response[0][i][2]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
-        MintingFee[i] = new BigNumber(response[0][i][3]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
-        AdminMintingFee[i] = new BigNumber(response[0][i][4]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+        NewIssuerFee[i] = new BigNumber(response[0][i][1]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        AdminNewIssuerFee[i] = new BigNumber(response[0][i][2]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        MintingFee[i] = new BigNumber(response[0][i][3]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        AdminMintingFee[i] = new BigNumber(response[0][i][4]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
       }
 
       TransferFeeAmount = new BigNumber(response[1][0]);
@@ -81,10 +81,10 @@ export var PendingOffersLifeTime = "";
       if(response[count] != undefined)numberOfTransferFees = new BigNumber(response[count++]);
 
      for(let i=0; i < numberOfTokens; i++){
-      PendingNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
-      PendingAdminNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
-      PendingMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
-      PendingAdminMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+      PendingNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+      PendingAdminNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+      PendingMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+      PendingAdminMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
     }
 
      PendingTransferFeeAmount = new BigNumber(response[count++]);
@@ -104,8 +104,8 @@ export var PendingOffersLifeTime = "";
     try{
       AccountBalance = [];
       if(address){
-        for(let i=0; i < PaymentsFunc.TokenDecimalsFactor.length; i++){
-          AccountBalance[i] = new BigNumber(await contract.methods.retrieveFullBalance(address, i).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+        for(let i=0; i < PaymentsFunc.TokenDecimalsFactors.length; i++){
+          AccountBalance[i] = new BigNumber(await contract.methods.retrieveFullBalance(address, i).call()).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
         }
       }
     }
@@ -118,9 +118,9 @@ export var PendingOffersLifeTime = "";
     try{
       TreasuryBalance = []
       TreasuryAggregatedBalance = []
-      for(let i=0; i < PaymentsFunc.TokenDecimalsFactor.length; i++){
-        TreasuryBalance[i] = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.TreasuryAddressProxy, i)).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
-        TreasuryAggregatedBalance[i] = new BigNumber(await contract.methods.retrieveAggregatedAmount(i).call()).dividedBy(PaymentsFunc.TokenDecimalsFactor[i]);
+      for(let i=0; i < PaymentsFunc.TokenDecimalsFactors.length; i++){
+        TreasuryBalance[i] = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.TreasuryAddressProxy, i)).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        TreasuryAggregatedBalance[i] = new BigNumber(await contract.methods.retrieveAggregatedAmount(i).call()).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
       }
     }
     catch(e){

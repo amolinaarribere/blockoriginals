@@ -36,7 +36,7 @@ export async function RetrieveTokenAddresses(contract){
       
       if(result != undefined){
         for(let i=0; i < result.length; i++){
-          PendingTokenAddress[i] = Aux.Bytes32ToAddress(result[i]);
+          PendingTokenAddresses[i] = Aux.Bytes32ToAddress(result[i]);
         }
       }
     }
@@ -47,14 +47,14 @@ export async function RetrieveTokenAddresses(contract){
   }
 
   export async function SetApprove(spender, amount, TokenID){
-    if(TokenID < TokenContract.length) await Aux.CallBackFrame(TokenContract[TokenID].methods.approve(spender, amount).send({from: Aux.account }));
+    if(TokenID < TokenContracts.length) await Aux.CallBackFrame(TokenContracts[TokenID].methods.approve(spender, amount).send({from: Aux.account }));
     else window.alert("TokenID provided is not available in the system");
   }
 
   export async function GetAllowance(owner, spender, TokenID){
     try{
-      if(TokenID < TokenContract.length) return await TokenContract[TokenID].methods.allowance(owner, spender).call();
-      else 0;
+      if(TokenID < TokenContracts.length) return await TokenContracts[TokenID].methods.allowance(owner, spender).call();
+      else return 0;
     }
     catch(e) { 
       window.alert("error returning the token allowance : " + JSON.stringify(e)); 
@@ -63,8 +63,8 @@ export async function RetrieveTokenAddresses(contract){
 
   export async function GetBalanceOf(account, TokenID){
     try{
-      if(TokenID < TokenContract.length) return await TokenContract[TokenID].methods.balanceOf(account).call();
-      else 0;
+      if(TokenID < TokenContracts.length) return await TokenContracts[TokenID].methods.balanceOf(account).call();
+      else return 0;
     }
     catch(e) { 
       window.alert("error returning the token balance Of : " + JSON.stringify(e)); 
@@ -77,9 +77,9 @@ export async function RetrieveTokenAddresses(contract){
       let TokenDecimals = 0;
       let TokenDecimalsFactor = new BigNumber(1);
 
-      if(TokenID < TokenContract.length){
-        TokenSymbol = await TokenContract[TokenID].methods.symbol().call();
-        TokenDecimals = await TokenContract[TokenID].methods.decimals().call();
+      if(TokenID < TokenContracts.length){
+        TokenSymbol = await TokenContracts[TokenID].methods.symbol().call();
+        TokenDecimals = await TokenContracts[TokenID].methods.decimals().call();
         TokenDecimalsFactor = new BigNumber(10**TokenDecimals);
       }
       
@@ -92,9 +92,9 @@ export async function RetrieveTokenAddresses(contract){
 
   export async function CheckAllowance(owner, spender, amount, TokenID){
     let allowance = new BigNumber(await GetAllowance(owner, spender, TokenID));
-    let ActualAmount = amount.multipliedBy(TokenDecimalsFactor[TokenID]);
+    let ActualAmount = amount.multipliedBy(TokenDecimalsFactors[TokenID]);
     if(allowance.isLessThan(ActualAmount)){
-        window.alert("You first need to allow Blockoriginals to spend at least " + amount.toString() + " " + TokenSymbol + " on your behalf" );
+        window.alert("You first need to allow Blockoriginals to spend at least " + amount.toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
         await SetApprove(spender, ActualAmount);
     }
   }
