@@ -39,10 +39,10 @@ export var PendingOffersLifeTime = "";
       AdminMintingFee = []
 
       for(let i=0; i < response[0].length; i++){
-        NewIssuerFee[i] = new BigNumber(response[0][i][1]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-        AdminNewIssuerFee[i] = new BigNumber(response[0][i][2]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-        MintingFee[i] = new BigNumber(response[0][i][3]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-        AdminMintingFee[i] = new BigNumber(response[0][i][4]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        NewIssuerFee[i] = new BigNumber(response[0][i][0]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        AdminNewIssuerFee[i] = new BigNumber(response[0][i][1]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        MintingFee[i] = new BigNumber(response[0][i][2]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        AdminMintingFee[i] = new BigNumber(response[0][i][3]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
       }
 
       TransferFeeAmount = new BigNumber(response[1][0]);

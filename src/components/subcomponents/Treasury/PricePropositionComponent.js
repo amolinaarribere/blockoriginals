@@ -1,6 +1,6 @@
 import React from 'react';
 import ListPendingPropositionComponent from '../Vote/ListPendingPropositionComponent.js';
-import UpgradePropositionComponent from '../Vote/UpgradePropositionComponent.js';
+import UpgradePropositionComponentDynamic from '../Vote/UpgradePropositionComponentDynamic.js';
 import ConfigurationComponent from '../Configuration/ConfigurationComponent.js';
 
 const func = require("../../../functions/TreasuryFunctions.js");
@@ -42,7 +42,7 @@ class PricePropositionComponent extends React.Component {
     await this.LoadPropStatus();
   }
 
-    async LoadPropStatus(){
+  async LoadPropStatus(){
       await loadFunc.LoadTreasuryConfigFunc(this.props.contract);
       if(originalsFunc.isOwner){
         var Status = await VoteFunc.PropositionStatus(this.props.contract);
@@ -52,7 +52,103 @@ class PricePropositionComponent extends React.Component {
           this.setState({PropStatus: Status,
             RemainingVotes: Votes})
       }
+  }
+
+  getAllNamesDynamic(list, prefix){
+    let TokenRelatedFeesNames = [];
+    let index = 0;
+
+    for(let i=0; i < list.length; i++){
+      TokenRelatedFeesNames[index++] = "Payment Token Symbol -----------------------------------";
+      TokenRelatedFeesNames[index++] = prefix + "New Issuer Fee";
+      TokenRelatedFeesNames[index++] = prefix + "New Issuer Fee (Admin)";
+      TokenRelatedFeesNames[index++] = prefix + "Minting Fee";
+      TokenRelatedFeesNames[index++] = prefix + "Minting Fee (Admin)";
     }
+
+    return TokenRelatedFeesNames;
+  }
+
+  getAllNamesFix(prefix){
+    return [prefix + "Transfer Fee Amount - Percentage",
+    prefix + "Transfer Fee Decimals",
+    prefix + "Transfer Fee Amount (Admin) - Percentage",
+    prefix + "Transfer Fee Decimals (Admin)",
+    prefix + "Offers Life Time - Seconds"];
+  }
+
+  getAllValues(values){
+    let TokenRelatedFees = [];
+    let index = 0;
+
+    for(let i=0; i < values[0].length; i++){
+      TokenRelatedFees[index++] = (i < PaymentsFunc.TokenSymbols.length)? PaymentsFunc.TokenSymbols[i] : "NOT-DEFINED";
+      TokenRelatedFees[index++] = values[0][i].toString();
+      TokenRelatedFees[index++] = values[1][i].toString();
+      TokenRelatedFees[index++] = values[2][i].toString();
+      TokenRelatedFees[index++] = values[3][i].toString();
+    }
+
+    TokenRelatedFees[index++] = values[4].toString();
+    TokenRelatedFees[index++] = values[5].toString();
+    TokenRelatedFees[index++] = values[6].toString();
+    TokenRelatedFees[index++] = values[7].toString();
+    TokenRelatedFees[index++] = values[8].toString();
+
+    return TokenRelatedFees;
+  }
+
+  getAllDataTypesDynamic(list){
+    let TokenRelatedDataType = [Constants.numberDataType,
+      Constants.numberDataType,
+      Constants.numberDataType,
+      Constants.numberDataType,
+      Constants.numberDataType];
+
+    let index = TokenRelatedDataType.length;
+
+    for(let i=1; i < list.length; i++){
+      for(let j=0; j < 5; j++){
+        TokenRelatedDataType[index++] = Constants.numberDataType;
+      }
+    }
+
+    return TokenRelatedDataType;
+  }
+
+  getAllDataTypesFix(){
+    return [Constants.intDataType,
+      Constants.intDataType,
+      Constants.intDataType,
+      Constants.intDataType,
+      Constants.intDataType];
+  }
+
+  getAllTypesDynamic(list){
+    let TokenRelatedType = ["number",
+    "number",
+    "number",
+    "number",
+    "number"];
+
+    let index = TokenRelatedType.length;
+
+    for(let i=0; i < list.length; i++){
+      for(let j=0; j < 5; j++){
+        TokenRelatedType[index++] = "number";
+      }
+    }
+
+    return TokenRelatedType;
+  }
+
+  getAllTypesFix(){
+    return ["number",
+    "number",
+    "number",
+    "number",
+    "number",];
+  }
 
     
     render(){
@@ -60,70 +156,50 @@ class PricePropositionComponent extends React.Component {
         <div>
            <ConfigurationComponent refresh={this.refresh}
                 text="Fees"
-                names={["New Issuer Fee - " + PaymentsFunc.TokenSymbol,
-                  "New Issuer Fee (Admin) - " + PaymentsFunc.TokenSymbol,
-                  "Minting Fee - " + PaymentsFunc.TokenSymbol,
-                  "Minting Fee (Admin) - " + PaymentsFunc.TokenSymbol,
-                  "Transfer Fee Amount - Percentage",
-                  "Transfer Fee Decimals",
-                  "Transfer Fee Amount (Admin) - Percentage",
-                  "Transfer Fee Decimals (Admin)",
-                  "Offers Life Time - Seconds"]}
-                values={[func.NewIssuerFee.toString(),
-                   func.AdminNewIssuerFee.toString(),
-                   func.MintingFee.toString(),
-                   func.AdminMintingFee.toString(),
-                   func.TransferFeeAmount.toString(),
-                   func.TransferFeeDecimals.toString(),
-                   func.AdminTransferFeeAmount.toString(),
-                   func.AdminTransferFeeDecimals.toString(),
-                   func.OffersLifeTime.toString()
-                ]}/>
+                names={this.getAllNamesDynamic(func.NewIssuerFee, "", true).concat(this.getAllNamesFix(""))}
+                values={
+                  this.getAllValues([func.NewIssuerFee, 
+                    func.AdminNewIssuerFee, 
+                    func.MintingFee, 
+                    func.AdminMintingFee,
+                    func.TransferFeeAmount,
+                    func.TransferFeeDecimals,
+                    func.AdminTransferFeeAmount,
+                    func.AdminTransferFeeDecimals,
+                    func.OffersLifeTime
+                  ])}/>
 
           {originalsFunc.isOwner ? (
               <div>
-                <UpgradePropositionComponent contract={this.props.contract}
+                <UpgradePropositionComponentDynamic contract={this.props.contract}
                   refresh={this.refresh}
                   text="Manage Prices"
                   textButton="Upgrade Prices"
-                  names={["NewIsserFee",
-                   "NewIsserFee(Admin)",
-                   "NewMintingFee",
-                   "NewMintingFee(Admin)",
-                   "NewTransferFeeAmountPercentage",
-                   "NewTransferFeeDecimals",
-                   "NewTransferFeeAmountPercentage(Admin)",
-                   "NewTransferFeeDecimals(Admin)",
-                   "NewOfferLifeTimeSeconds"]}
-                  types={["number", "number", "number", "number", "number", "number", "number", "number", "number"]}
-                  dataType={VarDataType}/>
-
+                  DynamicNames={this.getAllNamesDynamic(func.NewIssuerFee, "", false)}
+                  DynamicTypes={this.getAllTypesDynamic(func.NewIssuerFee)}
+                  DynamicDataType={this.getAllDataTypesDynamic(func.NewIssuerFee)}
+                  FixNames={this.getAllNamesFix("")}
+                  FixTypes={this.getAllTypesFix()}
+                  FixDataType={this.getAllDataTypesFix()}/>
                   <br />
 
                 <ListPendingPropositionComponent contract={this.props.contract}
                   refresh={this.refresh}
                   text="Check Pending Prices"
-                  headers={["Pending New Issuer Fee",
-                   "Pending New Issuer Fee (Admin)",
-                   "Pending Minting Fee",
-                   "Pending Minting Fee (Admin)",
-                   "Pending Transfer Fee Amount Percentage",
-                    "Pending Transfer Fee Decimals",
-                    "Pending Transfer Fee Amount Percentage (Admin)",
-                    "Pending Transfer Fee Decimals (Admin)",
-                    "Pending Offers Life Time Seconds"]}
-                  values={[func.PendingNewIssuerFee.toString(),
-                    func.PendingAdminNewIssuerFee.toString(),
-                    func.PendingMintingFee.toString(),
-                    func.PendingAdminMintingFee.toString(),
-                    func.PendingTransferFeeAmount.toString(),
-                    func.PendingTransferFeeDecimals.toString() ,
-                    func.PendingAdminTransferFeeAmount.toString() ,
-                    func.PendingAdminTransferFeeDecimals.toString(),
-                    func.PendingOffersLifeTime.toString()]}
+                  headers={this.getAllNamesDynamic(func.NewIssuerFee, "Pending", true).concat(this.getAllNamesFix("Pending"))}
+                  values={this.getAllValues([func.PendingNewIssuerFee, 
+                    func.PendingAdminNewIssuerFee, 
+                    func.PendingMintingFee, 
+                    func.PendingAdminMintingFee,
+                    func.PendingTransferFeeAmount,
+                    func.PendingTransferFeeDecimals,
+                    func.PendingAdminTransferFeeAmount,
+                    func.PendingAdminTransferFeeDecimals,
+                    func.PendingOffersLifeTime
+                  ])}
                   PropStatus={this.state.PropStatus}
                   RemainingVotes={this.state.RemainingVotes}
-                  dataType={VarDataType}/>
+                  dataType={this.getAllDataTypesDynamic(func.PendingNewIssuerFee).concat(this.getAllDataTypesFix())}/>
 
               </div>):null}
               <hr class="bg-secondary"/>
