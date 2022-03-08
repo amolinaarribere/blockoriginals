@@ -13,13 +13,13 @@ class AssignWithdrawComponent extends React.Component {
     
     handleWithdrawAll = async (event) => {
         event.preventDefault();
-      await func.WithdrawAll(this.props.contract);
+      await func.WithdrawAll(this.props.contract, PaymentsFunc.CurrentPaymentID);
       this.props.refresh();
     };
 
     handleWithdraw = async (event) => {
       event.preventDefault();
-      await func.WithdrawAmount((new BigNumber(this.state.amount).multipliedBy(PaymentsFunc.TokenDecimalsFactor)).dp(0, 1).toString(), this.props.contract);
+      await func.WithdrawAmount((new BigNumber(this.state.amount).multipliedBy(PaymentsFunc.TokenDecimalsFactors[PaymentsFunc.CurrentPaymentID])).dp(0, 1).toString(), this.props.contract, PaymentsFunc.CurrentPaymentID);
       this.setState({amount: ""});
       this.props.refresh();
     };
@@ -31,16 +31,16 @@ class AssignWithdrawComponent extends React.Component {
             <h3>Treasury Balances</h3>
             <Container style={{margin: '10px 50px 50px 50px' }}>
               <Row>
-                <Col><b>Aggregated Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
-                <Col>{func.TreasuryAggregatedBalance.toString()}</Col>
+                <Col><b>Aggregated Balance ({PaymentsFunc.TokenSymbols[PaymentsFunc.CurrentPaymentID]}) :</b></Col> 
+                <Col>{func.TreasuryAggregatedBalance[PaymentsFunc.CurrentPaymentID].toString()}</Col>
               </Row>
               <Row>
-                <Col><b>Contract Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
-                <Col>{func.TreasuryBalance.toString()}</Col>
+                <Col><b>Contract Balance ({PaymentsFunc.TokenSymbols[PaymentsFunc.CurrentPaymentID]}) :</b></Col> 
+                <Col>{func.TreasuryBalance[PaymentsFunc.CurrentPaymentID].toString()}</Col>
               </Row>
               <Row>
-                <Col><b>Your current Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
-                <Col>{func.AccountBalance.toString()}</Col>
+                <Col><b>Your current Balance ({PaymentsFunc.TokenSymbols[PaymentsFunc.CurrentPaymentID]}) :</b></Col> 
+                <Col>{func.AccountBalance[PaymentsFunc.CurrentPaymentID].toString()}</Col>
               </Row>
               <br />
               <button type="button" class="btn btn-primary" onClick={this.handleWithdrawAll}>Withdraw All</button>
