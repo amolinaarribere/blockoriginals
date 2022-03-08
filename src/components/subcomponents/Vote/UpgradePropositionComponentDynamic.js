@@ -69,56 +69,73 @@ class UpgradePropositionComponentDynamic extends React.Component{
         }
       };
 
-    handleUpgradeProp = async (event) => {
-         event.preventDefault();
-         var FinalValues = [];
+    TreasuryValues(){
+      let FinalValues = [];
+      let numberOfTokens = 0;
 
-        for(let i=0; i < this.state.valuesDynamic.length; i++){
-            let DecimalsFactor = (i % 4 < PaymentsFunc.TokenDecimalsFactors.length) ? PaymentsFunc.TokenDecimalsFactors[i % 4] : PaymentsFunc.TokenDecimalsFactors[0];
-            window.alert("DecimalsFactor " + DecimalsFactor)
-            window.alert("DynamicDataType " + this.props.DynamicDataType[i])
-            window.alert("valuesDynamic " + this.state.valuesDynamic[i])
+      FinalValues.push(this.generateFinalValues(Constants.intDataType, 0, 1)); 
+      FinalValues.push(this.generateFinalValues(Constants.intDataType, 4, 1)); // hard coded
+      FinalValues.push(this.generateFinalValues(Constants.intDataType, 0, 1)); // hard coded
 
-            FinalValues.push(this.generateFinalValues(this.props.DynamicDataType[i], this.state.valuesDynamic[i], DecimalsFactor))
+      for(let i=0; i < (this.state.valuesDynamic.length / 5) + 1; i++){
+        if(this.state.valuesDynamic[i * 5]){
+          numberOfTokens++;
+          let paymentTokenID = parseInt(this.state.valuesDynamic[i * 5]);
+          for(let j=0; j < 5; j++){
+            let DecimalsFactor = (paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length) ? PaymentsFunc.TokenDecimalsFactors[paymentTokenID] : PaymentsFunc.TokenDecimalsFactors[0];
+            FinalValues.push(this.generateFinalValues(this.props.DynamicDataType[j], this.state.valuesDynamic[(i * 5) + j], DecimalsFactor))
+          }
         }
-         for(let i=0; i < this.state.valuesFix.length; i++){
-          window.alert("FixDataType " + this.props.FixDataType[i])
-          window.alert("valuesFix " + this.state.valuesFix[i])
-            FinalValues.push(this.generateFinalValues(this.props.FixDataType[i], this.state.valuesFix[i], PaymentsFunc.TokenDecimalsFactors[0]))
-         }
+      }
 
-         window.alert(FinalValues)
-         //await func.UpgradeProposition(FinalValues, this.props.contract);
+      FinalValues[0] = this.generateFinalValues(Constants.intDataType, numberOfTokens, 1);
+
+      if(this.state.valuesFix.length > 0){
+        FinalValues[2] = this.generateFinalValues(Constants.intDataType, 4, 1);
+        for(let i=0; i < 5; i++){
+          FinalValues.push(this.generateFinalValues(this.props.FixDataType[i], this.state.valuesFix[i], 1));
+        }
+      }
+
+      return FinalValues;
+    }
+    
+    handleUpgradeProp = async (event) => {
+        event.preventDefault();
+        let FinalValues = [];
+
+        if(this.props.Treasury) FinalValues = this.TreasuryValues();
+
+        await func.UpgradeProposition(FinalValues, this.props.contract);
    
-         this.resetValues();
-         await loadFunc.LoadPropositionFunc(this.props.contract);
-         this.props.refresh();
-       };
+        this.resetValues();
+        await loadFunc.LoadPropositionFunc(this.props.contract);
+        this.props.refresh();
+    };
 
     generateFinalValues(dataType, value, DecimalsFactor){
-
       if(dataType == Constants.addressDataType) {
-        if(value.length > 0) return aux.AddressToBytes32(value);
+        if(value) return aux.AddressToBytes32(value);
         else return aux.AddressToBytes32(address_0);
       } 
 
       else if(dataType == Constants.intDataType){
-        if(value.length > 0) return aux.IntToBytes32(value);
+        if(value) return aux.IntToBytes32(value);
         else return aux.IntToBytes32(0);
       }
 
       else if(dataType == Constants.numberDataType){
-        if(value.length > 0)return aux.IntToBytes32(new BigNumber(value).multipliedBy(DecimalsFactor));
+        if(value)return aux.IntToBytes32(new BigNumber(value).multipliedBy(DecimalsFactor));
         else return aux.IntToBytes32(0);
       }
 
       else if(dataType == Constants.stringDataType){
-        if(value.length > 0) return aux.StringToBytes(value);
+        if(value) return aux.StringToBytes(value);
         else return aux.StringToBytes("");
       }
 
       else{
-        if(value.length > 0)return value;
+        if(value)return value;
         else return emptyBytes;
       }
     }
@@ -127,30 +144,24 @@ class UpgradePropositionComponentDynamic extends React.Component{
         let list = this.state.PaymentTokens;
         if(AddRemove){
           list.push(this.state.PaymentTokens.length)
-          this.updateStateValueDynamic(list.length - 1, (list.length - 1) * this.props.DynamicNames.length);
         }
         else{
           if(list.length > 1){
             list.pop()
-            let newValuesDynamics = this.state.valuesDynamic;
-            for(let i = this.state.valuesDynamic.length; i > list.length * this.props.DynamicNames.length; i--){
-              newValuesDynamics.pop();
-            }
-            this.setState({valuesDynamic: newValuesDynamics})
           }
         }
         this.setState({PaymentTokens: list})
     };
     
-  AddPaymentToken = (event) => {
-    event.preventDefault();
-     this.AddRemovePaymentToken(true);
-  };
+    AddPaymentToken = (event) => {
+      event.preventDefault();
+      this.AddRemovePaymentToken(true);
+    };
 
-  RemovePaymentToken = (event) => {
-    event.preventDefault();
-    this.AddRemovePaymentToken(false);
-  };   
+    RemovePaymentToken = (event) => {
+      event.preventDefault();
+      this.AddRemovePaymentToken(false);
+    };   
 
     render(){
          return (
@@ -166,18 +177,12 @@ class UpgradePropositionComponentDynamic extends React.Component{
                           {this.state.PaymentTokens.map(
                             (paymentTokenID) => (
                               <div>
-                                <h6>Payment Token ID : {paymentTokenID}</h6>
-                                <Form.Control type="hidden" name={paymentTokenID}
-                                    value={paymentTokenID}
-                                    onChange={event => this.updateStateValueDynamic(paymentTokenID, paymentTokenID * this.props.DynamicNames.length)}/>
+                                <h6>Payment Token number : {paymentTokenID}</h6>
                                 {this.props.DynamicNames.map(
                                   (name, index) => (
-                                   (index > 0)?
                                    <Form.Control type={this.props.DynamicTypes[index]} name={name + " " + paymentTokenID} placeholder={name} 
                                       value={this.state.valuesDynamic[index + (paymentTokenID * this.props.DynamicNames.length)]}
                                       onChange={event => this.updateStateValueDynamic(event.target.value, index + (paymentTokenID * this.props.DynamicNames.length))}/>
-                                      :
-                                    ""
                                   )
                                 )}
                                 <br />

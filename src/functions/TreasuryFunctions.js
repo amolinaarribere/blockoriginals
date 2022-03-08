@@ -9,6 +9,7 @@ export var AccountBalance = "";
 export var TreasuryBalance = "";
 export var TreasuryAggregatedBalance = "";
 
+export var PaymentTokenId = "";
 export var NewIssuerFee = "";
 export var AdminNewIssuerFee = "";
 export var MintingFee = "";
@@ -19,6 +20,7 @@ export var AdminTransferFeeAmount = "";
 export var AdminTransferFeeDecimals = "";
 export var OffersLifeTime = "";
 
+export var PendingPaymentTokenId = "";
 export var PendingNewIssuerFee = "";
 export var PendingAdminNewIssuerFee = "";
 export var PendingMintingFee = "";
@@ -33,16 +35,20 @@ export var PendingOffersLifeTime = "";
   export async function RetrievePricesTreasury(contract){
     try{
       let response = await contract.methods.retrieveSettings().call();
+
+      PaymentTokenId = []
       NewIssuerFee = []
       AdminNewIssuerFee = []
       MintingFee = []
       AdminMintingFee = []
 
       for(let i=0; i < response[0].length; i++){
-        NewIssuerFee[i] = new BigNumber(response[0][i][0]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-        AdminNewIssuerFee[i] = new BigNumber(response[0][i][1]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-        MintingFee[i] = new BigNumber(response[0][i][2]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-        AdminMintingFee[i] = new BigNumber(response[0][i][3]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        PaymentTokenId[i] = i;
+        let Factor = (i < PaymentsFunc.TokenDecimalsFactors.length) ? PaymentsFunc.TokenDecimalsFactors[i] : PaymentsFunc.TokenDecimalsFactors[0];
+        NewIssuerFee[i] = new BigNumber(response[0][i][0]).dividedBy(Factor);
+        AdminNewIssuerFee[i] = new BigNumber(response[0][i][1]).dividedBy(Factor);
+        MintingFee[i] = new BigNumber(response[0][i][2]).dividedBy(Factor);
+        AdminMintingFee[i] = new BigNumber(response[0][i][3]).dividedBy(Factor);
       }
 
       TransferFeeAmount = new BigNumber(response[1][0]);
@@ -60,6 +66,7 @@ export var PendingOffersLifeTime = "";
     try{
       let response = await contract.methods.retrieveProposition().call();
 
+      PendingPaymentTokenId = []
       PendingNewIssuerFee = [];
       PendingAdminNewIssuerFee = [];
       PendingMintingFee = [];
@@ -81,17 +88,19 @@ export var PendingOffersLifeTime = "";
       if(response[count] != undefined)numberOfTransferFees = new BigNumber(response[count++]);
 
      for(let i=0; i < numberOfTokens; i++){
-      PendingNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-      PendingAdminNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-      PendingMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
-      PendingAdminMintingFee[i] = new BigNumber(response[count++]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+      PendingPaymentTokenId[i] = parseInt(response[count++]);
+      let Factor = (PendingPaymentTokenId[i] < PaymentsFunc.TokenDecimalsFactors.length) ? PaymentsFunc.TokenDecimalsFactors[PendingPaymentTokenId[i]] : PaymentsFunc.TokenDecimalsFactors[0];
+      PendingNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(Factor);
+      PendingAdminNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(Factor);
+      PendingMintingFee[i] = new BigNumber(response[count++]).dividedBy(Factor);
+      PendingAdminMintingFee[i] = new BigNumber(response[count++]).dividedBy(Factor);
     }
 
-     PendingTransferFeeAmount = new BigNumber(response[count++]);
-     PendingTransferFeeDecimals = new BigNumber(response[count++]);
-     PendingAdminTransferFeeAmount = new BigNumber(response[count++]);
-     PendingAdminTransferFeeDecimals = new BigNumber(response[count++]);
-     PendingOffersLifeTime = new BigNumber(response[count++]);
+    if(response[count] != undefined) PendingTransferFeeAmount = new BigNumber(response[count++]);
+    if(response[count] != undefined) PendingTransferFeeDecimals = new BigNumber(response[count++]);
+    if(response[count] != undefined) PendingAdminTransferFeeAmount = new BigNumber(response[count++]);
+    if(response[count] != undefined) PendingAdminTransferFeeDecimals = new BigNumber(response[count++]);
+    if(response[count] != undefined) PendingOffersLifeTime = new BigNumber(response[count++]);
 
     }
     catch(e){

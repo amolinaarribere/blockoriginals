@@ -55,11 +55,16 @@ class PricePropositionComponent extends React.Component {
   }
 
   getAllNamesDynamic(list, prefix){
-    let TokenRelatedFeesNames = [];
-    let index = 0;
+    let TokenRelatedFeesNames = ["Payment Token",
+      prefix + "New Issuer Fee",
+      prefix + "New Issuer Fee (Admin)",
+      prefix + "Minting Fee",
+      prefix + "Minting Fee (Admin)"];
 
-    for(let i=0; i < list.length; i++){
-      TokenRelatedFeesNames[index++] = "Payment Token Symbol -----------------------------------";
+    let index = TokenRelatedFeesNames.length;
+
+    for(let i=1; i < list.length; i++){
+      TokenRelatedFeesNames[index++] = "Payment Token";
       TokenRelatedFeesNames[index++] = prefix + "New Issuer Fee";
       TokenRelatedFeesNames[index++] = prefix + "New Issuer Fee (Admin)";
       TokenRelatedFeesNames[index++] = prefix + "Minting Fee";
@@ -82,24 +87,24 @@ class PricePropositionComponent extends React.Component {
     let index = 0;
 
     for(let i=0; i < values[0].length; i++){
-      TokenRelatedFees[index++] = (i < PaymentsFunc.TokenSymbols.length)? PaymentsFunc.TokenSymbols[i] : "NOT-DEFINED";
-      TokenRelatedFees[index++] = values[0][i].toString();
+      TokenRelatedFees[index++] = (values[0][i] < PaymentsFunc.TokenSymbols.length)? PaymentsFunc.TokenSymbols[values[0][i]] : "NOT-DEFINED";
       TokenRelatedFees[index++] = values[1][i].toString();
       TokenRelatedFees[index++] = values[2][i].toString();
       TokenRelatedFees[index++] = values[3][i].toString();
+      TokenRelatedFees[index++] = values[4][i].toString();
     }
 
-    TokenRelatedFees[index++] = values[4].toString();
     TokenRelatedFees[index++] = values[5].toString();
     TokenRelatedFees[index++] = values[6].toString();
     TokenRelatedFees[index++] = values[7].toString();
     TokenRelatedFees[index++] = values[8].toString();
+    TokenRelatedFees[index++] = values[9].toString();
 
     return TokenRelatedFees;
   }
 
   getAllDataTypesDynamic(list){
-    let TokenRelatedDataType = [Constants.numberDataType,
+    let TokenRelatedDataType = [Constants.intDataType,
       Constants.numberDataType,
       Constants.numberDataType,
       Constants.numberDataType,
@@ -109,7 +114,8 @@ class PricePropositionComponent extends React.Component {
 
     for(let i=1; i < list.length; i++){
       for(let j=0; j < 5; j++){
-        TokenRelatedDataType[index++] = Constants.numberDataType;
+        if(j % 5 == 0) TokenRelatedDataType[index++] = Constants.intDataType;
+        else TokenRelatedDataType[index++] = Constants.numberDataType;
       }
     }
 
@@ -124,22 +130,12 @@ class PricePropositionComponent extends React.Component {
       Constants.intDataType];
   }
 
-  getAllTypesDynamic(list){
-    let TokenRelatedType = ["number",
+  getAllTypesDynamic(){
+    return ["number",
     "number",
     "number",
     "number",
     "number"];
-
-    let index = TokenRelatedType.length;
-
-    for(let i=0; i < list.length; i++){
-      for(let j=0; j < 5; j++){
-        TokenRelatedType[index++] = "number";
-      }
-    }
-
-    return TokenRelatedType;
   }
 
   getAllTypesFix(){
@@ -158,7 +154,8 @@ class PricePropositionComponent extends React.Component {
                 text="Fees"
                 names={this.getAllNamesDynamic(func.NewIssuerFee, "", true).concat(this.getAllNamesFix(""))}
                 values={
-                  this.getAllValues([func.NewIssuerFee, 
+                  this.getAllValues([func.PaymentTokenId,
+                    func.NewIssuerFee, 
                     func.AdminNewIssuerFee, 
                     func.MintingFee, 
                     func.AdminMintingFee,
@@ -175,19 +172,21 @@ class PricePropositionComponent extends React.Component {
                   refresh={this.refresh}
                   text="Manage Prices"
                   textButton="Upgrade Prices"
-                  DynamicNames={this.getAllNamesDynamic(func.NewIssuerFee, "", false)}
-                  DynamicTypes={this.getAllTypesDynamic(func.NewIssuerFee)}
-                  DynamicDataType={this.getAllDataTypesDynamic(func.NewIssuerFee)}
+                  DynamicNames={this.getAllNamesDynamic([], "", false)}
+                  DynamicTypes={this.getAllTypesDynamic()}
+                  DynamicDataType={this.getAllDataTypesDynamic([])}
                   FixNames={this.getAllNamesFix("")}
                   FixTypes={this.getAllTypesFix()}
-                  FixDataType={this.getAllDataTypesFix()}/>
+                  FixDataType={this.getAllDataTypesFix()}
+                  Treasury={true}/>
                   <br />
 
                 <ListPendingPropositionComponent contract={this.props.contract}
                   refresh={this.refresh}
                   text="Check Pending Prices"
-                  headers={this.getAllNamesDynamic(func.NewIssuerFee, "Pending", true).concat(this.getAllNamesFix("Pending"))}
-                  values={this.getAllValues([func.PendingNewIssuerFee, 
+                  headers={this.getAllNamesDynamic(func.PendingNewIssuerFee, "Pending", true).concat(this.getAllNamesFix("Pending"))}
+                  values={this.getAllValues([func.PendingPaymentTokenId,
+                    func.PendingNewIssuerFee, 
                     func.PendingAdminNewIssuerFee, 
                     func.PendingMintingFee, 
                     func.PendingAdminMintingFee,
