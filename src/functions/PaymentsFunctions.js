@@ -4,6 +4,7 @@ const Aux = require("./AuxiliaryFunctions.js");
 const BigNumber = require('bignumber.js');
 
 export var TokenAddresses = "";
+export var PendingTokenIndex = "";
 export var PendingTokenAddresses = "";
 export var TokenSymbols = "";
 export var TokenDecimalsFactors = "";
@@ -32,11 +33,13 @@ export async function RetrieveTokenAddresses(contract){
   export async function RetrievePendingTokenAddresses(contract){
     try{
       let result = await contract.methods.retrieveProposition().call();
+      PendingTokenIndex = []
       PendingTokenAddresses = []
       
-      if(result != undefined){
+      if(result){
         for(let i=0; i < result.length; i++){
-          PendingTokenAddresses[i] = Aux.Bytes32ToAddress(result[i]);
+          PendingTokenIndex[i] = parseInt(result[2 * i]);
+          PendingTokenAddresses[i] = Aux.Bytes32ToAddress(result[(2 * i) + 1]);
         }
       }
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import ListPendingPropositionComponent from '../Vote/ListPendingPropositionComponent.js';
-import UpgradePropositionComponent from '../Vote/UpgradePropositionComponent.js';
+import UpgradePropositionComponentDynamic from '../Vote/UpgradePropositionComponentDynamic.js';
 import ConfigurationComponent from '../Configuration/ConfigurationComponent.js';
 
 const originalsFunc = require("../../../functions/OriginalsFunctions.js");
@@ -42,34 +42,134 @@ class PaymentsConfigComponent extends React.Component{
     }
   }
 
-       render(){
+  getAllNamesDynamic(list){
+    let TokenRelatedNames = ["Payment Token ID",
+      "Token Address",
+      "Token active"];
+
+    let index = TokenRelatedNames.length;
+
+    for(let i=1; i < list.length; i++){
+      TokenRelatedNames[index++] = "Payment Token ID";
+      TokenRelatedNames[index++] = "Token Address";
+      TokenRelatedNames[index++] = "Token active";
+    }
+
+    return TokenRelatedNames;
+  }
+
+  getAllNamesDynamicPending(list){
+    let TokenRelatedNames = ["Payment Token ID",
+      "Token Address"];
+
+    let index = TokenRelatedNames.length;
+
+    for(let i=1; i < list.length; i++){
+      TokenRelatedNames[index++] = "Payment Token ID";
+      TokenRelatedNames[index++] = "Token Address";
+    }
+
+    return TokenRelatedNames;
+  }
+
+  getAllValues(values){
+    let TokenRelated = [];
+    let index = 0;
+    let id = 0;
+
+
+    for(let i=0; i < values.length; i++){
+      TokenRelated[index++] = id++;
+      TokenRelated[index++] = values[i].TokenContract;
+      TokenRelated[index++] = values[i].active.toString();
+    }
+
+    return TokenRelated;
+  }
+
+  getAllValuesPending(values){
+    let TokenRelated = [];
+    let index = 0;
+
+    for(let i=0; i < values[0].length; i++){
+      TokenRelated[index++] = values[0][i];
+      TokenRelated[index++] = values[1][i];
+    }
+
+    return TokenRelated;
+  }
+
+  getAllDataTypesDynamic(list){
+    let TokenRelatedDataType = [Constants.intDataType,
+      Constants.addressDataType,
+      Constants.intDataType];
+
+    let index = TokenRelatedDataType.length;
+
+    for(let i=1; i < list.length; i++){
+      for(let j=0; j < 3; j++){
+        if(j == 1) TokenRelatedDataType[index++] = Constants.addressDataType;
+        else TokenRelatedDataType[index++] = Constants.intDataType;
+      }
+    }
+
+    return TokenRelatedDataType;
+  }
+
+  getAllDataTypesDynamicPending(list){
+    let TokenRelatedDataType = [Constants.intDataType,
+      Constants.addressDataType];
+
+    let index = TokenRelatedDataType.length;
+
+    for(let i=1; i < list.length; i++){
+      for(let j=0; j < 2; j++){
+        if(j == 1) TokenRelatedDataType[index++] = Constants.addressDataType;
+        else TokenRelatedDataType[index++] = Constants.intDataType;
+      }
+    }
+
+    return TokenRelatedDataType;
+  }
+
+  getAllTypesDynamic(){
+    return ["number",
+    "string"];
+  }
+
+
+   render(){
          return (
            <div>
-             <ConfigurationComponent refresh={this.refresh}
-                  text="Payment Token"
-                  names={["Token Address"]}
-                  values={[func.TokenAddress]}/>
+            <ConfigurationComponent refresh={this.refresh}
+                text="Payment Token"
+                names={this.getAllNamesDynamic(func.TokenAddresses)}
+                values={this.getAllValues(func.TokenAddresses)}/>
 
           {originalsFunc.isOwner ? (
               <div>
-                <UpgradePropositionComponent contract={this.props.contract}
+
+            <UpgradePropositionComponentDynamic contract={this.props.contract}
                   refresh={this.refresh}
                   text="Manage Payment Token"
                   textButton="Upgrade Payment Token"
-                  names={["NewTokenAddress"]}
-                  types={["text"]}
-                  dataType={VarDataType}/>
-
+                  DynamicNames={this.getAllNamesDynamicPending([])}
+                  DynamicTypes={this.getAllTypesDynamic()}
+                  DynamicDataType={this.getAllDataTypesDynamicPending([])}
+                  FixNames={[]}
+                  FixTypes={[]}
+                  FixDataType={[]}
+                  Treasury={false}/>
                   <br />
 
-                <ListPendingPropositionComponent contract={this.props.contract}
+            <ListPendingPropositionComponent contract={this.props.contract}
                   refresh={this.refresh}
                   text="Check Pending Payment Token"
-                  headers={["Pending Payment Token"]}
-                  values={[func.PendingTokenAddress]}
+                  headers={this.getAllNamesDynamicPending(func.PendingTokenAddresses)}
+                  values={this.getAllValuesPending([func.PendingTokenIndex, func.PendingTokenAddresses])}
                   PropStatus={this.state.PropStatus}
                   RemainingVotes={this.state.RemainingVotes}
-                  dataType={VarDataType}/>
+                  dataType={this.getAllDataTypesDynamicPending(func.PendingTokenIndex)}/>
 
               </div>):null}
               <hr class="bg-secondary"/>

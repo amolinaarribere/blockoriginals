@@ -99,13 +99,28 @@ class UpgradePropositionComponentDynamic extends React.Component{
 
       return FinalValues;
     }
+
+    PaymentValues(){
+      let FinalValues = [];
+
+      for(let i=0; i < (this.state.valuesDynamic.length / 2) + 1; i++){
+        if(this.state.valuesDynamic[i * 2]){
+          for(let j=0; j < 2; j++){
+            FinalValues.push(this.generateFinalValues(this.props.DynamicDataType[j], this.state.valuesDynamic[(i * 2) + j], 1))
+          }
+        }
+      }
+
+      return FinalValues;
+    }
     
     handleUpgradeProp = async (event) => {
         event.preventDefault();
         let FinalValues = [];
 
         if(this.props.Treasury) FinalValues = this.TreasuryValues();
-
+        else FinalValues = this.PaymentValues();
+        
         await func.UpgradeProposition(FinalValues, this.props.contract);
    
         this.resetValues();

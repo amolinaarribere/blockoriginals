@@ -114,7 +114,7 @@ class PricePropositionComponent extends React.Component {
 
     for(let i=1; i < list.length; i++){
       for(let j=0; j < 5; j++){
-        if(j % 5 == 0) TokenRelatedDataType[index++] = Constants.intDataType;
+        if(j == 0) TokenRelatedDataType[index++] = Constants.intDataType;
         else TokenRelatedDataType[index++] = Constants.numberDataType;
       }
     }
@@ -152,7 +152,7 @@ class PricePropositionComponent extends React.Component {
         <div>
            <ConfigurationComponent refresh={this.refresh}
                 text="Fees"
-                names={this.getAllNamesDynamic(func.NewIssuerFee, "", true).concat(this.getAllNamesFix(""))}
+                names={this.getAllNamesDynamic(func.NewIssuerFee, "").concat(this.getAllNamesFix(""))}
                 values={
                   this.getAllValues([func.PaymentTokenId,
                     func.NewIssuerFee, 
@@ -172,7 +172,7 @@ class PricePropositionComponent extends React.Component {
                   refresh={this.refresh}
                   text="Manage Prices"
                   textButton="Upgrade Prices"
-                  DynamicNames={this.getAllNamesDynamic([], "", false)}
+                  DynamicNames={this.getAllNamesDynamic([], "")}
                   DynamicTypes={this.getAllTypesDynamic()}
                   DynamicDataType={this.getAllDataTypesDynamic([])}
                   FixNames={this.getAllNamesFix("")}
@@ -184,7 +184,7 @@ class PricePropositionComponent extends React.Component {
                 <ListPendingPropositionComponent contract={this.props.contract}
                   refresh={this.refresh}
                   text="Check Pending Prices"
-                  headers={this.getAllNamesDynamic(func.PendingNewIssuerFee, "Pending", true).concat(this.getAllNamesFix("Pending"))}
+                  headers={this.getAllNamesDynamic(func.PendingNewIssuerFee, "Pending").concat(this.getAllNamesFix("Pending"))}
                   values={this.getAllValues([func.PendingPaymentTokenId,
                     func.PendingNewIssuerFee, 
                     func.PendingAdminNewIssuerFee, 

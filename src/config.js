@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js');
 
 export const MANAGER_PROXY_ADDRESS = {
-  "ganache": '0xEACBe2c28B1D9c1F1DeBaBF043b8be36685A6Ac2',
+  "ganache": '0xdDFd0614750cacA9A8dd81027c1cC471B6C71059',
   "rinkeby": '',
   "ropsten": '',
   "kovan": '',
