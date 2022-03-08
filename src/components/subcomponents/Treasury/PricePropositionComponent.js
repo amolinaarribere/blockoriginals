@@ -61,6 +61,9 @@ class PricePropositionComponent extends React.Component {
       prefix + "Minting Fee",
       prefix + "Minting Fee (Admin)"];
 
+    if(list.length > 0) TokenRelatedFeesNames.push(" - ");
+    
+
     let index = TokenRelatedFeesNames.length;
 
     for(let i=1; i < list.length; i++){
@@ -69,6 +72,7 @@ class PricePropositionComponent extends React.Component {
       TokenRelatedFeesNames[index++] = prefix + "New Issuer Fee (Admin)";
       TokenRelatedFeesNames[index++] = prefix + "Minting Fee";
       TokenRelatedFeesNames[index++] = prefix + "Minting Fee (Admin)";
+      TokenRelatedFeesNames[index++] =  " - ";
     }
 
     return TokenRelatedFeesNames;
@@ -92,6 +96,7 @@ class PricePropositionComponent extends React.Component {
       TokenRelatedFees[index++] = values[2][i].toString();
       TokenRelatedFees[index++] = values[3][i].toString();
       TokenRelatedFees[index++] = values[4][i].toString();
+      TokenRelatedFees[index++] = "";
     }
 
     TokenRelatedFees[index++] = values[5].toString();

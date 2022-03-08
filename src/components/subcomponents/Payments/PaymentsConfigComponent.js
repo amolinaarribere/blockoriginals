@@ -45,7 +45,8 @@ class PaymentsConfigComponent extends React.Component{
   getAllNamesDynamic(list){
     let TokenRelatedNames = ["Payment Token ID",
       "Token Address",
-      "Token active"];
+      "Token active",
+      "-"];
 
     let index = TokenRelatedNames.length;
 
@@ -53,6 +54,8 @@ class PaymentsConfigComponent extends React.Component{
       TokenRelatedNames[index++] = "Payment Token ID";
       TokenRelatedNames[index++] = "Token Address";
       TokenRelatedNames[index++] = "Token active";
+      TokenRelatedNames[index++] = " - ";
+
     }
 
     return TokenRelatedNames;
@@ -62,11 +65,14 @@ class PaymentsConfigComponent extends React.Component{
     let TokenRelatedNames = ["Payment Token ID",
       "Token Address"];
 
+    if(list.length > 0)TokenRelatedNames.push(" - ");
+
     let index = TokenRelatedNames.length;
 
     for(let i=1; i < list.length; i++){
       TokenRelatedNames[index++] = "Payment Token ID";
       TokenRelatedNames[index++] = "Token Address";
+      TokenRelatedNames[index++] = " - ";
     }
 
     return TokenRelatedNames;
@@ -82,6 +88,7 @@ class PaymentsConfigComponent extends React.Component{
       TokenRelated[index++] = id++;
       TokenRelated[index++] = values[i].TokenContract;
       TokenRelated[index++] = values[i].active.toString();
+      TokenRelated[index++] = "";
     }
 
     return TokenRelated;
@@ -94,6 +101,7 @@ class PaymentsConfigComponent extends React.Component{
     for(let i=0; i < values[0].length; i++){
       TokenRelated[index++] = values[0][i];
       TokenRelated[index++] = values[1][i];
+      TokenRelated[index++] = "";
     }
 
     return TokenRelated;

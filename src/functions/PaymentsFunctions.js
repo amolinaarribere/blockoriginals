@@ -37,7 +37,7 @@ export async function RetrieveTokenAddresses(contract){
       PendingTokenAddresses = []
       
       if(result){
-        for(let i=0; i < result.length; i++){
+        for(let i=0; i < (result.length / 2); i++){
           PendingTokenIndex[i] = parseInt(result[2 * i]);
           PendingTokenAddresses[i] = Aux.Bytes32ToAddress(result[(2 * i) + 1]);
         }
