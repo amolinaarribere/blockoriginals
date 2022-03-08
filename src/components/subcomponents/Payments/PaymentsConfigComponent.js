@@ -44,6 +44,7 @@ class PaymentsConfigComponent extends React.Component{
 
   getAllNamesDynamic(list){
     let TokenRelatedNames = ["Payment Token ID",
+      "Token Symbol",
       "Token Address",
       "Token active",
       "-"];
@@ -52,6 +53,7 @@ class PaymentsConfigComponent extends React.Component{
 
     for(let i=1; i < list.length; i++){
       TokenRelatedNames[index++] = "Payment Token ID";
+      TokenRelatedNames[index++] = "Token Symbol";
       TokenRelatedNames[index++] = "Token Address";
       TokenRelatedNames[index++] = "Token active";
       TokenRelatedNames[index++] = " - ";
@@ -78,7 +80,7 @@ class PaymentsConfigComponent extends React.Component{
     return TokenRelatedNames;
   }
 
-  getAllValues(values){
+  getAllValues(values, symbols){
     let TokenRelated = [];
     let index = 0;
     let id = 0;
@@ -86,6 +88,7 @@ class PaymentsConfigComponent extends React.Component{
 
     for(let i=0; i < values.length; i++){
       TokenRelated[index++] = id++;
+      TokenRelated[index++] = symbols[i];
       TokenRelated[index++] = values[i].TokenContract;
       TokenRelated[index++] = values[i].active.toString();
       TokenRelated[index++] = "";
@@ -152,7 +155,7 @@ class PaymentsConfigComponent extends React.Component{
             <ConfigurationComponent refresh={this.refresh}
                 text="Payment Token"
                 names={this.getAllNamesDynamic(func.TokenAddresses)}
-                values={this.getAllValues(func.TokenAddresses)}/>
+                values={this.getAllValues(func.TokenAddresses, func.TokenSymbols)}/>
 
           {originalsFunc.isOwner ? (
               <div>

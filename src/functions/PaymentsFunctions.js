@@ -8,6 +8,7 @@ export var PendingTokenIndex = "";
 export var PendingTokenAddresses = "";
 export var TokenSymbols = "";
 export var TokenDecimalsFactors = "";
+export var CurrentPaymentID = 0;
 var TokenContracts = ""
 
 export async function RetrieveTokenAddresses(contract){
@@ -105,5 +106,9 @@ export async function RetrieveTokenAddresses(contract){
   async function GetTokenContract(TokenID){
     let TokenContract = await new Aux.web3.eth.Contract(ERC20_ABI, TokenAddresses[TokenID].TokenContract);
     return TokenContract;
+  }
+
+  export function changeCurrentPaymentId(TokenID){
+    CurrentPaymentID = TokenID;
   }
     

@@ -6,10 +6,12 @@ import PublicMarketsComponent from './components/PublicMarketsComponent.js';
 import DividendsComponent from './components/DividendsComponent.js';
 import SettingsComponent from './components/SettingsComponent.js';
 import CurrentAddressComponent from './components/CurrentAddressComponent.js';
+import CurrentPaymentToken from './components/CurrentPaymentToken.js';
 import ConnectDisconnectComponent from './components/ConnectDisconnectComponent.js';
 import EventsComponent from './components/EventsComponent.js';
 import PiggyBankComponent from './components/PiggyBankComponent.js';
 import LoadingComponent from './components/subcomponents/LoadingComponent.js';
+import SelectTokenComponent from './components/subcomponents/Payments/SelectTokenComponent.js';
 
 
 const originalsFunc = require("./functions/OriginalsFunctions.js");
@@ -81,6 +83,12 @@ class Demo extends React.Component {
               }&nbsp;&nbsp;
               {
                   (false == this.state.loading) ? <ConnectDisconnectComponent refresh={this.refresh} /> : <LoadingComponent />
+              }&nbsp;&nbsp;
+              {
+                  (false == this.state.loading) ? <CurrentPaymentToken /> : <LoadingComponent />
+              }&nbsp;&nbsp;
+              {
+                  (false == this.state.loading) ? <SelectTokenComponent refresh={this.refresh} /> : <LoadingComponent />
               }
             </Container>
         </Navbar>

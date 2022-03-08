@@ -8,7 +8,8 @@ import LoadingComponent from '../LoadingComponent.js';
 import NFTMarketComponent from '../NFTMarkets/NFTMarketComponent.js';
 
 const LoadFunc = require("../../../functions/LoadFunctions.js");
-const Treasury = require("../../../functions/TreasuryFunctions.js");
+const TreasuryFunc = require("../../../functions/TreasuryFunctions.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 const Aux = require("../../../functions/AuxiliaryFunctions.js");
 
 
@@ -45,7 +46,7 @@ class PublicComponent extends React.Component {
                     {(Aux.account)?
                       <div>
                          <SendNewProposalComponent contract={this.props.contract} 
-                            price={Treasury.NewIssuerFee.plus(Treasury.AdminNewIssuerFee)}
+                            price={TreasuryFunc.NewIssuerFee[PaymentsFunc.CurrentPaymentID].plus(TreasuryFunc.AdminNewIssuerFee[PaymentsFunc.CurrentPaymentID])}
                             refresh={this.refresh}/>
                           {
                           (! this.props.isOwner)?

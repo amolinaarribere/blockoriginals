@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap';
 
 const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 
 
 class MintComponent extends React.Component {
@@ -19,7 +20,7 @@ class MintComponent extends React.Component {
         let MarketId = new BigNumber(this.state.marketId);
         let TokenId = new BigNumber(this.state.tokenId);
         let Price = new BigNumber(this.state.price);
-        await func.mintToken(this.props.contract, MarketId, TokenId, this.state.receiver, Price, this.state.FromCredit);
+        await func.mintToken(this.props.contract, MarketId, TokenId, this.state.receiver, Price, this.state.FromCredit, PaymentsFunc.CurrentPaymentID);
         this.setState({marketId: "", tokenId : "", receiver: "", price: "", FromCredit : false});
         this.props.refresh();
     };

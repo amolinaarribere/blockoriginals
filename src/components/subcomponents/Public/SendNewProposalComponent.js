@@ -3,6 +3,7 @@ import { Form} from 'react-bootstrap';
 
 const func = require("../../../functions/PublicFunctions.js");
 const loadFunc = require("../../../functions/LoadFunctions.js");
+const PaymentFunc = require("../../../functions/TreasuryFunctions.js");
 
 class SendNewProposalComponent extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class SendNewProposalComponent extends React.Component {
     handleNewProposal = async (event) => {
       event.preventDefault();
       
-      await func.AddMarket(this.state.Owner, this.state.Name, this.state.Symbol, this.state.FeeAmount, this.state.FeeDecimals, this.state.PaymentPlan, this.props.price, this.state.FromCredit, this.props.contract)
+      await func.AddMarket(this.state.Owner, this.state.Name, this.state.Symbol, this.state.FeeAmount, this.state.FeeDecimals, this.state.PaymentPlan, this.props.price, this.state.FromCredit, this.props.contract, PaymentFunc.CurrentPaymentID)
       this.setState({ Owner: "", Name : "", Symbol : "", FeeAmount : "", FeeDecimals : "", PaymentPlan : "", FromCredit : false})
       await this.refresh();
     };

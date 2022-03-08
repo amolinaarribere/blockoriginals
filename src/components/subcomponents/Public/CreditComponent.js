@@ -6,7 +6,6 @@ const func = require("../../../functions/PublicFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 
 
-
 class CreditComponent extends React.Component {   
     state = {
         loading : false,
@@ -26,20 +25,20 @@ class CreditComponent extends React.Component {
 
     handleWithdraw = async (event) => {
         event.preventDefault();
-        await func.WithdrawCredit((new BigNumber(this.state.withdrawAmount).multipliedBy(PaymentsFunc.TokenDecimalsFactor)).dp(0, 1).toString(), this.props.contract);
+        await func.WithdrawCredit((new BigNumber(this.state.withdrawAmount).multipliedBy(PaymentsFunc.TokenDecimalsFactors[PaymentsFunc.CurrentPaymentID])).dp(0, 1).toString(), this.props.contract, PaymentsFunc.CurrentPaymentID);
         this.setState({withdrawAmount: ""});
         this.props.refresh();
     };
 
     handleWithdrawAll = async (event) => {
         event.preventDefault();
-        await func.WithdrawAllCredit(this.props.contract);
+        await func.WithdrawAllCredit(this.props.contract, PaymentsFunc.CurrentPaymentID);
         this.props.refresh();
     };
 
     sendCredit = async (event) => {
         event.preventDefault();
-        await func.SendCredit(this.state.receiver, new BigNumber(this.state.amount), this.props.contract);
+        await func.SendCredit(this.state.receiver, new BigNumber(this.state.amount), this.props.contract, PaymentsFunc.CurrentPaymentID);
         this.setState({amount: "", receiver : ""});
         this.props.refresh();
     };
@@ -50,8 +49,8 @@ class CreditComponent extends React.Component {
             <h3>Markets Credit</h3>
             <Container style={{margin: '10px 50px 50px 50px' }}>
                 <Row>
-                    <Col><b>Your Current Credit ({PaymentsFunc.TokenSymbol}) :</b></Col> 
-                    <Col>{func.Credit.toString()}</Col>
+                    <Col><b>Your Current Credit ({PaymentsFunc.TokenSymbols[PaymentsFunc.CurrentPaymentID]}) :</b></Col> 
+                    <Col>{func.Credit[PaymentsFunc.CurrentPaymentID].toString()}</Col>
                 </Row>
                 <br />
                 <button type="button" class="btn btn-primary" onClick={this.handleWithdrawAll}>Withdraw All</button>

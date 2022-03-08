@@ -3,6 +3,7 @@ import { Form} from 'react-bootstrap';
 
 const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 
 
 class SubmitCancelOfferComponent extends React.Component {
@@ -19,7 +20,7 @@ class SubmitCancelOfferComponent extends React.Component {
         let Offer = new BigNumber(this.state.offer);
         let MarketId = new BigNumber(this.state.marketId);
         let TokenId = new BigNumber(this.state.tokenId);
-        await func.submitOffer(this.props.contract, MarketId, TokenId, this.state.bidder, Offer, this.state.FromCredit);
+        await func.submitOffer(this.props.contract, MarketId, TokenId, this.state.bidder, Offer, this.state.FromCredit, PaymentsFunc.CurrentPaymentID);
         await this.reset();
     };
 
