@@ -19,7 +19,9 @@ export var IssuerOfferLifeTime = "";
 export var TokenID = "-";
 export var MarketID = "-";
 export var TokenPaymentPlan = "-";
+export var TokenPricesPaymentsID = "";
 export var TokenPrices = "";
+export var TokenPricesEnabled = "";
 export var TokenOwner = "-";
 
 export var OfferOffer = "-";
@@ -74,6 +76,8 @@ async function transferTokenForMarket(contract, tokenId, previousOwner, newOwner
     await Aux.CallBackFrame(contract.methods.safeTransferFrom(previousOwner, newOwner, tokenId).send({from: Aux.account }));
 }
 
+ // to upgrade init
+
 export async function mintToken(contract, marketId, tokenId, receiver, prices, FromCredit, paymentTokenID){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
   await mintTokenForMarket(marketContract, tokenId, receiver, prices, FromCredit, paymentTokenID);
@@ -91,6 +95,9 @@ async function mintTokenForMarket(contract, tokenId, receiver, prices, FromCredi
   await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, ActualPrices, FromCredit, paymentTokenID).send({from: Aux.account}));
 }
 
+ // to upgrade end
+
+
 async function PaymentPlanForMarket(contract){
   try{
     let response = await contract.methods.retrieveIssuer().call();
@@ -100,6 +107,9 @@ async function PaymentPlanForMarket(contract){
     window.alert("error retrieving the payment plan for market : " + JSON.stringify(e))
   }
 }
+
+
+ // to upgrade init
 
 export async function setTokenPrice(contract, marketId, tokenId, newPrices){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
@@ -113,6 +123,9 @@ async function setTokenPriceForMarket(contract, tokenId, newPrices){
   }
   await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, newActualPrices).send({from: Aux.account }));
 }
+
+ // to upgrade end
+
 
 export async function replyOffer(contract, marketId, tokenId, validateOrReject){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
@@ -138,7 +151,7 @@ async function submitOfferForMarket(contract, tokenId, bidder, offer, FromCredit
     if (! FromCredit){
       await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, offerSent, paymentTokenID);
     }
-    await Aux.CallBackFrame(contract.methods.submitOffer(tokenId, bidder, offerSent, FromCredit, paymentTokenID).send({from: Aux.account }));
+    await Aux.CallBackFrame(contract.methods.submitOffer(Aux.returnSubmitOfferObject(tokenId, bidder, offerSent, FromCredit, paymentTokenID)).send({from: Aux.account }));
 }
 
 export async function withdrawOffer(contract, marketId, tokenId){
@@ -176,15 +189,25 @@ export async function RetrieveToken(contract, marketId, tokenId){
 
 async function RetrieveTokenForMarket(contract, tokenId){
     try{
+      let factor = PaymentsFunc.TokenDecimalsFactors[0]
+
       TokenPaymentPlan = "-"
       TokenPrices = []
+      TokenPricesPaymentsID = []
+      TokenPricesEnabled = []
       TokenOwner = "-"
 
       let response = await contract.methods.retrieveToken(tokenId).call();
 
       TokenPaymentPlan = response[0]._paymentPlan;
+
       for(let i=0; i < response[0]._prices.length; i++){
-        TokenPrices[i] = new BigNumber(response[0]._prices[i]).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+        if(i < PaymentsFunc.TokenDecimalsFactors.length) factor = PaymentsFunc.TokenDecimalsFactors[i]
+
+        TokenPrices[i] = new BigNumber(response[0]._prices[i]._price).dividedBy(factor);
+        TokenPricesPaymentsID[i] = parseInt(response[0]._prices[i]._paymentTokenID);
+        TokenPricesEnabled[i] = response[0]._prices[i]._enabled;
+
       }
       TokenOwner = response[1];
       
