@@ -76,4 +76,29 @@ export function returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, 
   };  
 }
 
+export function returnSubmitOfferObject(tokenId, bidder, offer, FromCredit, paymentTokenID){
+  return {
+      "_tokenId": tokenId,
+      "_bidder": bidder,
+      "_offer": offer,
+      "_FromCredit": FromCredit,
+      "_paymentTokenID": paymentTokenID
+  };  
+}
+
+export function returnTokenPriceObject(paymentTokenID, price, enabled){
+  return {
+      "_paymentTokenID": paymentTokenID,
+      "_price": price,
+      "_enabled": enabled
+  };  
+}
+
+export function returnTokenStructObject(paymentPlan, prices){
+  return {
+      "_paymentPlan": paymentPlan,
+      "_prices": prices
+  };  
+}
+
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form} from 'react-bootstrap';
+import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
 
 const func = require("../../../functions/AdminPiggyBankFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
@@ -8,25 +9,39 @@ const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 class PiggyBankTransferComponent extends React.Component {
     state = {
       amount : 0,
-      receiver : ""
+      receiver : "",
+      paymentTokenID : "",
+      selectedPaymentLabel : "Select payment Token"
     };
 
     handleTransfer = async (event) => {
       event.preventDefault();
 
-      await func.AddTransfer(this.props.contract, this.state.receiver, this.state.amount);
-      this.setState({amount: 0, receiver: ""});
+      await func.AddTransfer(this.props.contract, this.state.receiver, this.state.amount, this.state.paymentTokenID);
+      this.setState({amount: 0, receiver: "", paymentTokenID : ""});
       await this.props.refresh();
     };
+
+    HandleSelect = async (index) => {
+      this.setState({paymentTokenID : index});
+      let label = "Selected payment Token - " + PaymentsFunc.TokenSymbols[index];
+      this.setState({selectedPaymentLabel : label});
+    }
     
     render(){
       return (
         <div class="border border-0">
               <Container style={{margin: '10px 50px 50px 50px' }}>
-                  <Row>
-                    <Col><b>Balance ({PaymentsFunc.TokenSymbol}) :</b></Col> 
-                    <Col>{func.PiggyBankBalance.toString()}</Col>
-                  </Row>
+                {func.PiggyBankBalances.map(
+                  (PiggyBankBalance, index) => 
+                    (
+                      <Row>
+                        <Col><b>Balance ({PaymentsFunc.TokenSymbols[index]}) :</b></Col> 
+                        <Col>{PiggyBankBalance.toString()}</Col>
+                      </Row>
+                    )
+                )}
+                  
                 </Container>
                 <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>
                   <Form.Group  className="mb-3">
@@ -36,6 +51,10 @@ class PiggyBankTransferComponent extends React.Component {
                     <Form.Control type="text" name="receiver" placeholder="receiver address or ENS name" 
                           value={this.state.receiver}
                           onChange={event => this.setState({ receiver: event.target.value })}/>
+                    <SelectPaymentTokenComponent 
+                      HandleSelect={this.HandleSelect}
+                      selectedPaymentLabel={this.state.selectedPaymentLabel}
+                      DisplayAll={true}/>
                   </Form.Group>
                   <button class="btn btn-primary">Transfer Amount</button>
                 </Form>

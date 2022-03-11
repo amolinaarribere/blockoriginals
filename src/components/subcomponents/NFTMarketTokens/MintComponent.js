@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Col, Row } from 'react-bootstrap';
+import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
 
 const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
@@ -12,6 +13,8 @@ class MintComponent extends React.Component {
         tokenId : "",
         receiver : "",
         price : "",
+        paymentTokenID : "",
+        selectedPaymentLabel : "Select payment Token",
         FromCredit : false
     };
 
@@ -24,6 +27,12 @@ class MintComponent extends React.Component {
         this.setState({marketId: "", tokenId : "", receiver: "", price: "", FromCredit : false});
         this.props.refresh();
     };
+
+    HandleSelect = async (index) => {
+        this.setState({paymentTokenID : index});
+        let label = "Selected payment Token - " + PaymentsFunc.TokenSymbols[index];
+        this.setState({selectedPaymentLabel : label});
+      }
 
     render(){
         return (
@@ -43,9 +52,19 @@ class MintComponent extends React.Component {
                         <Form.Control type="text" name="Price" placeholder="price" 
                             value={this.state.price}
                             onChange={event => this.setState({ price: event.target.value })}/>
-                        <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
-                            checked={this.state.FromCredit}
-                            onChange={event => this.setState({ FromCredit: event.target.checked })} />
+                        <Row>
+                            <Col>
+                                <SelectPaymentTokenComponent 
+                                HandleSelect={this.HandleSelect}
+                                selectedPaymentLabel={this.state.selectedPaymentLabel}
+                                DisplayAll={false}/>
+                            </Col>
+                            <Col>
+                                <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
+                                checked={this.state.FromCredit}
+                                onChange={event => this.setState({ FromCredit: event.target.checked })} />  
+                            </Col>
+                        </Row>
                     </Form.Group>
                     <button type="submit" class="btn btn-primary">Mint Token</button>
                 </Form>

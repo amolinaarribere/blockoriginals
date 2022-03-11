@@ -5,11 +5,12 @@ const PaymentsFunc = require("./PaymentsFunctions.js");
 const BigNumber = require('bignumber.js');
 
 
-export var PiggyBankBalance = new BigNumber(0);
+export var PiggyBankBalances = [];
 
 export var TransferTo = "";
 export var TransferAmount = "";
-export var TransferPaymentTokenID = "";
+var TransferPaymentTokenID = "";
+export var TransferPaymentTokenSymbol = "";
 export var TransferValidations = "";
 export var TransferRejections = "";
 
@@ -21,6 +22,7 @@ export async function RetrieveTransferInfo(contract){
       TransferTo = response[0]._to;
       TransferAmount = ((response[0]._amount) ? new BigNumber(response[0]._amount).toString() : response[0]._amount);
       TransferPaymentTokenID = parseInt(response[0]._paymentTokenID);
+      TransferPaymentTokenSymbol = PaymentsFunc.TokenSymbols[TransferPaymentTokenID];
       TransferValidations = ((response[0]._validations) ? new BigNumber(response[0]._validations).toString() : response[0]._validations);
       TransferRejections = ((response[0]._rejections) ? new BigNumber(response[0]._rejections).toString() : response[0]._rejections);
     }
@@ -41,11 +43,14 @@ export async function RejectTransfer(contract){
     await Aux.CallBackFrame(contract.methods.reject().send({from: Aux.account }));
 }
 
-export async function RetrievePiggyBankBalance(TokenID){
+export async function RetrievePiggyBankBalance(){
   try{
-    PiggyBankBalance = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.PiggyBankAddressProxy, TokenID)).dividedBy(PaymentsFunc.TokenDecimalsFactors[TokenID]);
+    PiggyBankBalances = []
+    for(let i=0; i < PaymentsFunc.TokenDecimalsFactors.length; i++){
+      PiggyBankBalances[i] = new BigNumber(await PaymentsFunc.GetBalanceOf(Manager.PiggyBankAddressProxy, i)).dividedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+    }
   }
   catch(e){
-    window.alert("error retrieving the piggy bank balance for token " + TokenID + " : " + JSON.stringify(e))
+    window.alert("error retrieving the piggy bank balances : " + JSON.stringify(e))
   }
 }

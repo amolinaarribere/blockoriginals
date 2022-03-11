@@ -17,6 +17,8 @@ export var PiggyBankAddress = ""
 export var PiggyBankAddressProxy = ""
 export var PaymentsAddress = ""
 export var PaymentsAddressProxy = ""
+export var MarketsCreditsAddress = ""
+export var MarketsCreditsAddressProxy = ""
 
 export var PendingManagerAddress = ""
 export var PendingManagerInit = ""
@@ -33,6 +35,8 @@ export var PendingPiggyBankAddress = ""
 export var PendingPiggyBankInit = ""
 export var PendingPaymentsAddress = ""
 export var PendingPaymentsInit = ""
+export var PendingMarketsCreditsAddress = ""
+export var PendingMarketsCreditsInit = ""
 
 
 export async function RetrieveContractsAddresses(contract){
@@ -56,6 +60,8 @@ export async function RetrieveContractsAddresses(contract){
   PiggyBankAddressProxy = TransparentProxies[i++];
   PaymentsAddress = TransparentImpl[i];
   PaymentsAddressProxy = TransparentProxies[i++];
+  MarketsCreditsAddress = TransparentImpl[i];
+  MarketsCreditsAddressProxy = TransparentProxies[i++];
 
   let j=0;
   nftMarketImplAddress = BeaconsImpl[j++];
@@ -72,6 +78,7 @@ export async function RetrieveContractsAddresses(contract){
       PendingPropositionSettingsAddress = "-";
       PendingPiggyBankAddress = "-";
       PendingPaymentsAddress = "-";
+      PendingMarketsCreditsAddress = "-";
       PendingnftMarketImplAddress = "-";
 
       PendingManagerInit = "-";
@@ -81,6 +88,7 @@ export async function RetrieveContractsAddresses(contract){
       PendingPropositionSettingsInit = "-";
       PendingPiggyBankInit = "-";
       PendingPaymentsInit = "-"
+      PendingMarketsCreditsInit = "-"
 
       let i=2;
       if(result[i] != undefined)PendingManagerAddress = Aux.Bytes32ToAddress(result[i++]);
@@ -90,6 +98,7 @@ export async function RetrieveContractsAddresses(contract){
       if(result[i] != undefined)PendingPropositionSettingsAddress = Aux.Bytes32ToAddress(result[i++]);
       if(result[i] != undefined)PendingPiggyBankAddress = Aux.Bytes32ToAddress(result[i++]);
       if(result[i] != undefined)PendingPaymentsAddress = Aux.Bytes32ToAddress(result[i++]);
+      if(result[i] != undefined)PendingMarketsCreditsAddress = Aux.Bytes32ToAddress(result[i++]);
       if(result[i] != undefined)PendingnftMarketImplAddress = Aux.Bytes32ToAddress(result[i++]);
 
       if(result[i] != undefined)PendingManagerInit = result[i++];
@@ -99,6 +108,7 @@ export async function RetrieveContractsAddresses(contract){
       if(result[i] != undefined)PendingPropositionSettingsInit = result[i++];
       if(result[i] != undefined)PendingPiggyBankInit = result[i++];
       if(result[i] != undefined)PendingPaymentsInit = result[i++];
+      if(result[i] != undefined)PendingMarketsCreditsInit = result[i++];
 
     }
     catch(e){

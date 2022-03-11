@@ -19,6 +19,8 @@ const VarDataType=[Constants.intDataType,
   Constants.addressDataType,
   Constants.addressDataType,
   Constants.addressDataType,
+  Constants.addressDataType,
+  Constants.bytesDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
   Constants.bytesDataType,
@@ -71,7 +73,8 @@ class AddressPropositionComponent extends React.Component {
                     "Originals Token Address",
                     "Proposition Settings Address", 
                     "Piggy Bank Address",
-                    "Payments Address"
+                    "Payments Address",
+                    "Markets Credits Address"
                    ]}
                   values={[ManagerFunc.ProxyAdminAddress,
                     ManagerFunc.ManagerAddressProxy,
@@ -80,7 +83,8 @@ class AddressPropositionComponent extends React.Component {
                     ManagerFunc.OriginalsTokenAddressProxy,
                     ManagerFunc.PropositionSettingsAddressProxy,
                     ManagerFunc.PiggyBankAddressProxy,
-                    ManagerFunc.PaymentsAddressProxy
+                    ManagerFunc.PaymentsAddressProxy,
+                    ManagerFunc.MarketsCreditsAddressProxy
                    ]}/>
 
           <ConfigurationComponent refresh={this.refresh}
@@ -92,6 +96,7 @@ class AddressPropositionComponent extends React.Component {
                     "Proposition Settings Address", 
                     "Piggy Bank Address",
                     "Payments Address",
+                    "Markets Credits Address",
                     "NFT Market Address"
                     ]}
                   values={[ManagerFunc.ManagerAddress,
@@ -101,6 +106,7 @@ class AddressPropositionComponent extends React.Component {
                     ManagerFunc.PropositionSettingsAddress,
                     ManagerFunc.PiggyBankAddress,
                     ManagerFunc.PaymentsAddress,
+                    ManagerFunc.MarketsCreditsAddress,
                     ManagerFunc.nftMarketImplAddress
                     ]}/>
 
@@ -119,6 +125,7 @@ class AddressPropositionComponent extends React.Component {
                    "NewPropositionSettingsAddress",
                    "NewPiggyBankAddress",
                    "NewPaymentsAddress",
+                   "NewMarketsCreditsAddress",
                    "NewNFTMarketAddress",
                    "ManagerInit",
                    "PublicInit",
@@ -126,11 +133,12 @@ class AddressPropositionComponent extends React.Component {
                    "OriginalsInit",
                    "PropositionInit",
                    "PiggyBankInit",
-                   "PaymentsInit"
+                   "PaymentsInit",
+                   "MarketsCreditsInit"
                   ]}
                   types={["hidden", "hidden",
-                    "text", "text", "text", "text", "text", "text", "text",
-                   "text", "text", "text", "text", "text", "text", "text", "text"]}
+                    "text", "text", "text", "text", "text", "text", "text", "text",
+                   "text", "text", "text", "text", "text", "text", "text", "text", "text"]}
                   dataType={VarDataType}/>
 
                   <br />
@@ -152,7 +160,9 @@ class AddressPropositionComponent extends React.Component {
                   "Pending Piggy Bank Address",
                   "PiggyBankInit",
                   "Pending Payments Address",
-                  "PaymentsInit"]}
+                  "PaymentsInit",
+                  "Pending Markets Credits Address",
+                  "MarketsCreditsInit"]}
                   values={[ManagerFunc.PendingManagerAddress, 
                     ManagerFunc.PendingManagerInit,
                     ManagerFunc.PendingPublicPoolAddress, 
@@ -167,7 +177,9 @@ class AddressPropositionComponent extends React.Component {
                     ManagerFunc.PendingPiggyBankAddress,
                     ManagerFunc.PendingPiggyBankInit,
                     ManagerFunc.PendingPaymentsAddress,
-                    ManagerFunc.PendingPaymentsInit
+                    ManagerFunc.PendingPaymentsInit,
+                    ManagerFunc.PendingMarketsCreditsAddress,
+                    ManagerFunc.PendingMarketsCreditsInit
                 ]}
                   PropStatus={this.state.PropStatus}
                   RemainingVotes={this.state.RemainingVotes}

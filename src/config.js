@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js');
 
 export const MANAGER_PROXY_ADDRESS = {
-  "ganache": '0xdDFd0614750cacA9A8dd81027c1cC471B6C71059',
+  "ganache": '0x2A3a3bed1510fC141bC292D4Cfe93013c4d28834',
   "rinkeby": '',
   "ropsten": '',
   "kovan": '',
@@ -1016,34 +1016,6 @@ export const PUBLIC_ABI = [
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "name": "CreditReceived",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address[]",
         "name": "owners",
         "type": "address[]"
@@ -1458,211 +1430,6 @@ export const PUBLIC_ABI = [
     ],
     "stateMutability": "view",
     "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "addr",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      }
-    ],
-    "name": "sendCredit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "NFTMarketId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tokenID",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address[]",
-        "name": "addrs",
-        "type": "address[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "factors",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "addCredit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "NFTMarketId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tokenID",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "addr",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      }
-    ],
-    "name": "reuseCredit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "NFTMarketId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      }
-    ],
-    "name": "spendCredit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      }
-    ],
-    "name": "withdrawAll",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "NFTMarketId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "addr",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "name": "withdrawAllFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "addr",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
-      }
-    ],
-    "name": "retrieveCredit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   }
 ]
 
@@ -1754,11 +1521,23 @@ export const TREASURY_ABI = [
       {
         "indexed": false,
         "internalType": "uint256[][]",
-        "name": "Prices",
+        "name": "Fees",
         "type": "uint256[][]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "TransactionFees",
+        "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "OfferSettings",
+        "type": "uint256[]"
       }
     ],
-    "name": "_NewFees",
+    "name": "_NewSettings",
     "type": "event"
   },
   {
@@ -3794,10 +3573,27 @@ export const NFTMARKET_ABI = [
         "type": "address"
       },
       {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "_paymentTokenID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "_enabled",
+            "type": "bool"
+          }
+        ],
         "indexed": false,
-        "internalType": "uint256[]",
+        "internalType": "struct INFTMarket._tokenPriceStruct[]",
         "name": "prices",
-        "type": "uint256[]"
+        "type": "tuple[]"
       },
       {
         "indexed": false,
@@ -3933,15 +3729,27 @@ export const NFTMARKET_ABI = [
       },
       {
         "indexed": false,
-        "internalType": "uint256[]",
-        "name": "formerPrices",
-        "type": "uint256[]"
+        "internalType": "uint256",
+        "name": "formerPrice",
+        "type": "uint256"
       },
       {
         "indexed": false,
-        "internalType": "uint256[]",
-        "name": "newPrices",
-        "type": "uint256[]"
+        "internalType": "uint256",
+        "name": "newPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "enabled",
+        "type": "bool"
       }
     ],
     "name": "_SetTokenPrice",
@@ -4394,9 +4202,26 @@ export const NFTMARKET_ABI = [
         "type": "address"
       },
       {
-        "internalType": "uint256[]",
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "_paymentTokenID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "_enabled",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct INFTMarket._tokenPriceStruct[]",
         "name": "prices",
-        "type": "uint256[]"
+        "type": "tuple[]"
       },
       {
         "internalType": "bool",
@@ -4422,9 +4247,26 @@ export const NFTMARKET_ABI = [
         "type": "uint256"
       },
       {
-        "internalType": "uint256[]",
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "_paymentTokenID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "_enabled",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct INFTMarket._tokenPriceStruct[]",
         "name": "prices",
-        "type": "uint256[]"
+        "type": "tuple[]"
       }
     ],
     "name": "setTokenPrice",
@@ -4461,29 +4303,36 @@ export const NFTMARKET_ABI = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "bidder",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "_bidder",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_offer",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "_FromCredit",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_paymentTokenID",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct INFTMarket._submitOfferStruct",
         "name": "offer",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "FromCredit",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "paymentTokenID",
-        "type": "uint256"
+        "type": "tuple"
       }
     ],
     "name": "submitOffer",
@@ -4572,9 +4421,26 @@ export const NFTMARKET_ABI = [
             "type": "uint8"
           },
           {
-            "internalType": "uint256[]",
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "_paymentTokenID",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "_price",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "_enabled",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct INFTMarket._tokenPriceStruct[]",
             "name": "_prices",
-            "type": "uint256[]"
+            "type": "tuple[]"
           }
         ],
         "internalType": "struct INFTMarket._tokenStruct",
@@ -4692,6 +4558,12 @@ export const PAYMENTS_ABI = [
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "index",
+        "type": "uint256[]"
+      },
       {
         "indexed": false,
         "internalType": "address[]",
@@ -5114,6 +4986,503 @@ export const PAYMENTS_ABI = [
         "internalType": "struct Library.PaymentTokenStruct[]",
         "name": "",
         "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
+
+export const MARKETSCREDITS_ABI = [
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "factor",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "_CreditAssigned",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "_CreditReceived",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "creditor",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "_CreditReused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "_CreditSpent",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "_CreditUnAssignedReceived",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "withdrawer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "_CreditWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "withdrawer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "_CreditWithdrawnFor",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "CreditReceived",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "retrieveManagerContract",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "managerContractAddress",
+        "type": "address"
+      }
+    ],
+    "name": "MarketsCredits_init",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "addr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "sendCredit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address[]",
+        "name": "addrs",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "amounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "factors",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "assignCredit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "addr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "reuseCredit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "spendCredit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "NFTMarketId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "addr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "name": "withdrawAllFor",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "addr",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "paymentTokenID",
+        "type": "uint256"
+      }
+    ],
+    "name": "retrieveCredit",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

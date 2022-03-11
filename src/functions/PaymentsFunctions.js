@@ -8,7 +8,6 @@ export var PendingTokenIndex = "";
 export var PendingTokenAddresses = "";
 export var TokenSymbols = "";
 export var TokenDecimalsFactors = "";
-export var CurrentPaymentID = 0;
 var TokenContracts = ""
 
 export async function RetrieveTokenAddresses(contract){
@@ -99,16 +98,12 @@ export async function RetrieveTokenAddresses(contract){
     let ActualAmount = amount.multipliedBy(TokenDecimalsFactors[TokenID]);
     if(allowance.isLessThan(ActualAmount)){
         window.alert("You first need to allow Blockoriginals to spend at least " + amount.toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
-        await SetApprove(spender, ActualAmount);
+        await SetApprove(spender, ActualAmount, TokenID);
     }
   }
 
   async function GetTokenContract(TokenID){
     let TokenContract = await new Aux.web3.eth.Contract(ERC20_ABI, TokenAddresses[TokenID].TokenContract);
     return TokenContract;
-  }
-
-  export function changeCurrentPaymentId(TokenID){
-    CurrentPaymentID = TokenID;
   }
     
