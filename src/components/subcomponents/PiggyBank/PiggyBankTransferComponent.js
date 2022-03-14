@@ -5,6 +5,7 @@ import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent
 const func = require("../../../functions/AdminPiggyBankFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 const BigNumber = require('bignumber.js');
+const Aux = require("../../../functions/AuxiliaryFunctions.js");
 
 
 class PiggyBankTransferComponent extends React.Component {
@@ -45,21 +46,24 @@ class PiggyBankTransferComponent extends React.Component {
                 )}
                   
                 </Container>
-                <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>
-                  <Form.Group  className="mb-3">
-                    <Form.Control type="integer" name="Amount" placeholder="amount" 
-                          value={this.state.amount}
-                          onChange={event => this.setState({ amount: event.target.value })}/>
-                    <Form.Control type="text" name="receiver" placeholder="receiver address or ENS name" 
-                          value={this.state.receiver}
-                          onChange={event => this.setState({ receiver: event.target.value })}/>
-                    <SelectPaymentTokenComponent 
-                      HandleSelect={this.HandleSelect}
-                      selectedPaymentLabel={this.state.selectedPaymentLabel}
-                      DisplayAll={true}/>
-                  </Form.Group>
-                  <button class="btn btn-primary">Transfer Amount</button>
-                </Form>
+                {(Aux.account && this.props.isOwner)?
+                  <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>
+                    <Form.Group  className="mb-3">
+                      <Form.Control type="integer" name="Amount" placeholder="amount" 
+                            value={this.state.amount}
+                            onChange={event => this.setState({ amount: event.target.value })}/>
+                      <Form.Control type="text" name="receiver" placeholder="receiver address or ENS name" 
+                            value={this.state.receiver}
+                            onChange={event => this.setState({ receiver: event.target.value })}/>
+                      <SelectPaymentTokenComponent 
+                        HandleSelect={this.HandleSelect}
+                        selectedPaymentLabel={this.state.selectedPaymentLabel}
+                        DisplayAll={true}/>
+                    </Form.Group>
+                    <button class="btn btn-primary">Transfer Amount</button>
+                  </Form>
+                  :
+                  null}
                 <br/>
           </div>
       );
