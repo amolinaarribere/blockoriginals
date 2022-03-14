@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Col, Row, Dropdown, DropdownButton } from 'react-bootstrap';
+import { Form, Col, Row } from 'react-bootstrap';
 import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
 import TokenPricesComponent from './TokenPricesComponent.js';
 
@@ -53,7 +53,7 @@ class MintComponent extends React.Component {
 
         this.setState({marketId: "", tokenId : "", receiver: "", prices: [0], pricesPaymentTokenIDs : [],
             pricesPaymentTokenLabels : ["Choose Token"], pricesValues : [], pricesDisabled : [false],
-            paymentTokenID : "", selectedPaymentLabel : "Select payment Token", pricesDisabled : [false]});
+            paymentTokenID : "", selectedPaymentLabel : "Select payment Token"});
 
         this.props.refresh();
     };
@@ -141,25 +141,19 @@ class MintComponent extends React.Component {
                         <Form.Control type="text" name="Receiver" placeholder="receiver address" 
                             value={this.state.receiver}
                             onChange={event => this.setState({ receiver: event.target.value })}/>
-
-
-<TokenPricesComponent 
-    ChangePricePaymentID={this.ChangePricePaymentID}
-    ChangePriceValue={this.ChangePriceValue}
-    ChangePriceEnabled={this.ChangePriceEnabled}
-    AddPrice={this.AddPrice}
-    RemovePrice={this.RemovePrice}
-    prices={this.state.prices}
-    pricesDisabled={this.state.pricesDisabled}
-    pricesValues={this.state.pricesValues}
-    pricesPaymentTokenLabels={this.state.pricesPaymentTokenLabels}
-/>
-
-<br />
-<br />
-
-                        
-
+                        <TokenPricesComponent 
+                            ChangePricePaymentID={this.ChangePricePaymentID}
+                            ChangePriceValue={this.ChangePriceValue}
+                            ChangePriceEnabled={this.ChangePriceEnabled}
+                            AddPrice={this.AddPrice}
+                            RemovePrice={this.RemovePrice}
+                            prices={this.state.prices}
+                            pricesDisabled={this.state.pricesDisabled}
+                            pricesValues={this.state.pricesValues}
+                            pricesPaymentTokenLabels={this.state.pricesPaymentTokenLabels}
+                        />
+                        <br />
+                        <br />
                         <Row>
                             <Col>
                                 <SelectPaymentTokenComponent 

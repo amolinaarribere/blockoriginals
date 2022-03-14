@@ -76,8 +76,6 @@ async function transferTokenForMarket(contract, tokenId, previousOwner, newOwner
     await Aux.CallBackFrame(contract.methods.safeTransferFrom(previousOwner, newOwner, tokenId).send({from: Aux.account }));
 }
 
- // to upgrade init
-
 export async function mintToken(contract, marketId, tokenId, receiver, prices, FromCredit, paymentTokenID){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
   await mintTokenForMarket(marketContract, tokenId, receiver, prices, FromCredit, paymentTokenID);
@@ -95,8 +93,6 @@ async function mintTokenForMarket(contract, tokenId, receiver, prices, FromCredi
   if(FromCredit == false) await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment, paymentTokenID);
   await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, prices, FromCredit, paymentTokenID).send({from: Aux.account}));
 }
- // to upgrade end
-
 
 async function PaymentPlanForMarket(contract){
   try{
@@ -108,9 +104,6 @@ async function PaymentPlanForMarket(contract){
   }
 }
 
-
- // to upgrade init
-
 export async function setTokenPrice(contract, marketId, tokenId, newPrices){
   let marketContract = await RetrieveNFTMarket(contract, marketId);
   await setTokenPriceForMarket(marketContract, tokenId, newPrices);
@@ -120,12 +113,10 @@ async function setTokenPriceForMarket(contract, tokenId, newPrices){
   for(let i=0; i < newPrices.length; i++){
     let factor = PaymentsFunc.TokenDecimalsFactors[0];
     if(newPrices[i]._paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length) factor = PaymentsFunc.TokenDecimalsFactors[newPrices[i]._paymentTokenID];
-    newPrices[i]._price = newPrices[i]._price.multipliedBy(factor);
+    newPrices[i]._price = newPrices[i]._price.multipliedBy(factor).toString();
   }
   await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, newPrices).send({from: Aux.account }));
 }
-
- // to upgrade end
 
 
 export async function replyOffer(contract, marketId, tokenId, validateOrReject){
@@ -254,7 +245,7 @@ async function RetrieveNFTMarket(contract, marketId){
   try{
     let marketAddress = await contract.methods.retrieveNFTMarketForIssuer(marketId).call();
     let marketContract = await new Aux.web3.eth.Contract(NFTMARKET_ABI, marketAddress);
-    MarketID = marketId.toString();
+    MarketID = marketId.toFixed(0).toString();
     return marketContract;
   }
   catch(e){
