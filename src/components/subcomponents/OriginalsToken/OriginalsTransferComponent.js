@@ -5,7 +5,7 @@ const func = require("../../../functions/OriginalsFunctions.js");
 
 class OriginalsTransferComponent extends React.Component {
     state = {
-      amount : 0,
+      amount : "",
       recipient : ""
     };
 
@@ -13,7 +13,7 @@ class OriginalsTransferComponent extends React.Component {
       event.preventDefault();
 
       await func.transfer(this.state.recipient, this.state.amount, this.props.contract);
-      this.setState({amount: 0, recipient: ""});
+      this.setState({amount: "", recipient: ""});
       await this.props.refresh();
     };
     

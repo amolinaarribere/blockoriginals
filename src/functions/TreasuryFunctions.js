@@ -138,7 +138,14 @@ export var PendingOffersLifeTime = "";
   }
 
   export async function WithdrawAmount(amount, contract, TokenID){
-    await Aux.CallBackFrame(contract.methods.withdraw(amount, TokenID).send({from: Aux.account }));
+    if(TokenID < PaymentsFunc.TokenDecimalsFactors.length){
+      let factor = PaymentsFunc.TokenDecimalsFactors[TokenID];
+      amount = new BigNumber(amount).multipliedBy(factor).toString();
+      await Aux.CallBackFrame(contract.methods.withdraw(amount, TokenID).send({from: Aux.account }));
+    }
+    else{
+      window.alert("The token ID is not accepted")
+    }
   }
 
   export async function WithdrawAll(contract, TokenID){
