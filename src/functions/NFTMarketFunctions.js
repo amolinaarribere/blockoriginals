@@ -84,17 +84,17 @@ export async function mintToken(contract, marketId, tokenId, receiver, prices, F
 }
 
 async function mintTokenForMarket(contract, tokenId, receiver, prices, FromCredit, paymentTokenID){
-  let ActualPrices = []
   for(let i=0; i < prices.length; i++){
-    ActualPrices[i] = prices[i].multipliedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+    let factor = PaymentsFunc.TokenDecimalsFactors[0];
+    if(prices[i]._paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length) factor = PaymentsFunc.TokenDecimalsFactors[prices[i]._paymentTokenID];
+    prices[i]._price = new BigNumber(prices[i]._price).multipliedBy(factor).toString();
   }
   let paymentplan = await PaymentPlanForMarket(contract);
   let payment = new BigNumber(0);
   if(paymentplan == PaymentPlansMinting) payment = TreasuryFunc.MintingFee.plus(TreasuryFunc.AdminMintingFee);
-  if(!FromCredit) await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment, paymentTokenID);
-  await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, ActualPrices, FromCredit, paymentTokenID).send({from: Aux.account}));
+  if(FromCredit == false) await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment, paymentTokenID);
+  await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, prices, FromCredit, paymentTokenID).send({from: Aux.account}));
 }
-
  // to upgrade end
 
 
@@ -117,11 +117,12 @@ export async function setTokenPrice(contract, marketId, tokenId, newPrices){
 }
 
 async function setTokenPriceForMarket(contract, tokenId, newPrices){
-  let newActualPrices = [];
   for(let i=0; i < newPrices.length; i++){
-    newActualPrices[i] = newPrices[i].multipliedBy(PaymentsFunc.TokenDecimalsFactors[i]);
+    let factor = PaymentsFunc.TokenDecimalsFactors[0];
+    if(newPrices[i]._paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length) factor = PaymentsFunc.TokenDecimalsFactors[newPrices[i]._paymentTokenID];
+    newPrices[i]._price = newPrices[i]._price.multipliedBy(factor);
   }
-  await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, newActualPrices).send({from: Aux.account }));
+  await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, newPrices).send({from: Aux.account }));
 }
 
  // to upgrade end
@@ -148,9 +149,7 @@ export async function submitOffer(contract, marketId, tokenId, bidder, offer, Fr
 
 async function submitOfferForMarket(contract, tokenId, bidder, offer, FromCredit, paymentTokenID){
     let offerSent = new BigNumber(offer).multipliedBy(PaymentsFunc.TokenDecimalsFactors[paymentTokenID]);
-    if (! FromCredit){
-      await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, offerSent, paymentTokenID);
-    }
+    if (FromCredit == false) await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, offerSent, paymentTokenID);
     await Aux.CallBackFrame(contract.methods.submitOffer(Aux.returnSubmitOfferObject(tokenId, bidder, offerSent, FromCredit, paymentTokenID)).send({from: Aux.account }));
 }
 
@@ -189,8 +188,6 @@ export async function RetrieveToken(contract, marketId, tokenId){
 
 async function RetrieveTokenForMarket(contract, tokenId){
     try{
-      let factor = PaymentsFunc.TokenDecimalsFactors[0]
-
       TokenPaymentPlan = "-"
       TokenPrices = []
       TokenPricesPaymentsID = []
@@ -202,10 +199,18 @@ async function RetrieveTokenForMarket(contract, tokenId){
       TokenPaymentPlan = response[0]._paymentPlan;
 
       for(let i=0; i < response[0]._prices.length; i++){
-        if(i < PaymentsFunc.TokenDecimalsFactors.length) factor = PaymentsFunc.TokenDecimalsFactors[i]
+        let factor = PaymentsFunc.TokenDecimalsFactors[0]
+        let symbol = "NOT-DEFINED"
+
+        let paymentID = parseInt(response[0]._prices[i]._paymentTokenID);
+
+        if(paymentID < PaymentsFunc.TokenDecimalsFactors.length) {
+          factor = PaymentsFunc.TokenDecimalsFactors[paymentID]
+          symbol = PaymentsFunc.TokenSymbols[paymentID]
+        }
 
         TokenPrices[i] = new BigNumber(response[0]._prices[i]._price).dividedBy(factor);
-        TokenPricesPaymentsID[i] = parseInt(response[0]._prices[i]._paymentTokenID);
+        TokenPricesPaymentsID[i] = symbol;
         TokenPricesEnabled[i] = response[0]._prices[i]._enabled;
 
       }

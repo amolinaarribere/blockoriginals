@@ -11,7 +11,7 @@ export var pendingMarkets = ""
 export var Credits = ""
 
 export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, payment, price, FromCredit, contract, paymentTokenID){
-    if(!FromCredit)await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price, paymentTokenID);
+    if(FromCredit == false)await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price, paymentTokenID);
     await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, payment), FromCredit, paymentTokenID).send({from: Aux.account}));
  }
   

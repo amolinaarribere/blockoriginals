@@ -13,8 +13,6 @@ class ListMarketsComponent extends React.Component{
     else this.setState({ isMarketsAddShown: true })
   };
     render(){
-      var Markets = func.Markets;
-
       return(
         <div>
           <h3>NFT Markets</h3>
@@ -41,7 +39,7 @@ class ListMarketsComponent extends React.Component{
                         </tr>
                       </thead>
                       <tbody>
-                      {Markets.map(Market => (
+                      {func.Markets.map(Market => (
                         <tr>
                           <td>{Market[0]}</td>
                           <td>{Market[1]}</td>

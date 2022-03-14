@@ -94,16 +94,23 @@ export async function RetrieveTokenAddresses(contract){
   }
 
   export async function CheckAllowance(owner, spender, amount, TokenID){
-    let allowance = new BigNumber(await GetAllowance(owner, spender, TokenID));
-    let ActualAmount = amount.multipliedBy(TokenDecimalsFactors[TokenID]);
-    if(allowance.isLessThan(ActualAmount)){
-        window.alert("You first need to allow Blockoriginals to spend at least " + amount.toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
-        await SetApprove(spender, ActualAmount, TokenID);
+    if(TokenID < TokenDecimalsFactors.length){
+      let allowance = new BigNumber(await GetAllowance(owner, spender, TokenID));
+      let ActualAmount = amount.multipliedBy(TokenDecimalsFactors[TokenID]);
+      if(allowance.isLessThan(ActualAmount)){
+      window.alert("You first need to allow Blockoriginals to spend at least " + amount.toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
+      await SetApprove(spender, ActualAmount, TokenID);
     }
+    else console.error("Cannot check Allowance for that token")
+  }
+    
   }
 
   async function GetTokenContract(TokenID){
-    let TokenContract = await new Aux.web3.eth.Contract(ERC20_ABI, TokenAddresses[TokenID].TokenContract);
-    return TokenContract;
+    if(TokenID < TokenAddresses.length){
+      let TokenContract = await new Aux.web3.eth.Contract(ERC20_ABI, TokenAddresses[TokenID].TokenContract);
+      return TokenContract;
+    }
+    else console.error("Cannot check Allowance for that token")
   }
     

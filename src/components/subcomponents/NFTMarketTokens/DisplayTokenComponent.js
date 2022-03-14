@@ -52,13 +52,21 @@ class DisplayTokenComponent extends React.Component {
                             <Col>{func.TokenOwner}</Col>
                         </Row>
                         <Row>
-                            <Col><b>Price :</b></Col> 
-                            <Col>{func.TokenPrice.toString()}</Col>
-                        </Row>
-                        <Row>
                             <Col><b>Payment Plan :</b></Col> 
                             <Col>{func.TokenPaymentPlan}</Col>
                         </Row>
+                        {func.TokenPricesPaymentsID.map(
+                            (paymentID, index) => (
+                                <div>
+                                    {(true == func.TokenPricesEnabled[index])?
+                                    <Row>
+                                        <Col><b>Price {paymentID.toString()}:</b></Col> 
+                                        <Col>{func.TokenPrices[index].toString()}</Col>
+                                    </Row>
+                                    : null}
+                                </div>
+                            )
+                        )}     
                     </Container>
                 : null}
             </div>
