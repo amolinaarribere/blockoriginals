@@ -9,22 +9,32 @@ export var PiggyBankBalances = [];
 
 export var TransferTo = "";
 export var TransferAmount = "";
-var TransferPaymentTokenID = "";
 export var TransferPaymentTokenSymbol = "";
 export var TransferValidations = "";
 export var TransferRejections = "";
+const address_0 = "0x0000000000000000000000000000000000000000";
 
 
 export async function RetrieveTransferInfo(contract){
     try{
       let response = await contract.methods.retrieveTransferInfo().call();
-
-      TransferTo = response[0]._to;
-      TransferAmount = ((response[0]._amount) ? new BigNumber(response[0]._amount).toString() : response[0]._amount);
-      TransferPaymentTokenID = parseInt(response[0]._paymentTokenID);
-      TransferPaymentTokenSymbol = PaymentsFunc.TokenSymbols[TransferPaymentTokenID];
-      TransferValidations = ((response[0]._validations) ? new BigNumber(response[0]._validations).toString() : response[0]._validations);
-      TransferRejections = ((response[0]._rejections) ? new BigNumber(response[0]._rejections).toString() : response[0]._rejections);
+      if(response[0] != address_0){
+        TransferTo = response[0];
+        let TransferPaymentTokenID = parseInt(response[2]);
+        let factor = PaymentsFunc.TokenDecimalsFactors[TransferPaymentTokenID];
+        TransferAmount = new BigNumber(response[1]).dividedBy(factor).toString();
+        TransferPaymentTokenSymbol = PaymentsFunc.TokenSymbols[TransferPaymentTokenID];
+        TransferValidations = parseInt(response[3]);
+        TransferRejections = parseInt(response[4]);
+      }
+      else{
+        TransferTo = "-";
+        TransferAmount = "-";
+        TransferPaymentTokenSymbol = "-";
+        TransferValidations = "-";
+        TransferRejections = "-";
+      }
+      
     }
     catch(e){
       window.alert("error retrieving the transfer info : " + JSON.stringify(e))
@@ -32,7 +42,14 @@ export async function RetrieveTransferInfo(contract){
 }
 
 export async function AddTransfer(contract, receiver, amount, paymentTokenID){
-    await Aux.CallBackFrame(contract.methods.transfer(receiver, amount, paymentTokenID).send({from: Aux.account }));
+    if(paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length){
+      let factor = PaymentsFunc.TokenDecimalsFactors[paymentTokenID];
+      amount = new BigNumber(amount).multipliedBy(factor).toString();
+      await Aux.CallBackFrame(contract.methods.transfer(receiver, amount, paymentTokenID).send({from: Aux.account }));
+    }
+    else{
+      window.alert("The token ID is not accepted")
+    }
 }
 
 export async function ApproveTransfer(contract){

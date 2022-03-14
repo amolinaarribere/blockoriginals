@@ -18,7 +18,7 @@ class SelectPaymentTokenComponent extends React.Component{
     render(){
         return (
             <div>
-                <DropdownButton id="dropdown-basic-button" title={this.props.selectedPaymentLabel} variant="secondary" onSelect={this.props.HandleSelect}>
+                <DropdownButton id="dropdown-basic-button" title={this.props.selectedPaymentLabel} variant="info" onSelect={this.props.HandleSelect}>
                     {PaymentsFunc.TokenAddresses.map((tokenaddress, index) => 
                           (
                             (tokenaddress.active || this.props.DisplayAll) ? <Dropdown.Item eventKey={index}>{PaymentsFunc.TokenSymbols[index]}</Dropdown.Item> : null

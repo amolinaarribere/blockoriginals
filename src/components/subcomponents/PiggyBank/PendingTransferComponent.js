@@ -3,8 +3,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import VoteForTransferComponent from './VoteForTransferComponent.js';
 
 const func = require("../../../functions/AdminPiggyBankFunctions.js");
-const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
-
 
 class PendingTransferComponent extends React.Component{
   constructor(props) {

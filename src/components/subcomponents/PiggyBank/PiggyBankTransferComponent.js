@@ -4,11 +4,12 @@ import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent
 
 const func = require("../../../functions/AdminPiggyBankFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
+const BigNumber = require('bignumber.js');
 
 
 class PiggyBankTransferComponent extends React.Component {
     state = {
-      amount : 0,
+      amount : "",
       receiver : "",
       paymentTokenID : "",
       selectedPaymentLabel : "Select payment Token"
@@ -16,9 +17,10 @@ class PiggyBankTransferComponent extends React.Component {
 
     handleTransfer = async (event) => {
       event.preventDefault();
+      let amount =  new BigNumber(this.state.amount);
 
-      await func.AddTransfer(this.props.contract, this.state.receiver, this.state.amount, this.state.paymentTokenID);
-      this.setState({amount: 0, receiver: "", paymentTokenID : ""});
+      await func.AddTransfer(this.props.contract, this.state.receiver, amount, this.state.paymentTokenID);
+      this.setState({amount: "", receiver: "", paymentTokenID : ""});
       await this.props.refresh();
     };
 
