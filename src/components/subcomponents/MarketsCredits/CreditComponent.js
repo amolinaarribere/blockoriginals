@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
 import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
 
-const BigNumber = require('bignumber.js');
 const func = require("../../../functions/MarketsCreditsFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 
@@ -30,7 +29,7 @@ class CreditComponent extends React.Component {
 
     handleWithdraw = async (event) => {
         event.preventDefault();
-        await func.WithdrawCredit((new BigNumber(this.state.withdrawAmount).multipliedBy(PaymentsFunc.TokenDecimalsFactors[this.state.paymentTokenIDWithdraw])).dp(0, 1).toString(), this.props.contract, this.state.paymentTokenIDWithdraw);
+        await func.WithdrawCredit(this.state.withdrawAmount.trim(), this.props.contract, this.state.paymentTokenIDWithdraw);
         this.setState({withdrawAmount: ""});
         this.props.refresh();
     };
@@ -43,7 +42,7 @@ class CreditComponent extends React.Component {
 
     sendCredit = async (event) => {
         event.preventDefault();
-        await func.SendCredit(this.state.receiver, new BigNumber(this.state.amount), this.props.contract, this.state.paymentTokenIDSend);
+        await func.SendCredit(this.state.receiver.trim(), this.state.amount.trim(), this.props.contract, this.state.paymentTokenIDSend);
         this.setState({amount: "", receiver : ""});
         this.props.refresh();
     };

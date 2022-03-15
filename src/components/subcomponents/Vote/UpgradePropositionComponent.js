@@ -37,7 +37,7 @@ class UpgradePropositionComponent extends React.Component{
 
     updateStateValue = (value, index) => {
       var tmpValues = this.state.values;
-      tmpValues[index] = value;
+      tmpValues[index] = value.trim();
       this.setState({ values: tmpValues })
     }
 

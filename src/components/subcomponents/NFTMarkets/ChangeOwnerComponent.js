@@ -1,9 +1,7 @@
 import React from 'react';
 import { Form} from 'react-bootstrap';
 
-const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
-
 
 class ChangeOwnerComponent extends React.Component {
     state = {
@@ -13,8 +11,7 @@ class ChangeOwnerComponent extends React.Component {
 
     handleNewPrice = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        await func.changeOwner(this.props.contract, MarketId, this.state.newOwner);
+        await func.changeOwner(this.props.contract, this.state.marketId.trim(), this.state.newOwner.trim());
         this.setState({marketId: "", newOwner : ""});
         this.props.refresh();
     };

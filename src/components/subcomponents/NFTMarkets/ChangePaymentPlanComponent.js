@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form} from 'react-bootstrap';
 
-const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
 
 
@@ -13,8 +12,7 @@ class ChangePaymentPlanComponent extends React.Component {
 
     handleNewPrice = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        await func.changePaymentPlan(this.props.contract, MarketId, this.state.newPaymentPlan);
+        await func.changePaymentPlan(this.props.contract, this.state.marketId.trim(), this.state.newPaymentPlan.trim());
         this.setState({marketId: "", newPaymentPlan : ""});
         this.props.refresh();
     };

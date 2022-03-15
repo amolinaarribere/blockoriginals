@@ -12,7 +12,7 @@ class OriginalsTransferComponent extends React.Component {
     handleTransfer = async (event) => {
       event.preventDefault();
 
-      await func.transfer(this.state.recipient, this.state.amount, this.props.contract);
+      await func.transfer(this.state.recipient.trim(), this.state.amount.trim(), this.props.contract);
       this.setState({amount: "", recipient: ""});
       await this.props.refresh();
     };
@@ -25,7 +25,7 @@ class OriginalsTransferComponent extends React.Component {
                     <Form.Control type="integer" name="Amount" placeholder="amount" 
                           value={this.state.amount}
                           onChange={event => this.setState({ amount: event.target.value })}/>
-                    <Form.Control type="text" name="Recipient" placeholder="recipient address or ENS name" 
+                    <Form.Control type="text" name="Recipient" placeholder="recipient address" 
                           value={this.state.recipient}
                           onChange={event => this.setState({ recipient: event.target.value })}/>
                   </Form.Group>

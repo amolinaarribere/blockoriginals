@@ -13,13 +13,11 @@ class TransferComponent extends React.Component {
         owner : "",
         receiver : ""    };
 
-    handleMint = async (event) => {
+        handleTransfer = async (event) => {
         event.preventDefault();
-        let Owner = this.state.owner;
+        let Owner = this.state.owner.trim();
         if(Owner == "") Owner = Aux.account;
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
-        await func.transferToken(this.props.contract, MarketId, TokenId, Owner, this.state.receiver);
+        await func.transferToken(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim(), Owner, this.state.receiver.trim());
         this.setState({marketId: "", tokenId : "", owner: "", receiver: ""});
         this.props.refresh();
     };
@@ -28,7 +26,7 @@ class TransferComponent extends React.Component {
         return (
             <div>
                 <h4>Safely Transfer Token</h4>
-                <Form onSubmit={this.handleMint} style={{margin: '50px 50px 50px 50px' }}>
+                <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>
                     <Form.Group  className="mb-3">
                         <Form.Control type="text" name="MarketId" placeholder="market id" 
                             value={this.state.marketId}

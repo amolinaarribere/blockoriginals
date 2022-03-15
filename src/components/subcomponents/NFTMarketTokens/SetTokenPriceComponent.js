@@ -29,8 +29,6 @@ class SetTokenPriceComponent extends React.Component {
 
     handleNewPrice = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
         let Prices = [];
         
         for(let i=0; i < this.state.pricesPaymentTokenIDs.length; i++){
@@ -42,7 +40,7 @@ class SetTokenPriceComponent extends React.Component {
                  }
         }
 
-        await func.setTokenPrice(this.props.contract, MarketId, TokenId, Prices);
+        await func.setTokenPrice(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim(), Prices);
         this.setState({marketId: "", tokenId : "", prices: [0], pricesPaymentTokenIDs : [],
             pricesPaymentTokenLabels : ["Choose Token"], pricesValues : [], pricesDisabled : [false]});
         this.props.refresh();

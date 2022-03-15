@@ -14,24 +14,6 @@ export var PendingMinToPropose = "";
 
 export var ContractName = ""
 export var ContractVersion = ""
-
-export async function UpgradeProposition(NewPropositionLifeTime, NewPropositionThreshold, NewMinToPropose, contract){
-  await Aux.CallBackFrame(contract.methods.sendProposition([Aux.IntToBytes32(NewPropositionLifeTime),
-                            Aux.IntToBytes32(NewPropositionThreshold), 
-                            Aux.IntToBytes32(NewMinToPropose)]).send({from: Aux.account }));
-  }
-  
-  export async function VoteProposition(Vote, contract){
-    await Aux.CallBackFrame(contract.methods.voteProposition(Vote).send({from: Aux.account }));
-  }
-
-  export async function CancelProposition(contract){
-    await Aux.CallBackFrame(contract.methods.cancelProposition().send({from: Aux.account }));
-  }
-
-  export async function VotePropositionOnBehalfOf(voter, PropID, Vote, nonce, deadline, signature, contract){
-    await Aux.CallBackFrame(contract.methods.votePropositionOnBehalfOf(voter, PropID, Vote, nonce, deadline, signature).send({from: Aux.account }));
-  }
   
   export async function RetrievePendingProposition(contract){
     try{

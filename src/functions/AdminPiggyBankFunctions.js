@@ -1,6 +1,8 @@
 const Aux = require("./AuxiliaryFunctions.js");
 const Manager = require("./ManagerFunctions.js");
 const PaymentsFunc = require("./PaymentsFunctions.js");
+const ValidationFunc = require("./ValidationFunctions.js");
+
 
 const BigNumber = require('bignumber.js');
 
@@ -42,14 +44,25 @@ export async function RetrieveTransferInfo(contract){
 }
 
 export async function AddTransfer(contract, receiver, amount, paymentTokenID){
-    if(paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length){
-      let factor = PaymentsFunc.TokenDecimalsFactors[paymentTokenID];
-      amount = new BigNumber(amount).multipliedBy(factor).toString();
-      await Aux.CallBackFrame(contract.methods.transfer(receiver, amount, paymentTokenID).send({from: Aux.account }));
+  let CheckReceiver = ValidationFunc.validateAddress(receiver);
+  let CheckAmount = ValidationFunc.validatePositiveFloat(amount);
+  let CheckPaymentID = ValidationFunc.validatePositiveInteger(paymentTokenID);
+
+  if(true == CheckReceiver &&
+    true == CheckAmount[1] &&
+    true == CheckPaymentID[1]){
+      if(CheckPaymentID[0] < PaymentsFunc.TokenDecimalsFactors.length){
+        let factor = PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]];
+        CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toString();
+        await Aux.CallBackFrame(contract.methods.transfer(receiver, CheckAmount[0], CheckPaymentID[0]).send({from: Aux.account }));
+      }
+      else{
+        window.alert("The token ID is not accepted : " + CheckPaymentID[0])
+      }
     }
-    else{
-      window.alert("The token ID is not accepted")
-    }
+  else{
+    ValidationFunc.FormatErrorMessage([CheckReceiver, CheckAmount[1], CheckPaymentID[1]], ["Receiver", "Amount", "Payment ID"]);
+  }
 }
 
 export async function ApproveTransfer(contract){

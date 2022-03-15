@@ -12,12 +12,12 @@ class ManageMarketsComponent extends React.Component{
 
     handleValidateMarket = async (event) => {
       event.preventDefault();
-      await func.ValidateMarket(this.state.MarketId, this.props.contract)
+      await func.ValidateMarket(this.state.MarketId.trim(), this.props.contract)
       await this.refresh();
     };
     handleRejecMarket = async (event) => {
       event.preventDefault();
-      await func.RejectMarket(this.state.MarketId, this.props.contract)
+      await func.RejectMarket(this.state.MarketId.trim(), this.props.contract)
       await this.refresh();
     };
 

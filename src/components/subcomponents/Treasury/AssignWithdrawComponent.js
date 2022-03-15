@@ -22,8 +22,7 @@ class AssignWithdrawComponent extends React.Component {
 
     handleWithdraw = async (event) => {
       event.preventDefault();
-      let amount =  new BigNumber(this.state.amount);
-      await func.WithdrawAmount(amount, this.props.contract, this.state.paymentTokenID);
+      await func.WithdrawAmount(this.state.amount.trim(), this.props.contract, this.state.paymentTokenID);
       this.setState({amount: ""});
       this.props.refresh();
     };

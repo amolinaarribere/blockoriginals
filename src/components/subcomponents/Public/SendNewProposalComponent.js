@@ -5,7 +5,6 @@ import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent
 
 const func = require("../../../functions/PublicFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
-const TreasuryFunc = require("../../../functions/TreasuryFunctions.js");
 
 class SendNewProposalComponent extends React.Component {
   constructor(props) {
@@ -31,8 +30,7 @@ class SendNewProposalComponent extends React.Component {
 
     handleNewProposal = async (event) => {
       event.preventDefault();
-      let price = TreasuryFunc.NewIssuerFee[this.state.paymentTokenID].plus(TreasuryFunc.AdminNewIssuerFee[this.state.paymentTokenID])
-      await func.AddMarket(this.state.Owner, this.state.Name, this.state.Symbol, this.state.FeeAmount, this.state.FeeDecimals, this.state.PaymentPlan, price, this.state.FromCredit, this.props.contract, this.state.paymentTokenID)
+      await func.AddMarket(this.state.Owner.trim(), this.state.Name.trim(), this.state.Symbol.trim(), this.state.FeeAmount.trim(), this.state.FeeDecimals.trim(), this.state.PaymentPlan.trim(), this.state.FromCredit, this.props.contract, this.state.paymentTokenID)
       this.setState({ Owner: "", Name : "", Symbol : "", FeeAmount : "", FeeDecimals : "", PaymentPlan : "", FromCredit : false})
       await this.refresh();
     };

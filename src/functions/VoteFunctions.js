@@ -1,6 +1,7 @@
 
 const Aux = require("./AuxiliaryFunctions.js");
 const oriFunc = require("./OriginalsFunctions.js");
+const ValidationFunc = require("./ValidationFunctions.js");
 
 
 export async function UpgradeProposition(NewPropositionBytesArray, contract){
@@ -8,7 +9,18 @@ export async function UpgradeProposition(NewPropositionBytesArray, contract){
 }
 
 export async function VoteProposition(Vote, contract){
-    await Aux.CallBackFrame(contract.methods.voteProposition(Vote).send({from: Aux.account }));
+    let CheckVote = ValidationFunc.validateBoolean(Vote);
+
+    if(true == CheckVote){
+      await Aux.CallBackFrame(contract.methods.voteProposition(Vote).send({from: Aux.account }));
+    }
+    else{
+      ValidationFunc.FormatErrorMessage([CheckVote], ["Vote"]);
+    }
+}
+
+export async function CancelProposition(contract){
+    await Aux.CallBackFrame(contract.methods.cancelProposition().send({from: Aux.account }));
   }
 
 export async function PropositionStatus(contract){

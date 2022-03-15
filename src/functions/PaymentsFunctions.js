@@ -2,6 +2,8 @@ import { ERC20_ABI } from '../config'
 
 const Aux = require("./AuxiliaryFunctions.js");
 const BigNumber = require('bignumber.js');
+const ValidationFunc = require("./ValidationFunctions.js");
+
 
 export var TokenAddresses = "";
 export var PendingTokenIndex = "";
@@ -49,12 +51,12 @@ export async function RetrieveTokenAddresses(contract){
     
   }
 
-  export async function SetApprove(spender, amount, TokenID){
+  async function SetApprove(spender, amount, TokenID){
     if(TokenID < TokenContracts.length) await Aux.CallBackFrame(TokenContracts[TokenID].methods.approve(spender, amount).send({from: Aux.account }));
     else window.alert("TokenID provided is not available in the system");
   }
 
-  export async function GetAllowance(owner, spender, TokenID){
+  async function GetAllowance(owner, spender, TokenID){
     try{
       if(TokenID < TokenContracts.length) return await TokenContracts[TokenID].methods.allowance(owner, spender).call();
       else return 0;
@@ -65,12 +67,21 @@ export async function RetrieveTokenAddresses(contract){
   }
 
   export async function GetBalanceOf(account, TokenID){
-    try{
-      if(TokenID < TokenContracts.length) return await TokenContracts[TokenID].methods.balanceOf(account).call();
-      else return 0;
+    let CheckAccount = ValidationFunc.validateAddress(account);
+    let CheckTokenID = ValidationFunc.validatePositiveInteger(TokenID);
+
+    if(true == CheckTokenID[1] &&
+      true == CheckAccount){
+        try{
+          if(CheckTokenID[0] < TokenContracts.length) return await TokenContracts[CheckTokenID[0]].methods.balanceOf(account).call();
+          else return 0;
+        }
+        catch(e) { 
+          window.alert("error returning the token balance Of : " + JSON.stringify(e)); 
+        }
     }
-    catch(e) { 
-      window.alert("error returning the token balance Of : " + JSON.stringify(e)); 
+    else{
+      ValidationFunc.FormatErrorMessage([CheckTokenID[1], CheckAccount], ["Token ID", "Account"]);
     }
   }
 
@@ -96,14 +107,12 @@ export async function RetrieveTokenAddresses(contract){
   export async function CheckAllowance(owner, spender, amount, TokenID){
     if(TokenID < TokenDecimalsFactors.length){
       let allowance = new BigNumber(await GetAllowance(owner, spender, TokenID));
-      let ActualAmount = amount.multipliedBy(TokenDecimalsFactors[TokenID]);
-      if(allowance.isLessThan(ActualAmount)){
-      window.alert("You first need to allow Blockoriginals to spend at least " + amount.toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
-      await SetApprove(spender, ActualAmount, TokenID);
+      if(allowance.isLessThan(amount)){
+        window.alert("You first need to allow Blockoriginals to spend at least " + amount.dividedBy(TokenDecimalsFactors[TokenID]).toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
+        await SetApprove(spender, amount, TokenID);
+      }
+      else console.error("Cannot check Allowance for that token")
     }
-    else console.error("Cannot check Allowance for that token")
-  }
-    
   }
 
   async function GetTokenContract(TokenID){

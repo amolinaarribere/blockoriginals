@@ -1,40 +1,48 @@
 import React from 'react';
-import { Form} from 'react-bootstrap';
+import {Form, Row, Col} from 'react-bootstrap';
+import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
 
-const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 
 
 class SubmitCancelOfferComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.HandleSelect = this.HandleSelect.bind(this);
+    }
+
     state = {
         marketId : "",
         tokenId : "",
         bidder : "",
         offer : "",
-        FromCredit : false
+        FromCredit : false,
+        paymentTokenID : "",
+        selectedPaymentLabel : "Select payment Token",
     };
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        let Offer = new BigNumber(this.state.offer);
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
-        await func.submitOffer(this.props.contract, MarketId, TokenId, this.state.bidder, Offer, this.state.FromCredit, PaymentsFunc.CurrentPaymentID);
+        await func.submitOffer(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim(), this.state.bidder.trim(), this.state.offer.trim(), this.state.FromCredit, this.state.paymentTokenID);
         await this.reset();
     };
 
     handleWithdraw = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
-        await func.withdrawOffer(this.props.contract, MarketId, TokenId);
+        await func.withdrawOffer(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim());
         await this.reset();
     };
 
     async reset(){
         this.setState({marketId: "", tokenId : "", bidder : "", offer : "", FromCredit : false});
         this.props.refresh();
+    }
+
+    HandleSelect = async (index) => {
+        this.setState({paymentTokenID : index});
+        let label = "Selected payment Token - " + PaymentsFunc.TokenSymbols[index];
+        this.setState({selectedPaymentLabel : label});
     }
 
     render(){
@@ -55,9 +63,19 @@ class SubmitCancelOfferComponent extends React.Component {
                         <Form.Control type="text" name="Offer" placeholder="offer" 
                             value={this.state.offer}
                             onChange={event => this.setState({ offer: event.target.value })}/>
-                        <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
-                            checked={this.state.FromCredit}
-                            onChange={event => this.setState({ FromCredit: event.target.checked })} />
+                        <Row>
+                            <Col>
+                                <SelectPaymentTokenComponent 
+                                    HandleSelect={this.HandleSelect}
+                                    selectedPaymentLabel={this.state.selectedPaymentLabel}
+                                    DisplayAll={false}/>
+                            </Col>
+                            <Col>
+                                <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
+                                    checked={this.state.FromCredit}
+                                    onChange={event => this.setState({ FromCredit: event.target.checked })} />  
+                            </Col>
+                        </Row>
                     </Form.Group>
                     <button type="submit" class="btn btn-primary">Submit Offer</button>  &nbsp;&nbsp;
                     <button type="button" class="btn btn-primary"  onClick={this.handleWithdraw}>Withdraw Offer</button>

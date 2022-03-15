@@ -3,6 +3,7 @@ const Aux = require("./AuxiliaryFunctions.js");
 const Manager = require("./ManagerFunctions.js");
 const BigNumber = require('bignumber.js');
 const PaymentsFunc = require("./PaymentsFunctions.js");
+const ValidationFunc = require("./ValidationFunctions.js");
 
 
 export var AccountBalance = "";
@@ -138,16 +139,38 @@ export var PendingOffersLifeTime = "";
   }
 
   export async function WithdrawAmount(amount, contract, TokenID){
-    if(TokenID < PaymentsFunc.TokenDecimalsFactors.length){
-      let factor = PaymentsFunc.TokenDecimalsFactors[TokenID];
-      amount = new BigNumber(amount).multipliedBy(factor).toString();
-      await Aux.CallBackFrame(contract.methods.withdraw(amount, TokenID).send({from: Aux.account }));
+    let CheckTokenId = ValidationFunc.validatePositiveLargeInteger(TokenID);
+    let CheckAmount = ValidationFunc.validatePositiveFloat(amount);
+
+    if(true == CheckTokenId[1] &&
+      true == CheckAmount[1]){
+        if(CheckTokenId[0] < PaymentsFunc.TokenDecimalsFactors.length){
+          let factor = PaymentsFunc.TokenDecimalsFactors[CheckTokenId[0]];
+          CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toString();
+          await Aux.CallBackFrame(contract.methods.withdraw(CheckAmount[0], CheckTokenId[0]).send({from: Aux.account }));
+        }
+        else{
+          window.alert("The token ID is not accepted")
+        }
     }
     else{
-      window.alert("The token ID is not accepted")
+      ValidationFunc.FormatErrorMessage([CheckTokenId[1], CheckAmount[1]], ["Token ID", "Amount"]);
     }
+    
   }
 
   export async function WithdrawAll(contract, TokenID){
-    await Aux.CallBackFrame(contract.methods.withdrawAll(TokenID).send({from: Aux.account }));
-  }
+    let CheckTokenId = ValidationFunc.validatePositiveLargeInteger(TokenID);
+
+    if(true == CheckTokenId[1]){
+        if(CheckTokenId[0] < PaymentsFunc.TokenAddresses.length){
+          await Aux.CallBackFrame(contract.methods.withdrawAll(CheckTokenId[0]).send({from: Aux.account }));
+        }
+        else{
+            window.alert("Token ID not supported")
+        }
+    }
+    else{
+      ValidationFunc.FormatErrorMessage([CheckTokenId[1]], ["Token ID"]);
+    }
+}

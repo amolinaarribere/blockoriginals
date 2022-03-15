@@ -12,7 +12,7 @@ class UpdateMinOwnerComponent extends React.Component{
 
     handleMinOwner = async (event) => {
         event.preventDefault();
-      await func.UpdateMinOwner(this.state.minOwner, this.props.contract)
+      await func.UpdateMinOwner(this.state.minOwner.trim(), this.props.contract)
       this.setState({ minOwner: "" })
       await loadFunc.LoadOwnersFunc(this.props.contract);
       this.props.refresh();

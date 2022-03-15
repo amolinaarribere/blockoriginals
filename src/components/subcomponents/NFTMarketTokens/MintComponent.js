@@ -36,8 +36,6 @@ class MintComponent extends React.Component {
 
     handleMint = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
         let Prices = [];
         
         for(let i=0; i < this.state.pricesPaymentTokenIDs.length; i++){
@@ -49,7 +47,7 @@ class MintComponent extends React.Component {
                  }
         }
 
-        await func.mintToken(this.props.contract, MarketId, TokenId, this.state.receiver, Prices, this.state.FromCredit, this.state.paymentTokenID);
+        await func.mintToken(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim(), this.state.receiver.trim(), Prices, this.state.FromCredit, this.state.paymentTokenID);
 
         this.setState({marketId: "", tokenId : "", receiver: "", prices: [0], pricesPaymentTokenIDs : [],
             pricesPaymentTokenLabels : ["Choose Token"], pricesValues : [], pricesDisabled : [false],

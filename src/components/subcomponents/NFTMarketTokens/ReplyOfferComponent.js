@@ -2,8 +2,6 @@ import React from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
 
 const func = require("../../../functions/NFTMarketFunctions.js");
-const BigNumber = require('bignumber.js');
-
 
 class ReplyOfferComponent extends React.Component {
     state = {
@@ -14,26 +12,23 @@ class ReplyOfferComponent extends React.Component {
 
     handleValidate = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
-        await func.replyOffer(this.props.contract, MarketId, TokenId, true);
-        await this.reset();
+        await this.handleReplyOffer(true);
     };
 
     handleReject = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
-        await func.replyOffer(this.props.contract, MarketId, TokenId, false);
-        await this.reset();
+        await this.handleReplyOffer(false);
     };
+
+    handleReplyOffer = async (ValidateOrReject) => {
+        await func.replyOffer(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim(), ValidateOrReject);
+        await this.reset();
+    }
 
     handleRetrieve = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
-        await func.RetrieveOffer(this.props.contract, MarketId, TokenId);
-        this.setState({marketId: "", tokenId : "", displayOffer: true});
+        let success = await func.RetrieveOffer(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim());
+        this.setState({marketId: "", tokenId : "", displayOffer: success});
     };
 
     async reset(){

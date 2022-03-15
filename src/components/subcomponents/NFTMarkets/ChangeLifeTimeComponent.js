@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form} from 'react-bootstrap';
 
-const BigNumber = require('bignumber.js');
 const func = require("../../../functions/NFTMarketFunctions.js");
 
 
@@ -13,9 +12,7 @@ class ChangeLifeTimeComponent extends React.Component {
 
     handleNewPrice = async (event) => {
         event.preventDefault();
-        let NewLifeTime = new BigNumber(this.state.newLifeTime);
-        let MarketId = new BigNumber(this.state.marketId);
-        await func.changeOffersLifeTime(this.props.contract, MarketId, NewLifeTime);
+        await func.changeOffersLifeTime(this.props.contract, this.state.marketId.trim(), this.state.newLifeTime.trim());
         this.setState({marketId: "", newLifeTime : ""});
         this.props.refresh();
     };
