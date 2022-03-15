@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Col, Row} from 'react-bootstrap';
+import {PaymentsPlans} from '../../../config.js';
+import { Form, Col, Row, Dropdown, DropdownButton} from 'react-bootstrap';
 import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
 
 
@@ -19,6 +20,7 @@ class SendNewProposalComponent extends React.Component {
       FeeAmount : "",
       FeeDecimals : "",
       PaymentPlan : "",
+      selectedPaymentPlanLabel : "Select payment Plan",
       paymentTokenID : "",
       selectedPaymentLabel : "Select payment Token",
       FromCredit : false
@@ -30,15 +32,21 @@ class SendNewProposalComponent extends React.Component {
 
     handleNewProposal = async (event) => {
       event.preventDefault();
-      await func.AddMarket(this.state.Owner.trim(), this.state.Name.trim(), this.state.Symbol.trim(), this.state.FeeAmount.trim(), this.state.FeeDecimals.trim(), this.state.PaymentPlan.trim(), this.state.FromCredit, this.props.contract, this.state.paymentTokenID)
+      await func.AddMarket(this.state.Owner.trim(), this.state.Name.trim(), this.state.Symbol.trim(), this.state.FeeAmount.trim(), this.state.FeeDecimals.trim(), this.state.PaymentPlan, this.state.FromCredit, this.props.contract, this.state.paymentTokenID)
       this.setState({ Owner: "", Name : "", Symbol : "", FeeAmount : "", FeeDecimals : "", PaymentPlan : "", FromCredit : false})
       await this.refresh();
     };
 
-    HandleSelect = async (index) => {
+    HandleSelectPaymentToken = async (index) => {
       this.setState({paymentTokenID : index});
       let label = "Selected payment Token - " + PaymentsFunc.TokenSymbols[index];
       this.setState({selectedPaymentLabel : label});
+    }
+
+    HandleSelectPaymentPlan = async (index) => {
+      this.setState({PaymentPlan : index});
+      let label = "Selected payment Plan - " + PaymentsPlans[index];
+      this.setState({selectedPaymentPlanLabel : label});
     }
 
     render(){
@@ -62,13 +70,18 @@ class SendNewProposalComponent extends React.Component {
                 <Form.Control type="integer" name="decimals" placeholder="Fee Decimals" 
                     value={this.state.FeeDecimals}
                     onChange={event => this.setState({ FeeDecimals: event.target.value })}/> 
-                <Form.Control type="integer" name="payment" placeholder="Payment Plan" 
-                    value={this.state.PaymentPlan}
-                    onChange={event => this.setState({ PaymentPlan: event.target.value })}/>  
+                <DropdownButton id="dropdown-basic-button" title={this.state.selectedPaymentPlanLabel} variant="dark" onSelect={this.HandleSelectPaymentPlan}>
+                    {PaymentsPlans.map((paymentplan, index) => 
+                          (
+                            <Dropdown.Item eventKey={index}>{paymentplan}</Dropdown.Item>
+                          )
+                       )
+                     }
+                </DropdownButton> 
                 <Row>
                       <Col>
                         <SelectPaymentTokenComponent 
-                          HandleSelect={this.HandleSelect}
+                          HandleSelect={this.HandleSelectPaymentToken}
                           selectedPaymentLabel={this.state.selectedPaymentLabel}
                           DisplayAll={false}/>
                       </Col>

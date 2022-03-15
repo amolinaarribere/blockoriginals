@@ -8,11 +8,10 @@ export const MANAGER_PROXY_ADDRESS = {
   "mumbai": ''
 }
 
-/*export const ETHDecimals = 18;
-export const ETHFactor = new BigNumber(10**ETHDecimals);*/
-
 export const PaymentPlansMinting = 0;
 export const PaymentPlansTransferFee = 1;
+
+export const PaymentsPlans = ["PaymentPlansMinting", "PaymentPlansTransferFees"]
 
 export const AdminRights = true;
 
