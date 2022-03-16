@@ -26,7 +26,7 @@ class ChangeLifeTimeComponent extends React.Component {
                         <Form.Control type="text" name="MarketId" placeholder="market id" 
                             value={this.state.marketId}
                             onChange={event => this.setState({ marketId: event.target.value })}/>
-                        <Form.Control type="text" name="newLifeTime" placeholder="new life time" 
+                        <Form.Control type="number" name="newLifeTime" placeholder="new life time" 
                             value={this.state.newLifeTime}
                             onChange={event => this.setState({ newLifeTime: event.target.value })}/>
                     </Form.Group>

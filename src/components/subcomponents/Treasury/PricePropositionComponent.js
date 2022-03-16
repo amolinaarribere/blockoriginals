@@ -90,13 +90,22 @@ class PricePropositionComponent extends React.Component {
     let TokenRelatedFees = [];
     let index = 0;
 
-    for(let i=0; i < values[0].length; i++){
-      TokenRelatedFees[index++] = (values[0][i] < PaymentsFunc.TokenSymbols.length)? PaymentsFunc.TokenSymbols[values[0][i]] : "NOT-DEFINED";
-      TokenRelatedFees[index++] = values[1][i].toString();
-      TokenRelatedFees[index++] = values[2][i].toString();
-      TokenRelatedFees[index++] = values[3][i].toString();
-      TokenRelatedFees[index++] = values[4][i].toString();
-      TokenRelatedFees[index++] = "";
+    if(values[0].length == 0){
+      TokenRelatedFees[index++] = "-";
+      TokenRelatedFees[index++] = "-";
+      TokenRelatedFees[index++] = "-";
+      TokenRelatedFees[index++] = "-";
+      TokenRelatedFees[index++] = "-";
+    }
+    else{
+      for(let i=0; i < values[0].length; i++){
+        TokenRelatedFees[index++] = (values[0][i] < PaymentsFunc.TokenSymbols.length)? PaymentsFunc.TokenSymbols[values[0][i]] : "NOT-DEFINED";
+        TokenRelatedFees[index++] = values[1][i].toString();
+        TokenRelatedFees[index++] = values[2][i].toString();
+        TokenRelatedFees[index++] = values[3][i].toString();
+        TokenRelatedFees[index++] = values[4][i].toString();
+        TokenRelatedFees[index++] = "";
+      }
     }
 
     TokenRelatedFees[index++] = values[5].toString();

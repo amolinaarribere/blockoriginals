@@ -80,7 +80,7 @@ export async function GetEvents(eventLogId, _block, contract, eventsList, abisLi
 
 }
 
-function ConnectEvent(func, option, Id1, Id2, Abi){
+function ConnectEvent(func, option, Id1, Id2){
   eventlogs[Id1][Id2] = []
   let eventFunction = func(option);
 

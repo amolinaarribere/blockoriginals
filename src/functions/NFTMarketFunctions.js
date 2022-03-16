@@ -391,14 +391,23 @@ async function RetrieveOfferForMarket(contract, tokenId){
     }
 }
 
-async function RetrieveNFTMarket(contract, marketId){
-  try{
-    let marketAddress = await contract.methods.retrieveNFTMarketForIssuer(marketId).call();
-    let marketContract = await new Aux.web3.eth.Contract(NFTMARKET_ABI, marketAddress);
-    MarketID = marketId.toFixed(0).toString();
-    return marketContract;
+export async function RetrieveNFTMarket(contract, marketId){
+  let CheckMarketId = ValidationFunc.validatePositiveLargeInteger(marketId);
+
+  if(true == CheckMarketId[1]){
+    try{
+      let marketAddress = await contract.methods.retrieveNFTMarketForIssuer(CheckMarketId[0]).call();
+      let marketContract = await new Aux.web3.eth.Contract(NFTMARKET_ABI, marketAddress);
+      MarketID = CheckMarketId[0].toFixed(0).toString();
+      return marketContract;
+    }
+    catch(e){
+      window.alert("error retrieving the market contract : " + JSON.stringify(e))
+    }
   }
-  catch(e){
-    window.alert("error retrieving the market contract : " + JSON.stringify(e))
+  else{
+    ValidationFunc.FormatErrorMessage([CheckMarketId[1]], ["Market ID"]);
+    return "";
   }
+  
 }

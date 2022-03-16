@@ -9,7 +9,6 @@ const Constants = require("../../../functions/Constants.js");
 const func = require("../../../functions/PaymentsFunctions.js");
 const address_0 = "0x0000000000000000000000000000000000000000"
 const VoteFunc = require("../../../functions/VoteFunctions.js");
-const VarDataType=[Constants.addressDataType]
 
 
 class PaymentsConfigComponent extends React.Component{

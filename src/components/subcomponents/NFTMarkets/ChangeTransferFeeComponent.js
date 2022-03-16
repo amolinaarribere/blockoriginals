@@ -27,7 +27,7 @@ class ChangeTransferFeeComponent extends React.Component {
                         <Form.Control type="text" name="MarketId" placeholder="market id" 
                             value={this.state.marketId}
                             onChange={event => this.setState({ marketId: event.target.value })}/>
-                        <Form.Control type="text" name="NewFee" placeholder="new fee - Percentage (max 2 decimals)" 
+                        <Form.Control type="number" step="0.01" name="NewFee" placeholder="new fee - Percentage (max 2 decimals)" 
                             value={this.state.newFee}
                             onChange={event => this.setState({ newFee: event.target.value })}/>
                     </Form.Group>

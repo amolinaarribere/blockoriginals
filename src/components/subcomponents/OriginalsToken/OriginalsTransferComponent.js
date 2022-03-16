@@ -22,7 +22,7 @@ class OriginalsTransferComponent extends React.Component {
         <div class="border border-0">
                 <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>
                   <Form.Group  className="mb-3">
-                    <Form.Control type="integer" name="Amount" placeholder="amount" 
+                    <Form.Control type="number" name="Amount" placeholder="amount" 
                           value={this.state.amount}
                           onChange={event => this.setState({ amount: event.target.value })}/>
                     <Form.Control type="text" name="Recipient" placeholder="recipient address" 

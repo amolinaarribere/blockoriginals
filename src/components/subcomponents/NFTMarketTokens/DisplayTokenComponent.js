@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
+import {PaymentsPlans} from '../../../config.js';
 
 const func = require("../../../functions/NFTMarketFunctions.js");
 
@@ -49,7 +50,7 @@ class DisplayTokenComponent extends React.Component {
                         </Row>
                         <Row>
                             <Col><b>Payment Plan :</b></Col> 
-                            <Col>{func.TokenPaymentPlan}</Col>
+                            <Col>{PaymentsPlans[func.TokenPaymentPlan]}</Col>
                         </Row>
                         {func.TokenPricesPaymentsID.map(
                             (paymentID, index) => (

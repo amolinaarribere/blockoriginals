@@ -1,7 +1,8 @@
 import React from 'react';
 import {PaymentsPlans} from '../../../config.js';
-import { Form, Col, Row, Dropdown, DropdownButton} from 'react-bootstrap';
+import { Form, Col, Row} from 'react-bootstrap';
 import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
+import SelectPaymentPlanComponent from '../NFTMarkets/SelectPaymentPlanComponent.js';
 
 
 const func = require("../../../functions/PublicFunctions.js");
@@ -64,20 +65,15 @@ class SendNewProposalComponent extends React.Component {
                 <Form.Control type="text" name="symbol" placeholder="Symbol" 
                     value={this.state.Symbol}
                     onChange={event => this.setState({ Symbol: event.target.value })}/> 
-                <Form.Control type="integer" name="amount" placeholder="Fee Amount" 
+                <Form.Control type="number" name="amount" placeholder="Fee Amount" 
                     value={this.state.FeeAmount}
                     onChange={event => this.setState({ FeeAmount: event.target.value })}/> 
-                <Form.Control type="integer" name="decimals" placeholder="Fee Decimals" 
+                <Form.Control type="number" name="decimals" placeholder="Fee Decimals" 
                     value={this.state.FeeDecimals}
                     onChange={event => this.setState({ FeeDecimals: event.target.value })}/> 
-                <DropdownButton id="dropdown-basic-button" title={this.state.selectedPaymentPlanLabel} variant="dark" onSelect={this.HandleSelectPaymentPlan}>
-                    {PaymentsPlans.map((paymentplan, index) => 
-                          (
-                            <Dropdown.Item eventKey={index}>{paymentplan}</Dropdown.Item>
-                          )
-                       )
-                     }
-                </DropdownButton> 
+                <SelectPaymentPlanComponent 
+                          HandleSelect={this.HandleSelectPaymentPlan}
+                          selectedPaymentPlanLabel={this.state.selectedPaymentPlanLabel}/>
                 <Row>
                       <Col>
                         <SelectPaymentTokenComponent 

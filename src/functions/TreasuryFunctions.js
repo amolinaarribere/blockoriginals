@@ -95,20 +95,19 @@ export var PendingOffersLifeTime = "";
       PendingAdminNewIssuerFee[i] = new BigNumber(response[count++]).dividedBy(Factor);
       PendingMintingFee[i] = new BigNumber(response[count++]).dividedBy(Factor);
       PendingAdminMintingFee[i] = new BigNumber(response[count++]).dividedBy(Factor);
-    }
+      }
 
-    if(response[count] != undefined) PendingTransferFeeAmount = new BigNumber(response[count++]);
-    if(response[count] != undefined) PendingTransferFeeDecimals = new BigNumber(response[count++]);
-    if(response[count] != undefined) PendingAdminTransferFeeAmount = new BigNumber(response[count++]);
-    if(response[count] != undefined) PendingAdminTransferFeeDecimals = new BigNumber(response[count++]);
-    if(response[count] != undefined) PendingOffersLifeTime = new BigNumber(response[count++]);
-
+      if(response[count] != undefined) PendingTransferFeeAmount = new BigNumber(response[count++]);
+      if(response[count] != undefined) PendingTransferFeeDecimals = new BigNumber(response[count++]);
+      if(response[count] != undefined) PendingAdminTransferFeeAmount = new BigNumber(response[count++]);
+      if(response[count] != undefined) PendingAdminTransferFeeDecimals = new BigNumber(response[count++]);
+      if(response[count] != undefined) PendingOffersLifeTime = new BigNumber(response[count++]);
     }
     catch(e){
       window.alert("error retrieving the pending prices : " + JSON.stringify(e))
     }
     
-  }
+}
 
   export async function RetrieveBalance(address, contract){
     try{

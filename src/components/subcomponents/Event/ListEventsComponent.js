@@ -5,10 +5,17 @@ import { Form } from 'react-bootstrap';
 
 const EventsFunc = require("../../../functions/EventsFunctions.js");
 const Contracts = require("../../../functions/Contracts.js");
+const NFTMarketFunctions = require("../../../functions/NFTMarketFunctions.js");
+const BrowserStorageFunctions = require("../../../functions/BrowserStorageFunctions.js");
 
 class ListEventsComponent extends React.Component {
   async componentWillMount() {
     await this.refresh();
+    this.state.currentmarketId = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.nftmarketKey)
+    let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarket(Contracts.publicPool, this.state.currentmarketId);
+    if(nftmarketContract) {
+      Contracts.setNFTMarket(nftmarketContract);
+    }
   }
 
   async refresh() {
@@ -18,7 +25,9 @@ class ListEventsComponent extends React.Component {
     state = {
       block: this.props.block,
       blockChecked: 0,
-      EventsActivated: false
+      EventsActivated: false,
+      marketId : "",
+      currentmarketId : ""
     };
 
     handleStopEvents = async (event) => {
@@ -32,6 +41,16 @@ class ListEventsComponent extends React.Component {
       let success = await EventsFunc.StartEvents(this.state.block.trim());
       if(true == success)this.setState({ EventsActivated: true,  blockChecked: this.state.block});
       else this.setState({ EventsActivated: false,  blockChecked: 0});
+    }
+
+    choosenftMarket = async (event) => {
+      event.preventDefault();
+      let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarket(Contracts.publicPool, this.state.marketId.trim());
+      if(nftmarketContract) {
+        Contracts.setNFTMarket(nftmarketContract);
+        BrowserStorageFunctions.WriteKey(BrowserStorageFunctions.nftmarketKey ,this.state.marketId.trim());
+        this.setState({ currentmarketId: this.state.marketId.trim(), marketId: ""});
+      }
     }
 
     render(){
@@ -92,10 +111,22 @@ class ListEventsComponent extends React.Component {
             SCName="Markets Credits"
             ContractId={EventsFunc.MarketsCredits}
             />
+
+          <Form onSubmit={this.choosenftMarket} style={{margin: '50px 50px 50px 50px' }}>
+            <Form.Group  className="mb-3"> 
+              <Form.Control type="text" name="MarketId" placeholder="market id" 
+                            value={this.state.marketId}
+                            onChange={event => this.setState({ marketId: event.target.value })}/>
+            </Form.Group>
+                <button
+                  type="submit"
+                  className="btn btn-lg btn-secondary center modal-button">Display Market Events</button> &nbsp;&nbsp;
+          </Form>
+
           {(Contracts.nftMarket == "")?
             <div></div> :
             <ListBaseEventsComponentTemplate 
-              SCName={"NFT Market " + Contracts.nftMarket._address}
+              SCName={"NFT Market " + this.state.currentmarketId}
               ContractId={EventsFunc.nftMarketId}
             />
           }

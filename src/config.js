@@ -11,9 +11,9 @@ export const MANAGER_PROXY_ADDRESS = {
 export const PaymentPlansMinting = 0;
 export const PaymentPlansTransferFee = 1;
 
-export const PaymentsPlans = ["PaymentPlansMinting", "PaymentPlansTransferFees"]
+export const PaymentsPlans = ["Paying when Minting", "Paying for each Transfer"]
 
-export const AdminRights = true;
+export const AdminRights = false;
 
 export const MumbaiNode = "https://matic-mumbai.chainstacklabs.com"
 
