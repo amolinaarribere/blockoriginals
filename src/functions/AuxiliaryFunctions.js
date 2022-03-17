@@ -32,7 +32,15 @@ export async function CallBackFrame(callback){
       let result = await callback;
       return result;
      }
-     catch(e) { window.alert(JSON.stringify(e)); }
+     catch(e) { 
+       if(e.code == 4001){
+         window.alert("Transaction rejected"); 
+       }
+       else {
+        window.alert("Unexpected error"); 
+        console.log(JSON.stringify(e)); 
+       }
+      }
 }
   
 export function Bytes32ToAddress(bytes){
