@@ -16,7 +16,7 @@ class ListEventsComponent extends React.Component {
   async refresh() {
     let NFTMarket = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.nftmarketKey);
     if(NFTMarket){
-      let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarket(Contracts.publicPool, NFTMarket);
+      let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarketContract(Contracts.publicPool, NFTMarket);
       if(nftmarketContract) {
         Contracts.setNFTMarket(nftmarketContract);
       }
@@ -47,7 +47,7 @@ class ListEventsComponent extends React.Component {
 
     choosenftMarket = async (event) => {
       event.preventDefault();
-      let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarket(Contracts.publicPool, this.state.marketId.trim());
+      let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarketContract(Contracts.publicPool, this.state.marketId.trim());
       if(nftmarketContract) {
         Contracts.setNFTMarket(nftmarketContract);
         BrowserStorageFunctions.WriteKey(BrowserStorageFunctions.nftmarketKey ,this.state.marketId.trim());
