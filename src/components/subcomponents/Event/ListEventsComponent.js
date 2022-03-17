@@ -11,15 +11,17 @@ const BrowserStorageFunctions = require("../../../functions/BrowserStorageFuncti
 class ListEventsComponent extends React.Component {
   async componentWillMount() {
     await this.refresh();
-    this.state.currentmarketId = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.nftmarketKey)
-    let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarket(Contracts.publicPool, this.state.currentmarketId);
-    if(nftmarketContract) {
-      Contracts.setNFTMarket(nftmarketContract);
-    }
   }
 
   async refresh() {
-    this.setState({block : this.props.block})
+    let NFTMarket = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.nftmarketKey);
+    if(NFTMarket){
+      let nftmarketContract = await NFTMarketFunctions.RetrieveNFTMarket(Contracts.publicPool, NFTMarket);
+      if(nftmarketContract) {
+        Contracts.setNFTMarket(nftmarketContract);
+      }
+    }
+    this.setState({block : this.props.block, currentmarketId : NFTMarket})
   }
 
     state = {
