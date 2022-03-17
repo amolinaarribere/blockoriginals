@@ -1,9 +1,8 @@
 import React from 'react';
 import { Form, Container, Row, Col } from 'react-bootstrap';
+import {PaymentsPlans} from '../../../config.js';
 
 const func = require("../../../functions/NFTMarketFunctions.js");
-const BigNumber = require('bignumber.js');
-
 
 
 class DisplayTokenComponent extends React.Component {
@@ -15,10 +14,8 @@ class DisplayTokenComponent extends React.Component {
 
     handleSearch = async (event) => {
         event.preventDefault();
-        let MarketId = new BigNumber(this.state.marketId);
-        let TokenId = new BigNumber(this.state.tokenId);
-        await func.RetrieveToken(this.props.contract, MarketId, TokenId);
-        this.setState({marketId: "", tokenId : "", displayToken: true});
+        let success = await func.RetrieveToken(this.props.contract, this.state.marketId.trim(), this.state.tokenId.trim());
+        this.setState({marketId: "", tokenId : "", displayToken: success});
     };
 
     render(){
@@ -52,13 +49,21 @@ class DisplayTokenComponent extends React.Component {
                             <Col>{func.TokenOwner}</Col>
                         </Row>
                         <Row>
-                            <Col><b>Price :</b></Col> 
-                            <Col>{func.TokenPrice.toString()}</Col>
-                        </Row>
-                        <Row>
                             <Col><b>Payment Plan :</b></Col> 
-                            <Col>{func.TokenPaymentPlan}</Col>
+                            <Col>{PaymentsPlans[func.TokenPaymentPlan]}</Col>
                         </Row>
+                        {func.TokenPricesPaymentsID.map(
+                            (paymentID, index) => (
+                                <div>
+                                    {(true == func.TokenPricesEnabled[index])?
+                                    <Row>
+                                        <Col><b>Price {paymentID.toString()}:</b></Col> 
+                                        <Col>{func.TokenPrices[index].toString()}</Col>
+                                    </Row>
+                                    : null}
+                                </div>
+                            )
+                        )}     
                     </Container>
                 : null}
             </div>

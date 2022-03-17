@@ -1,8 +1,12 @@
 import React from 'react';
-import { Form} from 'react-bootstrap';
+import {PaymentsPlans} from '../../../config.js';
+import { Form, Col, Row} from 'react-bootstrap';
+import SelectPaymentTokenComponent from '../Payments/SelectPaymentTokenComponent.js';
+import SelectPaymentPlanComponent from '../NFTMarkets/SelectPaymentPlanComponent.js';
+
 
 const func = require("../../../functions/PublicFunctions.js");
-const loadFunc = require("../../../functions/LoadFunctions.js");
+const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
 
 class SendNewProposalComponent extends React.Component {
   constructor(props) {
@@ -17,6 +21,9 @@ class SendNewProposalComponent extends React.Component {
       FeeAmount : "",
       FeeDecimals : "",
       PaymentPlan : "",
+      selectedPaymentPlanLabel : "Select payment Plan",
+      paymentTokenID : "",
+      selectedPaymentLabel : "Select payment Token",
       FromCredit : false
     };
 
@@ -26,11 +33,22 @@ class SendNewProposalComponent extends React.Component {
 
     handleNewProposal = async (event) => {
       event.preventDefault();
-      
-      await func.AddMarket(this.state.Owner, this.state.Name, this.state.Symbol, this.state.FeeAmount, this.state.FeeDecimals, this.state.PaymentPlan, this.props.price, this.state.FromCredit, this.props.contract)
+      await func.AddMarket(this.state.Owner.trim(), this.state.Name.trim(), this.state.Symbol.trim(), this.state.FeeAmount.trim(), this.state.FeeDecimals.trim(), this.state.PaymentPlan, this.state.FromCredit, this.props.contract, this.state.paymentTokenID)
       this.setState({ Owner: "", Name : "", Symbol : "", FeeAmount : "", FeeDecimals : "", PaymentPlan : "", FromCredit : false})
       await this.refresh();
     };
+
+    HandleSelectPaymentToken = async (index) => {
+      this.setState({paymentTokenID : index});
+      let label = "Selected payment Token - " + PaymentsFunc.TokenSymbols[index];
+      this.setState({selectedPaymentLabel : label});
+    }
+
+    HandleSelectPaymentPlan = async (index) => {
+      this.setState({PaymentPlan : index});
+      let label = "Selected payment Plan - " + PaymentsPlans[index];
+      this.setState({selectedPaymentPlanLabel : label});
+    }
 
     render(){
       return (
@@ -47,18 +65,28 @@ class SendNewProposalComponent extends React.Component {
                 <Form.Control type="text" name="symbol" placeholder="Symbol" 
                     value={this.state.Symbol}
                     onChange={event => this.setState({ Symbol: event.target.value })}/> 
-                <Form.Control type="integer" name="amount" placeholder="Fee Amount" 
+                <Form.Control type="number" name="amount" placeholder="Fee Amount" 
                     value={this.state.FeeAmount}
                     onChange={event => this.setState({ FeeAmount: event.target.value })}/> 
-                <Form.Control type="integer" name="decimals" placeholder="Fee Decimals" 
+                <Form.Control type="number" name="decimals" placeholder="Fee Decimals" 
                     value={this.state.FeeDecimals}
                     onChange={event => this.setState({ FeeDecimals: event.target.value })}/> 
-                <Form.Control type="integer" name="payment" placeholder="Payment Plan" 
-                    value={this.state.PaymentPlan}
-                    onChange={event => this.setState({ PaymentPlan: event.target.value })}/>  
-                <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
-                    checked={this.state.FromCredit}
-                    onChange={event => this.setState({ FromCredit: event.target.checked })} />  
+                <SelectPaymentPlanComponent 
+                          HandleSelect={this.HandleSelectPaymentPlan}
+                          selectedPaymentPlanLabel={this.state.selectedPaymentPlanLabel}/>
+                <Row>
+                      <Col>
+                        <SelectPaymentTokenComponent 
+                          HandleSelect={this.HandleSelectPaymentToken}
+                          selectedPaymentLabel={this.state.selectedPaymentLabel}
+                          DisplayAll={false}/>
+                      </Col>
+                      <Col>
+                        <Form.Check type="checkbox" name="FromCredit" label="Use Credit"
+                          checked={this.state.FromCredit}
+                          onChange={event => this.setState({ FromCredit: event.target.checked })} />  
+                      </Col>
+                </Row>                
             </Form.Group>
             <button class="btn btn-primary">Submit Market Request</button> 
           </Form>

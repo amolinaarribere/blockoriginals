@@ -32,7 +32,16 @@ export async function CallBackFrame(callback){
       let result = await callback;
       return result;
      }
-     catch(e) { window.alert(JSON.stringify(e)); }
+     catch(e) { 
+       if(e.code == 4001){
+         window.alert("Transaction rejected"); 
+       }
+       else {
+        window.alert("Unexpected error"); 
+        console.log(JSON.stringify(e)); 
+       }
+       return false;
+    }
 }
   
 export function Bytes32ToAddress(bytes){
@@ -73,6 +82,31 @@ export function returnIssuerObject(owner, name, symbol, feeAmount, feeDecimals, 
       "_feeAmount": feeAmount,
       "_feeDecimals": feeDecimals,
       "_paymentPlan": paymentPlan
+  };  
+}
+
+export function returnSubmitOfferObject(tokenId, bidder, offer, FromCredit, paymentTokenID){
+  return {
+      "_tokenId": tokenId,
+      "_bidder": bidder,
+      "_offer": offer,
+      "_FromCredit": FromCredit,
+      "_paymentTokenID": paymentTokenID
+  };  
+}
+
+export function returnTokenPriceObject(paymentTokenID, price, enabled){
+  return {
+      "_paymentTokenID": paymentTokenID,
+      "_price": price,
+      "_enabled": enabled
+  };  
+}
+
+export function returnTokenStructObject(paymentPlan, prices){
+  return {
+      "_paymentPlan": paymentPlan,
+      "_prices": prices
   };  
 }
 

@@ -1,6 +1,7 @@
  // Originals Tokens
 const Aux = require("./AuxiliaryFunctions.js");
 const load = require("./LoadFunctions.js");
+const ValidationFunc = require("./ValidationFunctions.js");
 
 export var TokensTotalSupply = "";
 export var TokensBalance = "";
@@ -24,11 +25,19 @@ export var isOwner = false;
     catch(e){
       window.alert("error retrieving the account's balance : " + JSON.stringify(e))
     }
-    
   }
 
   export async function transfer(address, amount, contract){
-    await Aux.CallBackFrame(contract.methods.transfer(address, amount).send({from: Aux.account }));
+    let CheckAmount = ValidationFunc.validatePositiveLargeInteger(amount);
+    let CheckAddress = ValidationFunc.validateAddress(address);
+
+    if(true == CheckAmount[1] &&
+      true == CheckAddress){
+        await Aux.CallBackFrame(contract.methods.transfer(address, CheckAmount[0]).send({from: Aux.account }));
+    }
+    else{
+      ValidationFunc.FormatErrorMessage([CheckAmount[1], CheckAddress], ["Amount", "Recipient"]);
+    }
   }
 
   export async function isTokenOwner(address, contract){

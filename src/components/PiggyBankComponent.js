@@ -8,6 +8,7 @@ import PendingTransferComponent from './subcomponents/PiggyBank/PendingTransferC
 const Ownerfunc = require("../functions/OwnerFunctions.js");
 const Contracts = require("../functions/Contracts.js");
 const LoadFunc = require("../functions/LoadFunctions.js");
+const Aux = require("../functions/AuxiliaryFunctions.js");
 
 
 class PiggyBankComponent extends React.Component {
@@ -37,11 +38,16 @@ class PiggyBankComponent extends React.Component {
               {(false == this.state.loading)? 
                 <div>
                     <PiggyBankTransferComponent contract={Contracts.AdminPiggyBank} 
+                      isOwner={Ownerfunc.isOwner}
                       refresh={this.refresh}/>
                     <br/>
-                    <PendingTransferComponent contract={Contracts.AdminPiggyBank} 
-                      text="Check Pending Transfer"
-                      refresh={this.refresh}/>
+                    {(Aux.account && Ownerfunc.isOwner)?
+                      <PendingTransferComponent contract={Contracts.AdminPiggyBank} 
+                        text="Check Pending Transfer"
+                        refresh={this.refresh}/> 
+                        :
+                        null
+                      }
                     <br/>
                     <hr class="bg-secondary"/>
                     <OwnerComponent contract={Contracts.AdminPiggyBank} 

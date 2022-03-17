@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import {PaymentsPlans} from '../../../config.js';
 
 const func = require("../../../functions/PublicFunctions.js");
 
@@ -13,8 +14,6 @@ class ListMarketsComponent extends React.Component{
     else this.setState({ isMarketsAddShown: true })
   };
     render(){
-      var Markets = func.Markets;
-
       return(
         <div>
           <h3>NFT Markets</h3>
@@ -41,7 +40,7 @@ class ListMarketsComponent extends React.Component{
                         </tr>
                       </thead>
                       <tbody>
-                      {Markets.map(Market => (
+                      {func.Markets.map(Market => (
                         <tr>
                           <td>{Market[0]}</td>
                           <td>{Market[1]}</td>
@@ -50,7 +49,7 @@ class ListMarketsComponent extends React.Component{
                           <td>{Market[4]}</td>
                           <td>{Market[5]}</td>
                           <td>{Market[6]}</td>
-                          <td>{Market[7]}</td>
+                          <td>{PaymentsPlans[Market[7]]}</td>
                           <td>{Market[8]}</td>
                         </tr>
                         ))}

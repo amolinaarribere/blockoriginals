@@ -6,6 +6,7 @@ export var OriginalsToken = "";
 export var PropositionSettings = "";
 export var AdminPiggyBank = "";
 export var Payments = "";
+export var MarketsCredits = "";
 
 
 export function setManager(_value){
@@ -38,4 +39,8 @@ export function setPiggyBank(_value){
 
 export function setPayments(_value){
     Payments = _value;
+}
+
+export function setMarketsCredits(_value){
+    MarketsCredits = _value;
 }

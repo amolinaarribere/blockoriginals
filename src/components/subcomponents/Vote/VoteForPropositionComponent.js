@@ -1,6 +1,6 @@
 import React from 'react';
 
-const func = require("../../../functions/PropositionFunctions.js");
+const func = require("../../../functions/VoteFunctions.js");
 
 class VoteForPropositionComponent extends React.Component{
   constructor(props) {

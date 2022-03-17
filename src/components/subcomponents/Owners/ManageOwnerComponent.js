@@ -29,16 +29,16 @@ class ManageOwnerComponent extends React.Component{
     async handleOwner(type) {
       switch(type){
         case "1":
-          await func.AddOwner(this.state.Owner, this.props.contract)
+          await func.AddOwner(this.state.Owner.trim(), this.props.contract)
           break;
         case "2":
-          await func.RemoveOwner(this.state.Owner, this.props.contract)
+          await func.RemoveOwner(this.state.Owner.trim(), this.props.contract)
           break;
         case "3":
-          await func.ValidateOwner(this.state.Owner, this.props.contract)
+          await func.ValidateOwner(this.state.Owner.trim(), this.props.contract)
           break;
         case "4":
-          await func.RejectOwner(this.state.Owner, this.props.contract)
+          await func.RejectOwner(this.state.Owner.trim(), this.props.contract)
           break;
       }
       await this.refresh();
@@ -65,7 +65,7 @@ class ManageOwnerComponent extends React.Component{
                     <div class="border border-primary border-5">
                        <Form onSubmit={this.handleAddOwner} style={{margin: '50px 50px 50px 50px' }}>
                         <Form.Group  className="mb-3">
-                          <Form.Control type="text" name="Owner" placeholder="address or ENS name" 
+                          <Form.Control type="text" name="Owner" placeholder="address" 
                               value={this.state.Owner}
                               onChange={event => this.setState({ Owner: event.target.value })}/>  
                         </Form.Group>

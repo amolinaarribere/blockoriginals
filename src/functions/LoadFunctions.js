@@ -6,6 +6,7 @@ import { MANAGER_PROXY_ADDRESS,
   PROPOSITIONSETTINGS_ABI,
   ADMINPIGGYBANK_ABI,
   PAYMENTS_ABI,
+  MARKETSCREDITS_ABI,
   AdminRights,
   MumbaiNode } from '../config'
 
@@ -18,6 +19,7 @@ const ManagerFunc = require("./ManagerFunctions.js");
 const PiggyBankFunc = require("./AdminPiggyBankFunctions.js");
 const PublicFunc = require("./PublicFunctions.js");
 const PaymentsFunc = require("./PaymentsFunctions.js");
+const MarketsCreditsFunc = require("./MarketsCreditsFunctions.js");
 
 const BrowserStorageFunc = require("./BrowserStorageFunctions.js");
 
@@ -138,6 +140,7 @@ async function LoadContracts(){
   Contracts.setPropositionSettings(await new Aux.web3.eth.Contract(PROPOSITIONSETTINGS_ABI, ManagerFunc.PropositionSettingsAddressProxy))
   Contracts.setPiggyBank(await new Aux.web3.eth.Contract(ADMINPIGGYBANK_ABI, ManagerFunc.PiggyBankAddressProxy))
   Contracts.setPayments(await new Aux.web3.eth.Contract(PAYMENTS_ABI, ManagerFunc.PaymentsAddressProxy))
+  Contracts.setMarketsCredits(await new Aux.web3.eth.Contract(MARKETSCREDITS_ABI, ManagerFunc.MarketsCreditsAddressProxy))
 
   console.log("contracts loaded")
 }
@@ -237,17 +240,24 @@ export async function LoadPiggyBankFunc(contract) {
 export async function LoadPublicFunc(contract) {
   console.log("loading Public Contract State");
 
-  await Promise.all([PublicFunc.RetrieveMarkets(contract), 
-    PublicFunc.RetrieveCredit(contract)]);
+  await PublicFunc.RetrieveMarkets(contract);
 
   console.log("Public Contract State Loaded");
+}
+
+export async function LoadMarketsCreditsFunc(contract) {
+  console.log("loading Markets Credits Contract State");
+
+  await MarketsCreditsFunc.RetrieveCredit(contract);
+
+  console.log("Markets Credits Contract State Loaded");
 }
 
 export async function LoadPaymentsFunc(contract) {
   console.log("loading Payments Contract State");
 
-  await Promise.all([PaymentsFunc.RetrieveTokenAddress(contract),
-    PaymentsFunc.RetrievePendingTokenAddress(contract)]);
+  await Promise.all([PaymentsFunc.RetrieveTokenAddresses(contract),
+    PaymentsFunc.RetrievePendingTokenAddresses(contract)]);
 
   console.log("Payments Contract State Loaded");
 }

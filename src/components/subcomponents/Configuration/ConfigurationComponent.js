@@ -21,7 +21,7 @@ class ConfigurationComponent extends React.Component {
                 {this.props.names.map(
                 (name, index) => (
                     <Row>
-                        <Col><b>{name} : </b></Col> 
+                        <Col><b>{name}  </b></Col> 
                         <Col>{this.props.values[index]}</Col>
                 </Row>
                 )

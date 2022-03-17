@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import {PaymentsPlans} from '../../../config.js';
 
 const func = require("../../../functions/PublicFunctions.js");
 
@@ -45,7 +46,7 @@ class ListPendingMarketsComponent extends React.Component{
                           <td>{pendingMarket[3]}</td>
                           <td>{pendingMarket[4]}</td>
                           <td>{pendingMarket[5]}</td>
-                          <td>{pendingMarket[6]}</td>
+                          <td>{PaymentsPlans[pendingMarket[6]]}</td>
                         </tr>
                         ))}
                       </tbody>

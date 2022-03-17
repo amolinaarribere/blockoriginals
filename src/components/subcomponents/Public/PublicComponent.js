@@ -3,12 +3,11 @@ import SendNewProposalComponent from './SendNewProposalComponent.js';
 import ManageMarketsComponent from './ManageMarketsComponent.js';
 import ListPendingMarketsComponent from './ListPendingMarketsComponent.js';
 import ListMarketsComponent from './ListMarketsComponent.js';
-import CreditComponent from './CreditComponent.js';
+import CreditComponent from '../MarketsCredits/CreditComponent.js';
 import LoadingComponent from '../LoadingComponent.js';
 import NFTMarketComponent from '../NFTMarkets/NFTMarketComponent.js';
 
 const LoadFunc = require("../../../functions/LoadFunctions.js");
-const Treasury = require("../../../functions/TreasuryFunctions.js");
 const Aux = require("../../../functions/AuxiliaryFunctions.js");
 
 
@@ -30,6 +29,7 @@ class PublicComponent extends React.Component {
     async refreshPartial() {
         this.setState({loading: true})
         await LoadFunc.LoadPublicFunc(this.props.contract);
+        await LoadFunc.LoadMarketsCreditsFunc(this.props.creditcontract);
         this.setState({loading: false})
     }
 
@@ -45,7 +45,6 @@ class PublicComponent extends React.Component {
                     {(Aux.account)?
                       <div>
                          <SendNewProposalComponent contract={this.props.contract} 
-                            price={Treasury.NewIssuerFee.plus(Treasury.AdminNewIssuerFee)}
                             refresh={this.refresh}/>
                           {
                           (! this.props.isOwner)?
@@ -66,7 +65,7 @@ class PublicComponent extends React.Component {
                         :null}
                     {(Aux.account)?
                       <div>
-                          <CreditComponent contract={this.props.contract} 
+                          <CreditComponent contract={this.props.creditcontract} 
                             refresh={this.refresh}/>
                           <hr class="bg-secondary"/>
                       </div>

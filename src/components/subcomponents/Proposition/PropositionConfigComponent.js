@@ -57,7 +57,7 @@ class PropositionConfigComponent extends React.Component{
                   text="Manage Proposition Configuration"
                   textButton="Upgrade Proposition Configuration"
                   names={["NewPropositionLifeTime", "NewPropositionThreshold", "NewMinToPropose"]}
-                  types={["integer", "integer", "integer"]}
+                  types={["number", "number", "number"]}
                   dataType={VarDataType}/>
 
                   <br />
