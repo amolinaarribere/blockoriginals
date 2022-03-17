@@ -165,9 +165,10 @@ async function mintTokenForMarket(contract, tokenId, receiver, prices, FromCredi
   }
   let paymentplan = await PaymentPlanForMarket(contract);
   let payment = new BigNumber(0);
+  let success = true;
   if(paymentplan == PaymentPlansMinting) payment = (TreasuryFunc.MintingFee[paymentTokenID].plus(TreasuryFunc.AdminMintingFee[paymentTokenID])).multipliedBy(PaymentsFunc.TokenDecimalsFactors[paymentTokenID]);
-  if(FromCredit == false) await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment, paymentTokenID);
-  await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, prices, FromCredit, paymentTokenID).send({from: Aux.account}));
+  if(FromCredit == false) success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, payment, paymentTokenID);
+  if(success)await Aux.CallBackFrame(contract.methods.mintToken(tokenId, receiver, prices, FromCredit, paymentTokenID).send({from: Aux.account}));
 }
 
 async function PaymentPlanForMarket(contract){
@@ -258,9 +259,11 @@ export async function submitOffer(contract, marketId, tokenId, bidder, offer, Fr
 
 async function submitOfferForMarket(contract, tokenId, bidder, offer, FromCredit, paymentTokenID){
     let factor = PaymentsFunc.TokenDecimalsFactors[paymentTokenID];
+    let success = true;
+
     offer = offer.multipliedBy(factor);
-    if (FromCredit == false) await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, offer, paymentTokenID);
-    await Aux.CallBackFrame(contract.methods.submitOffer(Aux.returnSubmitOfferObject(tokenId.toString(), bidder, offer.toString(), FromCredit, paymentTokenID)).send({from: Aux.account }));
+    if (FromCredit == false) success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, offer, paymentTokenID);
+    if(success) await Aux.CallBackFrame(contract.methods.submitOffer(Aux.returnSubmitOfferObject(tokenId.toString(), bidder, offer.toString(), FromCredit, paymentTokenID)).send({from: Aux.account }));
 }
 
 export async function withdrawOffer(contract, marketId, tokenId){

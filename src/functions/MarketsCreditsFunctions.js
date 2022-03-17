@@ -13,6 +13,7 @@ export async function SendCredit(receiver, amount, contract, paymentTokenID){
     let CheckReceiver = ValidationFunc.validateAddress(receiver);
     let CheckAmount = ValidationFunc.validatePositiveFloat(amount);
     let CheckPaymentID = ValidationFunc.validatePositiveInteger(paymentTokenID);
+    let success = true;
 
     if(true == CheckReceiver &&
         true == CheckAmount[1] &&
@@ -21,8 +22,8 @@ export async function SendCredit(receiver, amount, contract, paymentTokenID){
             PaymentsFunc.TokenAddresses[CheckPaymentID[0]].active == true){
             let factor = PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]];
             CheckAmount[0] = CheckAmount[0].multipliedBy(factor);
-            await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, CheckAmount[0], CheckPaymentID[0]);
-            await Aux.CallBackFrame(contract.methods.sendCredit(receiver, CheckAmount[0].toString(), CheckPaymentID[0]).send({from: Aux.account }));
+            success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, CheckAmount[0], CheckPaymentID[0]);
+            if(success)await Aux.CallBackFrame(contract.methods.sendCredit(receiver, CheckAmount[0].toString(), CheckPaymentID[0]).send({from: Aux.account }));
         }
         else{
             window.alert("The token ID is not accepted : " + CheckPaymentID[0])

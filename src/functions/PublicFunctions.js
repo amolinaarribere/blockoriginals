@@ -22,6 +22,7 @@ export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, pay
     let CheckPayment = ValidationFunc.validatePositiveInteger(payment);
     let CheckCredit = ValidationFunc.validateBoolean(FromCredit);
     let CheckPaymentID = ValidationFunc.validatePositiveInteger(paymentTokenID);
+    let success = true;
 
     if(true == CheckOwner &&
         true == CheckFeeAmount[1] &&
@@ -33,8 +34,8 @@ export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, pay
           if(CheckPaymentID[0] < PaymentsFunc.TokenAddresses.length  &&
             PaymentsFunc.TokenAddresses[CheckPaymentID[0]].active == true){
                 let price = (TreasuryFunc.NewIssuerFee[CheckPaymentID[0]].plus(TreasuryFunc.AdminNewIssuerFee[CheckPaymentID[0]])).multipliedBy(PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]]);
-                if(FromCredit == false)await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price, CheckPaymentID[0]);
-                await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, CheckName, CheckSymbol, CheckFeeAmount[0].toString(), CheckFeeDecimals[0], CheckPayment[0]), FromCredit, CheckPaymentID[0]).send({from: Aux.account}));
+                if(FromCredit == false)success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price, CheckPaymentID[0]);
+                if(success)await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, CheckName, CheckSymbol, CheckFeeAmount[0].toString(), CheckFeeDecimals[0], CheckPayment[0]), FromCredit, CheckPaymentID[0]).send({from: Aux.account}));
           }
           else{
             window.alert("The token ID is not accepted : " + CheckPaymentID[0])

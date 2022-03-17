@@ -40,7 +40,8 @@ export async function CallBackFrame(callback){
         window.alert("Unexpected error"); 
         console.log(JSON.stringify(e)); 
        }
-      }
+       return false;
+    }
 }
   
 export function Bytes32ToAddress(bytes){

@@ -52,8 +52,11 @@ export async function RetrieveTokenAddresses(contract){
   }
 
   async function SetApprove(spender, amount, TokenID){
-    if(TokenID < TokenContracts.length) await Aux.CallBackFrame(TokenContracts[TokenID].methods.approve(spender, amount).send({from: Aux.account }));
-    else window.alert("TokenID provided is not available in the system");
+    if(TokenID < TokenContracts.length) return (await Aux.CallBackFrame(TokenContracts[TokenID].methods.approve(spender, amount).send({from: Aux.account })) != false);
+    else {
+      window.alert("TokenID provided is not available in the system");
+      return false;
+    }
   }
 
   async function GetAllowance(owner, spender, TokenID){
@@ -106,13 +109,22 @@ export async function RetrieveTokenAddresses(contract){
 
   export async function CheckAllowance(owner, spender, amount, TokenID){
     if(TokenID < TokenDecimalsFactors.length){
-      let allowance = new BigNumber(await GetAllowance(owner, spender, TokenID));
-      if(allowance.isLessThan(amount)){
-        window.alert("You first need to allow Blockoriginals to spend at least " + amount.dividedBy(TokenDecimalsFactors[TokenID]).toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
-        await SetApprove(spender, amount, TokenID);
+      try{
+        let allowance = new BigNumber(await GetAllowance(owner, spender, TokenID));
+        if(allowance.isLessThan(amount)){
+          window.alert("You first need to allow Blockoriginals to spend at least " + amount.dividedBy(TokenDecimalsFactors[TokenID]).toString() + " " + TokenSymbols[TokenID] + " on your behalf" );
+          return await SetApprove(spender, amount, TokenID);
+        }
+        else {
+          return true;
+        }
       }
-      else console.error("Cannot check Allowance for that token")
+      catch(e){
+        console.error("Cannot check Allowance for that token")
+        return false;
+      }
     }
+    else return false;
   }
 
   async function GetTokenContract(TokenID){
