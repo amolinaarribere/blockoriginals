@@ -66,7 +66,7 @@ export async function AddOwner(address, contract){
           }
         }
 
-        if(!load.Admin) isOwner = true;
+        if(!load.Admin && Aux.account) isOwner = true;
 
         pendingOwnersAdd = await contract.methods.retrievePendingOwners(true).call();
   
