@@ -30,7 +30,8 @@ class PiggyBankTransferComponent extends React.Component {
     
     render(){
       return (
-        <div class="border border-0">
+        <div>
+          <h3>Piggy Bank Balances</h3>
               <Container style={{margin: '10px 50px 50px 50px' }}>
                 {func.PiggyBankBalances.map(
                   (PiggyBankBalance, index) => 

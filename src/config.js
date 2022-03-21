@@ -5,7 +5,7 @@ export const MANAGER_PROXY_ADDRESS = {
   "rinkeby": '',
   "ropsten": '',
   "kovan": '',
-  "mumbai": ''
+  "mumbai": '0x6aB9FC5fCb5652a0C838A379e56CeB9A78fCd778'
 }
 
 export const PaymentPlansMinting = 0;

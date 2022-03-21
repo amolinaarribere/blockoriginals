@@ -38,9 +38,9 @@ class NFTMarketTokensComponent extends React.Component {
                             refresh={this.refresh}/>
                         <SetTokenPriceComponent contract={this.props.contract} 
                             refresh={this.refresh}/>
-                        <hr class="bg-secondary"/>
                     </div>
                     :null}
+                <hr class="bg-secondary"/>
             </div>
             
           );

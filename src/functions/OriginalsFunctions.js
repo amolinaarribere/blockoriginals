@@ -47,7 +47,7 @@ export var isOwner = false;
         await balanceOf(address, contract);
         if(TokensBalance > 0 ) isOwner = true;
       }
-      else {
+      else if (address){
         isOwner = true;
       }
     }
