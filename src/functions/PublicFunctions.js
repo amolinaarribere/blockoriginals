@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import { NFTMARKET_ABI } from '../config'
 
 const Aux = require("./AuxiliaryFunctions.js");
@@ -36,7 +35,7 @@ export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, pay
             PaymentsFunc.TokenAddresses[CheckPaymentID[0]].active == true){
                 let price = (TreasuryFunc.NewIssuerFee[CheckPaymentID[0]].plus(TreasuryFunc.AdminNewIssuerFee[CheckPaymentID[0]])).multipliedBy(PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]]);
                 if(FromCredit == false)success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price, CheckPaymentID[0]);
-                if(success)await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, CheckName, CheckSymbol, CheckFeeAmount[0].toString(), CheckFeeDecimals[0], CheckPayment[0]), FromCredit, CheckPaymentID[0]).send({from: Aux.account}));
+                if(success)await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, CheckName, CheckSymbol, CheckFeeAmount[0].toFixed(0).toString(), CheckFeeDecimals[0], CheckPayment[0]), FromCredit, CheckPaymentID[0]).send({from: Aux.account}));
           }
           else{
             window.alert("The token ID is not accepted : " + CheckPaymentID[0])

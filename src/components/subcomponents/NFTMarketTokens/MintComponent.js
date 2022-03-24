@@ -42,7 +42,7 @@ class MintComponent extends React.Component {
             if(this.state.pricesPaymentTokenIDs[i] && 
                 this.state.pricesValues[i]) {
                     let enabled = (this.state.pricesDisabled[i])? false : true;
-                    let PriceToAdd = Aux.returnTokenPriceObject(parseInt(this.state.pricesPaymentTokenIDs[i]), new BigNumber(this.state.pricesValues[i]), enabled)
+                    let PriceToAdd = Aux.returnTokenPriceObject(parseInt(this.state.pricesPaymentTokenIDs[i]), this.state.pricesValues[i].trim(), enabled)
                     Prices.push(PriceToAdd);
                  }
         }

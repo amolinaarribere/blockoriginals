@@ -70,7 +70,7 @@ class Demo extends React.Component {
       <div style={{backgroundColor: 'white'}}>
         <Navbar bg="primary" variant="dark" class="w-75">
             <Container>
-              <Navbar.Brand onClick={() => this.toggleMenu(Home)}>Blockoriginals <i>(test)</i></Navbar.Brand>
+              <Navbar.Brand onClick={() => this.toggleMenu(Home)}>Blockoriginals <i>({LoadFunc.Network})</i></Navbar.Brand>
               <Nav className="me-auto">
                 <Nav.Link onClick={() => this.toggleMenu(Settings)}>{Settings}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(NFTMarkets)}>{NFTMarkets}</Nav.Link>

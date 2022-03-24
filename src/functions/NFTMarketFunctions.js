@@ -85,7 +85,7 @@ export async function changeOffersLifeTime(contract, marketId, newLifeTime){
 }
 
 async function changeOffersLifeTimeForMarket(contract, newLifeTime){
-    await Aux.CallBackFrame(contract.methods.changeOffersLifeTime(newLifeTime).send({from: Aux.account }));
+    await Aux.CallBackFrame(contract.methods.changeOffersLifeTime(newLifeTime.toFixed(0).toString()).send({from: Aux.account }));
 }
 
 export async function changeOwnerTransferFees(contract, marketId, newAmount, newDecimals){
@@ -106,7 +106,7 @@ export async function changeOwnerTransferFees(contract, marketId, newAmount, new
 
 async function changeOwnerTransferFeesForMarket(contract, newAmount, newDecimals){
     let exponential = new BigNumber(10).exponentiatedBy(newDecimals);
-    await Aux.CallBackFrame(contract.methods.changeOwnerTransferFees(newAmount.multipliedBy(exponential), newDecimals).send({from: Aux.account }));
+    await Aux.CallBackFrame(contract.methods.changeOwnerTransferFees(newAmount.multipliedBy(exponential).toFixed(0).toString(), newDecimals).send({from: Aux.account }));
 }
 
 export async function transferToken(contract, marketId, tokenId, previousOwner, newOwner){
@@ -161,7 +161,7 @@ async function mintTokenForMarket(contract, tokenId, receiver, prices, FromCredi
   for(let i=0; i < prices.length; i++){
     let factor = PaymentsFunc.TokenDecimalsFactors[0];
     if(prices[i]._paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length) factor = PaymentsFunc.TokenDecimalsFactors[prices[i]._paymentTokenID];
-    prices[i]._price = new BigNumber(prices[i]._price).multipliedBy(factor).toString();
+    prices[i]._price = new BigNumber(prices[i]._price).multipliedBy(factor).toFixed(0).toString();
   }
   let paymentplan = await PaymentPlanForMarket(contract);
   let payment = new BigNumber(0);
@@ -199,7 +199,7 @@ async function setTokenPriceForMarket(contract, tokenId, newPrices){
   for(let i=0; i < newPrices.length; i++){
     let factor = PaymentsFunc.TokenDecimalsFactors[0];
     if(newPrices[i]._paymentTokenID < PaymentsFunc.TokenDecimalsFactors.length) factor = PaymentsFunc.TokenDecimalsFactors[newPrices[i]._paymentTokenID];
-    newPrices[i]._price = newPrices[i]._price.multipliedBy(factor).toString();
+    newPrices[i]._price = newPrices[i]._price.multipliedBy(factor).toFixed(0).toString();
   }
   await Aux.CallBackFrame(contract.methods.setTokenPrice(tokenId, newPrices).send({from: Aux.account }));
 }
@@ -263,7 +263,7 @@ async function submitOfferForMarket(contract, tokenId, bidder, offer, FromCredit
 
     offer = offer.multipliedBy(factor);
     if (FromCredit == false) success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, offer, paymentTokenID);
-    if(success) await Aux.CallBackFrame(contract.methods.submitOffer(Aux.returnSubmitOfferObject(tokenId.toString(), bidder, offer.toString(), FromCredit, paymentTokenID)).send({from: Aux.account }));
+    if(success) await Aux.CallBackFrame(contract.methods.submitOffer(Aux.returnSubmitOfferObject(tokenId.toString(), bidder, offer.toFixed(0).toString(), FromCredit, paymentTokenID)).send({from: Aux.account }));
 }
 
 export async function withdrawOffer(contract, marketId, tokenId){
