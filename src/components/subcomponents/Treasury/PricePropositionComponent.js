@@ -2,6 +2,7 @@ import React from 'react';
 import ListPendingPropositionComponent from '../Vote/ListPendingPropositionComponent.js';
 import UpgradePropositionComponentDynamic from '../Vote/UpgradePropositionComponentDynamic.js';
 import ConfigurationComponent from '../Configuration/ConfigurationComponent.js';
+import BigNumber from 'bignumber.js';
 
 const func = require("../../../functions/TreasuryFunctions.js");
 const loadFunc = require("../../../functions/LoadFunctions.js");
@@ -80,6 +81,12 @@ class PricePropositionComponent extends React.Component {
 
   getAllNamesFix(prefix){
     return [prefix + "Transfer Fee Amount - Percentage",
+    prefix + "Transfer Fee Amount (Admin) - Percentage",
+    prefix + "Offers Life Time - Seconds"];
+  }
+
+  getAllNamesFix2(prefix){
+    return [prefix + "Transfer Fee Amount - Percentage",
     prefix + "Transfer Fee Decimals",
     prefix + "Transfer Fee Amount (Admin) - Percentage",
     prefix + "Transfer Fee Decimals (Admin)",
@@ -108,10 +115,10 @@ class PricePropositionComponent extends React.Component {
       }
     }
 
-    TokenRelatedFees[index++] = values[5].toString();
-    TokenRelatedFees[index++] = values[6].toString();
-    TokenRelatedFees[index++] = values[7].toString();
-    TokenRelatedFees[index++] = values[8].toString();
+    let factor = (values[6].toString() != "-")? (new BigNumber(10)).pow(values[6]) : new BigNumber(1);
+    TokenRelatedFees[index++] = (values[5].toString() != "-")? values[5].div(factor).toString() : values[5].toString();
+    factor = (values[8].toString() != "-")? (new BigNumber(10)).pow(values[8]) : new BigNumber(1);
+    TokenRelatedFees[index++] = (values[7].toString() != "-")? values[7].div(factor).toString() : values[7].toString();
     TokenRelatedFees[index++] = values[9].toString();
 
     return TokenRelatedFees;
@@ -146,10 +153,10 @@ class PricePropositionComponent extends React.Component {
 
   getAllTypesDynamic(){
     return ["number",
-    "number",
-    "number",
-    "number",
-    "number"];
+    "string",
+    "string",
+    "string",
+    "string"];
   }
 
   getAllTypesFix(){
@@ -189,7 +196,7 @@ class PricePropositionComponent extends React.Component {
                   DynamicNames={this.getAllNamesDynamic([], "")}
                   DynamicTypes={this.getAllTypesDynamic()}
                   DynamicDataType={this.getAllDataTypesDynamic([])}
-                  FixNames={this.getAllNamesFix("")}
+                  FixNames={this.getAllNamesFix2("")}
                   FixTypes={this.getAllTypesFix()}
                   FixDataType={this.getAllDataTypesFix()}
                   Treasury={true}/>

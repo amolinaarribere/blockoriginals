@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import { NFTMARKET_ABI } from '../config'
 
 const Aux = require("./AuxiliaryFunctions.js");
