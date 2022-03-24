@@ -28,7 +28,8 @@ const PiggyBank = "PiggyBank";
 
 class Demo extends React.Component {
   async componentWillMount() {
-    this.state.loading = true;
+    //this.state.loading = true;
+    this.setState({loading: true})
     let currentTab = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.currentTabKey);
     if(currentTab){
       this.state.Component = currentTab
@@ -42,7 +43,8 @@ class Demo extends React.Component {
     }
 
     this.refresh = this.refresh.bind(this)
-    this.state.loading = false;
+    //this.state.loading = false;
+    this.setState({loading: false})
  }
 
   state = {

@@ -11,8 +11,9 @@ export const TreasuryId = 2
 export const OriginalsTokenId = 3
 export const PropositionSettingsId = 4
 export const AdminPiggyBankId = 5
-export const MarketsCredits = 6
-export const nftMarketId = 7
+export const PaymentsId = 6
+export const MarketsCredits = 7
+export const nftMarketId = 8
 
 export async function StartEvents(blockId){
 
@@ -29,6 +30,7 @@ export async function StartEvents(blockId){
       Contracts.OriginalsToken,
       Contracts.PropositionSettings,
       Contracts.AdminPiggyBank,
+      Contracts.Payments,
       Contracts.MarketsCredits,
       Contracts.nftMarket]
 

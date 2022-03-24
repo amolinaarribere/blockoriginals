@@ -110,6 +110,10 @@ class ListEventsComponent extends React.Component {
             ContractId={EventsFunc.AdminPiggyBankId}
             />
           <ListBaseEventsComponentTemplate 
+            SCName="Payments"
+            ContractId={EventsFunc.PaymentsId}
+            />
+          <ListBaseEventsComponentTemplate 
             SCName="Markets Credits"
             ContractId={EventsFunc.MarketsCredits}
             />
