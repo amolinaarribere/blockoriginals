@@ -121,7 +121,7 @@ async function LoadNetwork(){
   if("rinkeby" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.rinkeby))
   else if("ropsten" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.ropsten))
   else if("kovan" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.kovan))
-  else if("private" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.ganache))
+  //else if("private" == Network) Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.ganache))
   else{
       Network = "Mumbai";
       Contracts.setManager(await new Aux.web3.eth.Contract(MANAGER_ABI, MANAGER_PROXY_ADDRESS.mumbai))
