@@ -53,7 +53,7 @@ export async function AddTransfer(contract, receiver, amount, paymentTokenID){
     true == CheckPaymentID[1]){
       if(CheckPaymentID[0] < PaymentsFunc.TokenDecimalsFactors.length){
         let factor = PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]];
-        CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toString();
+        CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toFixed(0).toString();
         await Aux.CallBackFrame(contract.methods.transfer(receiver, CheckAmount[0], CheckPaymentID[0]).send({from: Aux.account }));
       }
       else{

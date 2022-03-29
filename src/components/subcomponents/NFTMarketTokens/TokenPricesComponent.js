@@ -27,7 +27,7 @@ class TokenPricesComponent extends React.Component{
                                 </DropdownButton> 
                             </Col>
                             <Col>
-                                <Form.Control type="number" step="0.001" name="Price" placeholder="price" 
+                                <Form.Control type="number" step="0.001" min="0" name="Price" placeholder="price" 
                                     value={this.props.pricesValues[index]}
                                     onChange={event => this.props.ChangePriceValue(index, event.target.value)}/>
                             </Col>

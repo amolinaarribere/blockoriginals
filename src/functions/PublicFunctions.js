@@ -5,6 +5,7 @@ const PaymentsFunc = require("./PaymentsFunctions.js");
 const ContractsFunc = require("./Contracts.js");
 const ValidationFunc = require("./ValidationFunctions.js");
 const TreasuryFunc = require("./TreasuryFunctions.js");
+const BigNumber = require('bignumber.js');
 
 
 export var Markets = ""
@@ -13,29 +14,30 @@ export var Credits = ""
 
 
 
-export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, payment, FromCredit, contract, paymentTokenID){
+export async function AddMarket(owner, name, symbol, feePercentage, payment, FromCredit, contract, paymentTokenID){
     let CheckOwner = ValidationFunc.validateAddress(owner);
     let CheckName = ValidationFunc.validateString(name);
     let CheckSymbol = ValidationFunc.validateString(symbol);
-    let CheckFeeAmount = ValidationFunc.validatePositiveLargeInteger(feeAmount);
-    let CheckFeeDecimals = ValidationFunc.validatePositiveInteger(feeDecimals);
+    let CheckFeePercentage = ValidationFunc.validatePositiveFloat(feePercentage);
     let CheckPayment = ValidationFunc.validatePositiveInteger(payment);
     let CheckCredit = ValidationFunc.validateBoolean(FromCredit);
     let CheckPaymentID = ValidationFunc.validatePositiveInteger(paymentTokenID);
     let success = true;
 
     if(true == CheckOwner &&
-        true == CheckFeeAmount[1] &&
-        true == CheckFeeDecimals[1] &&
+        true == CheckFeePercentage[1] &&
         true == CheckPayment[1] &&
         true == CheckCredit &&
-        true == CheckPaymentID[1]){
-
+        true == CheckPaymentID[1])
+        {
           if(CheckPaymentID[0] < PaymentsFunc.TokenAddresses.length  &&
             PaymentsFunc.TokenAddresses[CheckPaymentID[0]].active == true){
+                let feeDecimals = CheckFeePercentage[0].dp();
+                let factor = (new BigNumber(10)).pow(feeDecimals)
+                let feeAmount = CheckFeePercentage[0].multipliedBy(factor);
                 let price = (TreasuryFunc.NewIssuerFee[CheckPaymentID[0]].plus(TreasuryFunc.AdminNewIssuerFee[CheckPaymentID[0]])).multipliedBy(PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]]);
                 if(FromCredit == false)success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, price, CheckPaymentID[0]);
-                if(success)await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, CheckName, CheckSymbol, CheckFeeAmount[0].toString(), CheckFeeDecimals[0], CheckPayment[0]), FromCredit, CheckPaymentID[0]).send({from: Aux.account}));
+                if(success)await Aux.CallBackFrame(contract.methods.requestIssuer(Aux.returnIssuerObject(owner, CheckName, CheckSymbol, feeAmount.toFixed(0).toString(), feeDecimals.toFixed(0).toString(), CheckPayment[0]), FromCredit, CheckPaymentID[0]).send({from: Aux.account}));
           }
           else{
             window.alert("The token ID is not accepted : " + CheckPaymentID[0])
@@ -43,7 +45,7 @@ export async function AddMarket(owner, name, symbol, feeAmount, feeDecimals, pay
 
       }
       else{
-        ValidationFunc.FormatErrorMessage([CheckOwner, CheckFeeAmount[1], CheckFeeDecimals[1], CheckPayment[1], CheckCredit, CheckPaymentID[1]], ["Owner", "Fee", "Decimals", "Payment Type", "From Credit", "Payment ID"]);
+        ValidationFunc.FormatErrorMessage([CheckOwner, CheckFeePercentage[1], CheckPayment[1], CheckCredit, CheckPaymentID[1]], ["Owner", "Fee Percentage", "Payment Type", "From Credit", "Payment ID"]);
       }
  }
   

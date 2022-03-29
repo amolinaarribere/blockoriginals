@@ -47,7 +47,7 @@ class PiggyBankTransferComponent extends React.Component {
                 {(Aux.account && this.props.isOwner)?
                   <Form onSubmit={this.handleTransfer} style={{margin: '50px 50px 50px 50px' }}>
                     <Form.Group  className="mb-3">
-                      <Form.Control type="number" step="0.001" name="Amount" placeholder="amount" 
+                      <Form.Control type="number" step="0.001" min="0" name="Amount" placeholder="amount" 
                             value={this.state.amount}
                             onChange={event => this.setState({ amount: event.target.value })}/>
                       <Form.Control type="text" name="receiver" placeholder="receiver address" 

@@ -145,7 +145,7 @@ export var PendingOffersLifeTime = "";
       true == CheckAmount[1]){
         if(CheckTokenId[0] < PaymentsFunc.TokenDecimalsFactors.length){
           let factor = PaymentsFunc.TokenDecimalsFactors[CheckTokenId[0]];
-          CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toString();
+          CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toFixed(0).toString();
           await Aux.CallBackFrame(contract.methods.withdraw(CheckAmount[0], CheckTokenId[0]).send({from: Aux.account }));
         }
         else{

@@ -81,7 +81,7 @@ class CreditComponent extends React.Component {
             </Container>
             <Form onSubmit={this.handleWithdraw} style={{margin: '50px 50px 50px 50px' }}>
               <Form.Group  className="mb-3">
-                <Form.Control type="number" step="0.001" name="Amount" placeholder="Amount"
+                <Form.Control type="number" step="0.001" min="0" name="Amount" placeholder="Amount"
                   value={this.state.withdrawAmount}
                   onChange={event => this.setState({ withdrawAmount: event.target.value })}/>
                 <SelectPaymentTokenComponent 
@@ -97,7 +97,7 @@ class CreditComponent extends React.Component {
                 <Form.Control type="text" name="Receiver" placeholder="receiver address" 
                   value={this.state.receiver}
                   onChange={event => this.setState({ receiver: event.target.value })}/>
-                <Form.Control type="number" step="0.001" name="Amount" placeholder="Amount" 
+                <Form.Control type="number" step="0.001" min="0" name="Amount" placeholder="Amount" 
                   value={this.state.amount}
                   onChange={event => this.setState({ amount: event.target.value })}/>
                 <SelectPaymentTokenComponent 

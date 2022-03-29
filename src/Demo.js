@@ -28,7 +28,8 @@ const PiggyBank = "PiggyBank";
 
 class Demo extends React.Component {
   async componentWillMount() {
-    this.state.loading = true;
+    //this.state.loading = true;
+    this.setState({loading: true})
     let currentTab = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.currentTabKey);
     if(currentTab){
       this.state.Component = currentTab
@@ -42,7 +43,8 @@ class Demo extends React.Component {
     }
 
     this.refresh = this.refresh.bind(this)
-    this.state.loading = false;
+    //this.state.loading = false;
+    this.setState({loading: false})
  }
 
   state = {
@@ -68,7 +70,7 @@ class Demo extends React.Component {
       <div style={{backgroundColor: 'white'}}>
         <Navbar bg="primary" variant="dark" class="w-75">
             <Container>
-              <Navbar.Brand onClick={() => this.toggleMenu(Home)}>Blockoriginals <i>(test)</i></Navbar.Brand>
+              <Navbar.Brand onClick={() => this.toggleMenu(Home)}>Blockoriginals <i>({LoadFunc.Network})</i></Navbar.Brand>
               <Nav className="me-auto">
                 <Nav.Link onClick={() => this.toggleMenu(Settings)}>{Settings}</Nav.Link>
                 <Nav.Link onClick={() => this.toggleMenu(NFTMarkets)}>{NFTMarkets}</Nav.Link>

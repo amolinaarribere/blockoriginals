@@ -45,18 +45,16 @@ class PaymentsConfigComponent extends React.Component{
     let TokenRelatedNames = ["Payment Token ID",
       "Token Symbol",
       "Token Address",
-      "Token active",
-      "-"];
+      "Token active"];
 
     let index = TokenRelatedNames.length;
 
     for(let i=1; i < list.length; i++){
+      TokenRelatedNames[index++] = " - ";
       TokenRelatedNames[index++] = "Payment Token ID";
       TokenRelatedNames[index++] = "Token Symbol";
       TokenRelatedNames[index++] = "Token Address";
       TokenRelatedNames[index++] = "Token active";
-      TokenRelatedNames[index++] = " - ";
-
     }
 
     return TokenRelatedNames;
@@ -86,11 +84,11 @@ class PaymentsConfigComponent extends React.Component{
 
 
     for(let i=0; i < values.length; i++){
+      if(i > 0)TokenRelated[index++] = "";
       TokenRelated[index++] = id++;
       TokenRelated[index++] = symbols[i];
       TokenRelated[index++] = values[i].TokenContract;
       TokenRelated[index++] = values[i].active.toString();
-      TokenRelated[index++] = "";
     }
 
     return TokenRelated;

@@ -23,7 +23,7 @@ export async function SendCredit(receiver, amount, contract, paymentTokenID){
             let factor = PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]];
             CheckAmount[0] = CheckAmount[0].multipliedBy(factor);
             success = await PaymentsFunc.CheckAllowance(Aux.account, ContractsFunc.Payments._address, CheckAmount[0], CheckPaymentID[0]);
-            if(success)await Aux.CallBackFrame(contract.methods.sendCredit(receiver, CheckAmount[0].toString(), CheckPaymentID[0]).send({from: Aux.account }));
+            if(success)await Aux.CallBackFrame(contract.methods.sendCredit(receiver, CheckAmount[0].toFixed(0).toString(), CheckPaymentID[0]).send({from: Aux.account }));
         }
         else{
             window.alert("The token ID is not accepted : " + CheckPaymentID[0])
@@ -42,7 +42,7 @@ export async function WithdrawCredit(amount, contract, paymentTokenID){
         true == CheckPaymentID[1]){
         if(CheckPaymentID[0] < PaymentsFunc.TokenAddresses.length){
             let factor = PaymentsFunc.TokenDecimalsFactors[CheckPaymentID[0]];
-            CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toString();
+            CheckAmount[0] = CheckAmount[0].multipliedBy(factor).toFixed(0).toString();
             await Aux.CallBackFrame(contract.methods.withdraw(CheckAmount[0], CheckPaymentID[0]).send({from: Aux.account }));
         }
         else{

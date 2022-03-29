@@ -7,6 +7,8 @@ import SelectPaymentPlanComponent from '../NFTMarkets/SelectPaymentPlanComponent
 
 const func = require("../../../functions/PublicFunctions.js");
 const PaymentsFunc = require("../../../functions/PaymentsFunctions.js");
+const BigNumber = require('bignumber.js');
+
 
 class SendNewProposalComponent extends React.Component {
   constructor(props) {
@@ -18,8 +20,7 @@ class SendNewProposalComponent extends React.Component {
       Owner : "",
       Name : "",
       Symbol : "",
-      FeeAmount : "",
-      FeeDecimals : "",
+      FeePercentage : "",
       PaymentPlan : "",
       selectedPaymentPlanLabel : "Select payment Plan",
       paymentTokenID : "",
@@ -33,8 +34,9 @@ class SendNewProposalComponent extends React.Component {
 
     handleNewProposal = async (event) => {
       event.preventDefault();
-      await func.AddMarket(this.state.Owner.trim(), this.state.Name.trim(), this.state.Symbol.trim(), this.state.FeeAmount.trim(), this.state.FeeDecimals.trim(), this.state.PaymentPlan, this.state.FromCredit, this.props.contract, this.state.paymentTokenID)
-      this.setState({ Owner: "", Name : "", Symbol : "", FeeAmount : "", FeeDecimals : "", PaymentPlan : "", FromCredit : false})
+
+      await func.AddMarket(this.state.Owner.trim(), this.state.Name.trim(), this.state.Symbol.trim(), this.state.FeePercentage.trim(), this.state.PaymentPlan, this.state.FromCredit, this.props.contract, this.state.paymentTokenID)
+      this.setState({ Owner: "", Name : "", Symbol : "", FeePercentage : "",  PaymentPlan : "", FromCredit : false})
       await this.refresh();
     };
 
@@ -65,12 +67,9 @@ class SendNewProposalComponent extends React.Component {
                 <Form.Control type="text" name="symbol" placeholder="Symbol" 
                     value={this.state.Symbol}
                     onChange={event => this.setState({ Symbol: event.target.value })}/> 
-                <Form.Control type="number" name="amount" placeholder="Fee Amount" 
-                    value={this.state.FeeAmount}
-                    onChange={event => this.setState({ FeeAmount: event.target.value })}/> 
-                <Form.Control type="number" name="decimals" placeholder="Fee Decimals" 
-                    value={this.state.FeeDecimals}
-                    onChange={event => this.setState({ FeeDecimals: event.target.value })}/> 
+                <Form.Control type="number" step="0.001" min="0" max="100" name="percentageFee" placeholder="Fee Percentage" 
+                    value={this.state.FeePercentage}
+                    onChange={event => this.setState({ FeePercentage: event.target.value })}/> 
                 <SelectPaymentPlanComponent 
                           HandleSelect={this.HandleSelectPaymentPlan}
                           selectedPaymentPlanLabel={this.state.selectedPaymentPlanLabel}/>
