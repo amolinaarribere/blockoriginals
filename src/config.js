@@ -1,5 +1,5 @@
 export const MANAGER_PROXY_ADDRESS = {
-  "ganache": '0x2A3a3bed1510fC141bC292D4Cfe93013c4d28834',
+  "ganache": '0xEC215Af49d9aD2fcd0D787B8B35DD55ea8fBcE54', //'0x2A3a3bed1510fC141bC292D4Cfe93013c4d28834',
   "rinkeby": '0x0f44634AC811DD61c4172B34cB5b1414158a5E27',
   "ropsten": '',
   "kovan": '',

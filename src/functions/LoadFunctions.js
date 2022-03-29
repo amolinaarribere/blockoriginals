@@ -68,7 +68,7 @@ export async function ReadAccount(){
       await ConnectNewAccount(accounts[0]);
     }
    else{
-     window.alert('Metamask not detected');
+     window.alert('Wallet not detected');
    }
   }
   catch(e){
