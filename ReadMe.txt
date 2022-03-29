@@ -1,0 +1,2 @@
+- Deploy command : npm run deploy
+- Url : https://amolinaarribere.github.io/blockoriginals/
