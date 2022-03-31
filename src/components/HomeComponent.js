@@ -22,9 +22,12 @@ class ManagerComponent extends React.Component {
             <hr />
             <h1><b>What is Blockoriginals?</b></h1>
             <br />
+            <span style={{ color: 'green' }}>Follow the Youtube video tutorials for the application by clicking <a href="https://www.youtube.com/watch?v=mF-amJxBseM&list=PLVIEyBzmTaf7sbsjtJamB1_L-bLTH0P88">here</a></span>
+            <br />
+            <br />
             <span style={{ color: 'blue' }}><b>BlockOriginals</b></span> is a decentralized application where luxury brands will use NFTs to avoid their products been counterfeited.
             <br />
-            The application is available on the Ethereum the Polygon TestNet <span style={{ color: 'blue' }}><b>Mumbai</b></span>
+            The application is available on the Ethereum the Polygon TestNet <span style={{ color: 'blue' }}><b>Mumbai</b></span> and <span style={{ color: 'blue' }}><b>Rinkeby</b></span>
             <br />
             <br />
             Companies will first apply to get their own <span style={{ color: 'blue' }}><b>NFT Market Place</b></span>. A Market place is a space, where each company will be allowed to mint and NFT for each product they make.
