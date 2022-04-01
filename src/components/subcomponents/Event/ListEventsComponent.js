@@ -61,7 +61,7 @@ class ListEventsComponent extends React.Component {
           <h3>Events</h3> 
           <Form onSubmit={this.handleStartEvents} style={{margin: '50px 50px 50px 50px' }}>
             <Form.Group controlId="formFile" className="mb-3">
-              <Form.Control type="integer" name="Block" placeholder="block for events"
+              <Form.Control type="number" min="0" name="Block" placeholder="block for events"
                     onChange={event => this.setState({ block: event.target.value })}/>
             </Form.Group>
               <button
