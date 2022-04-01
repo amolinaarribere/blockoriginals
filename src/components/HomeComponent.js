@@ -22,7 +22,7 @@ class ManagerComponent extends React.Component {
             <hr />
             <h1><b>What is Blockoriginals?</b></h1>
             <br />
-            <span style={{ color: 'green' }}>Follow the Youtube video tutorials for the application by clicking <a href="https://www.youtube.com/watch?v=mF-amJxBseM&list=PLVIEyBzmTaf7sbsjtJamB1_L-bLTH0P88">here</a></span>
+            <span style={{ color: 'green' }}>Follow the Youtube video demos for the application by clicking <a href="https://www.youtube.com/watch?v=mF-amJxBseM&list=PLVIEyBzmTaf7sbsjtJamB1_L-bLTH0P88">here</a></span>
             <br />
             <br />
             <span style={{ color: 'blue' }}><b>BlockOriginals</b></span> is a decentralized application where luxury brands will use NFTs to avoid their products been counterfeited.

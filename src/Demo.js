@@ -66,7 +66,7 @@ class Demo extends React.Component {
   render(){
     return (
       <div style={{backgroundColor: 'white'}}>
-        <Navbar bg="primary" variant="dark" class="w-75">
+        <Navbar sticky="top" bg="primary" variant="dark" class="w-75">
             <Container>
               <Navbar.Brand onClick={() => this.toggleMenu(Home)}>Blockoriginals <i>({LoadFunc.Network})</i></Navbar.Brand>
               <Nav className="me-auto">
