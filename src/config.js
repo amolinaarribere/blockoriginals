@@ -11,7 +11,7 @@ export const PaymentPlansTransferFee = 1;
 
 export const PaymentsPlans = ["Paying when Minting", "Paying for each Transfer"]
 
-export const AdminRights = false;
+export const AdminRights = true;
 
 export const MumbaiNode = "https://matic-mumbai.chainstacklabs.com"
 
