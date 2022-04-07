@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
+import drizzleOptions from './drizzleOptions';
+import { DrizzleProvider} from 'drizzle-react';
 
 import HomeComponent from './components/HomeComponent.js';
 import PublicMarketsComponent from './components/PublicMarketsComponent.js';
