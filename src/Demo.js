@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import drizzleOptions from './drizzleOptions';
 import { DrizzleProvider} from 'drizzle-react';
+import { Drizzle } from '@drizzle/store'
 
 import HomeComponent from './components/HomeComponent.js';
 import PublicMarketsComponent from './components/PublicMarketsComponent.js';
@@ -67,7 +68,8 @@ class Demo extends React.Component {
   
   render(){
     return (
-      <div style={{backgroundColor: 'white'}}>
+      <DrizzleProvider options={drizzleOptions}>
+        <div style={{backgroundColor: 'white'}}>
         <Navbar sticky="top" bg="primary" variant="dark" class="w-75">
             <Container>
               <Navbar.Brand onClick={() => this.toggleMenu(Home)}>Blockoriginals <i>({LoadFunc.Network})</i></Navbar.Brand>
@@ -118,7 +120,8 @@ class Demo extends React.Component {
             })()}
         </div>
         
-      </div>
+        </div>
+      </DrizzleProvider>
     );
 
   };
