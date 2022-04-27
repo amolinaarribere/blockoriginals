@@ -1,8 +1,6 @@
 import React from 'react';
 
-class ManagerComponent extends React.Component {
-
-
+class HomeComponent extends React.Component {
   
     render(){
       return (
@@ -98,5 +96,5 @@ class ManagerComponent extends React.Component {
     }
   }
 
-  export default ManagerComponent;
+  export default HomeComponent;
 
