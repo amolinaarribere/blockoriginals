@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
+import { NETWORK_ID_LABELS} from './config';
 
 import HomeComponent from './components/HomeComponent.js';
+import NotRecognizedComponent from './components/NotRecognizedComponent.js';
 import PublicMarketsComponent from './components/PublicMarketsComponent.js';
 import DividendsComponent from './components/DividendsComponent.js';
 import SettingsComponent from './components/SettingsComponent.js';
@@ -15,7 +17,6 @@ import LoadingComponent from './components/subcomponents/LoadingComponent.js';
 const originalsFunc = require("./functions/OriginalsFunctions.js");
 const LoadFunc = require("./functions/LoadFunctions.js");
 const BrowserStorageFunctions = require("./functions/BrowserStorageFunctions.js");
-const AuxFunc = require("./functions/AuxiliaryFunctions.js");
 
 const Home = "Home";
 const Settings = "Settings";
@@ -23,19 +24,26 @@ const NFTMarkets = "NFT Markets";
 const Dividends = "Dividends";
 const Event = "Events";
 const PiggyBank = "PiggyBank";
+const NotRecognized = "NotRecognized";
 
 
 
 class Demo extends React.Component {
   async componentWillMount() {
     this.setState({loading: true})
-    let currentTab = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.currentTabKey);
-    if(currentTab){
-      this.state.Component = currentTab
-    }
-    else this.state.Component = "Home"
-    
     await LoadFunc.LoadBlockchain();
+
+    if(LoadFunc.Network != NETWORK_ID_LABELS.Other.Label){
+      let currentTab = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.currentTabKey);
+      if(currentTab){
+        this.state.Component = currentTab
+      }
+      else this.state.Component = Home
+    }
+    else{
+      this.state.Component = NotRecognized
+    }
+    
     let account = BrowserStorageFunctions.ReadKey(BrowserStorageFunctions.accountConnectedKey);
     if(account){
       await LoadFunc.ConnectNewAccount(account)
@@ -59,7 +67,10 @@ class Demo extends React.Component {
 
   toggleMenu(newValue){
     BrowserStorageFunctions.WriteKey(BrowserStorageFunctions.currentTabKey, newValue);
-    this.setState({Component: newValue});
+    if(LoadFunc.Network != NETWORK_ID_LABELS.Other.Label || newValue == Home){
+      this.setState({Component: newValue});
+    }
+    else this.setState({Component: NotRecognized});
   };
 
   
@@ -100,13 +111,17 @@ class Demo extends React.Component {
                       return (
                         ((false == this.state.loading) ? <DividendsComponent /> : <LoadingComponent />)
                       )
-                 case PiggyBank:
+                  case PiggyBank:
                       return (
                         ((false == this.state.loading) ? <PiggyBankComponent /> : <LoadingComponent />)
                       )
                   case Event:
                       return (
                         ((false == this.state.loading) ? <EventsComponent /> : <LoadingComponent />)
+                      )
+                  case NotRecognized:
+                      return (
+                        <NotRecognizedComponent />
                       )
                   default:
                       return (

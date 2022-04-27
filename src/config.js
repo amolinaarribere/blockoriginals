@@ -1,9 +1,25 @@
 export const MANAGER_PROXY_ADDRESS = {
   "ganache": '0xEC215Af49d9aD2fcd0D787B8B35DD55ea8fBcE54', //'0x2A3a3bed1510fC141bC292D4Cfe93013c4d28834',
   "rinkeby": '0x0f44634AC811DD61c4172B34cB5b1414158a5E27',
-  "ropsten": '',
-  "kovan": '',
   "mumbai": '0x6aB9FC5fCb5652a0C838A379e56CeB9A78fCd778'
+}
+
+export const NETWORK_ID_LABELS = {
+  "Ganache" : {
+    "Id" : 5777,
+    "Label" : "ganache"
+  },
+  "Rinkeby" : {
+    "Id" : 4,
+    "Label" : "rinkeby"
+  },
+  "Mumbai" : {
+    "Id" : 80001,
+    "Label" : "mumbai"
+  },
+  "Other" : {
+    "Label" : "not recognized"
+  }
 }
 
 export const PaymentPlansMinting = 0;
