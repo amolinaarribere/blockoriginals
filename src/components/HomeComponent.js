@@ -16,6 +16,7 @@ class HomeComponent extends React.Component {
               <li>Governance : <a href="https://coinsbench.com/dapp-governance-using-erc-20-tokens-solidity-9953c2e82831">dApp Governance using ERC-20 tokens (solidity)</a></li>
               <li>Dividends : <a href="https://coinsbench.com/erc-20-tokens-as-dividends-paying-shares-solidity-b95f6c6c52ce">ERC-20 tokens as dividends paying shares (solidity)</a></li>
               <li>dapp Architecture : <a href="https://coinsbench.com/upgradeable-dapp-architecture-1c18643e358a">Upgradeable dapp architecture</a></li>
+              <li>Common vulnerabilities : <a href="https://coinsbench.com/smart-contracts-common-vulnerabilities-solidity-e64c5506b7f4">Smart Contracts common vulnerabilities (solidity)</a></li>
             </ul>
             <hr />
             <h1><b>What is Blockoriginals?</b></h1>
